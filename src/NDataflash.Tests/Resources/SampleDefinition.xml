@@ -1,0 +1,68 @@
+﻿<?xml version="1.0"?>
+<DataflashDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ProductId="M041">
+  <Properties>
+    <object Id="Params">
+      <uint Id="PageCheckSum" ReadOnly="true" />
+      <uint Id="HardwareVersion" ReadOnly="true" />
+      <byte Id="Magic" ReadOnly="true" />
+      <byte Id="BootMode" ReadOnly="true">
+        <Value Id="APROM" Value="0" />
+        <Value Id="LDROM" Value="1" />
+      </byte>
+      <byte Id="SelectedMode">
+        <Value Id="APROM" Value="0" />
+        <Value Id="LDROM" Value="1" />
+      </byte>
+      <ushort Id="Power" Offset="1" />
+      <ushort Id="Temperature" />
+      <ushort Id="TCPower" />
+      <ushort Id="VWVolts" />
+      <byte Id="ThirdLineContent" />
+      <byte Id="ResistanceType" />
+      <byte Id="TemperatureAlgo" />
+      <bool Id="IsCelsius" />
+      <ushort Id="Resistance" />
+      <ushort Id="ResistanceTi" />
+      <ushort Id="ResistanceNi" />
+      <bool Id="ResistanceTiLocked" />
+      <bool Id="ResistanceNiLocked" />
+      <bool Id="TiOn" />
+      <bool Id="StealthOn" />
+      <ushort Id="TempCoefsNi" IsArray="true" ArrayLength="21" />
+      <ushort Id="TempCoefsTi" IsArray="true" ArrayLength="21" />
+      <ushort Id="Status" Offset="2" ReadOnly="true">
+        <Value Id="Device On" Value="4" />
+        <Value Id="Device Off" Value="5" />
+      </ushort>
+      <ushort Id="AtomizerResistance" Offset="2" />
+      <byte Id="AtomizerStatus" />
+      <byte Id="ShuntCorrection" />
+      <ushort Id="ResistanceSS" />
+      <bool Id="ResistanceSSLocked" />
+      <byte Id="UIVersion" />
+      <byte Id="SelectedTCRIndex" />
+      <byte Id="BatteryModel" />
+      <ushort Id="TCR" IsArray="true" ArrayLength="3" />
+      <ushort Id="ResistanceTCR" />
+      <bool Id="ResistanceTCRLocked" />
+      <byte Id="ScreensaverType" />
+      <byte Id="LastTCMode" />
+      <ushort Id="SavedCfgRez" IsArray="true" ArrayLength="10" />
+      <ushort Id="SavedCfgPwr" IsArray="true" ArrayLength="10" />
+    </object>
+    <object Id="Infos" Offset="256" OffsetType="Absolute">
+      <uint Id="FWVersion" />
+      <uint Id="LDVersion" />
+      <uint Id="fmcCID" />
+      <uint Id="fmcDID" />
+      <uint Id="fmcPID" />
+      <uint Id="fmcUID" IsArray="true" ArrayLength="3" />
+      <uint Id="fmcUCID" IsArray="true" ArrayLength="4" />
+      <uint Id="PuffCount" />
+      <uint Id="TimeCount" />
+      <string Id="ProductId" StringLength="4"/>
+      <uint Id="MaxHWVersion" />
+      <ushort Id="MaxHWVersion" />
+    </object>
+  </Properties>
+</DataflashDefinition>

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0"?>
+<DataflashDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ProductId="E083">
+  <Properties>
+    <object Id="Params">
+      <Properties>
+        <uint Id="PageCheckSum" ReadOnly="true" />
+        <uint Id="HardwareVersion" ReadOnly="true" />
+        <byte Id="Magic" ReadOnly="true" />
+        <byte Id="BootMode" ReadOnly="true">
+          <Value Id="APROM" Value="0" />
+          <Value Id="LDROM" Value="1" />
+        </byte>
+        <byte Id="SelectedMode">
+          <Value Id="APROM" Value="0" />
+          <Value Id="LDROM" Value="1" />
+        </byte>
+        <ushort Id="Power" Offset="1" />
+        <ushort Id="Temperature" />
+        <ushort Id="TCPower" />
+        <ushort Id="VWVolts" />
+        <byte Id="ThirdLineContent">
+          <Value Id="Amps" Value="0" />
+          <Value Id="Puffs" Value="1" />
+          <Value Id="Time" Value="2" />
+          <Value Id="BatteryVoltage" Value="3" />
+          <Value Id="OutputVoltage" Value="4" />
+          <Value Id="BoardTemperature" Value="5" />
+          <Value Id="RealTimeResistance" Value="6" />
+          <Value Id="DataTime" Value="7" />
+        </byte>
+        <byte Id="ResistanceType" />
+        <byte Id="TemperatureAlgo" />
+        <bool Id="IsCelsius" />
+        <ushort Id="Resistance" />
+        <ushort Id="ResistanceTi" />
+        <ushort Id="ResistanceNi" />
+        <bool Id="ResistanceTiLocked" />
+        <bool Id="ResistanceNiLocked" />
+        <bool Id="TiOn" />
+        <bool Id="StealthOn" />
+        <ushort Id="TempCoefsNi" ArrayLength="21" />
+        <ushort Id="TempCoefsTi" ArrayLength="21" />
+        <binary Id="Status" ArrayLength="2" Offset="2" />
+        <ushort Id="AtomizerResistance" Offset="2" />
+        <byte Id="AtomizerStatus" />
+        <byte Id="ShuntCorrection" />
+        <ushort Id="ResistanceSS" />
+        <bool Id="ResistanceSSLocked" />
+        <byte Id="UIVersion" />
+        <byte Id="SelectedTCRIndex" />
+        <byte Id="SelectedBatteryModel">
+          <Value Id="Generic" Value="0" />
+          <Value Id="Samsung25R" Value="1" />
+          <Value Id="LGHG2" Value="2" />
+          <Value Id="LGHE4" Value="3" />
+          <Value Id="Samsung30Q" Value="4" />
+          <Value Id="SonyVTC4" Value="5" />
+          <Value Id="SonyVTC5" Value="6" />
+          <Value Id="Custom" Value="7" />
+        </byte>
+        <ushort Id="TCR" ArrayLength="3" />
+        <ushort Id="ResistanceTCR" />
+        <bool Id="ResistanceTCRLocked" />
+        <byte Id="ScreensaverType">
+          <Value Id="None" Value="0" />
+          <Value Id="Clock" Value="1" />
+          <Value Id="Cube" Value="2" />
+        </byte>
+        <byte Id="LastTCMode" />
+        <byte Id="ScreenProtectionTime">
+          <Value Id="Min1" Value="0" />
+          <Value Id="Min2" Value="1" />
+          <Value Id="Min5" Value="2" />
+          <Value Id="Min10" Value="3" />
+          <Value Id="Min15" Value="4" />
+          <Value Id="Min20" Value="5" />
+          <Value Id="Min30" Value="6" />
+          <Value Id="Off" Value="7" />
+        </byte>
+        <ushort Id="SavedCfgRez" ArrayLength="10" />
+        <ushort Id="SavedCfgPwr" ArrayLength="10" />
+        <ushort Id="FBBest" />
+        <byte Id="FBSpeed" />
+        <byte Id="byte_2000033D" />
+        <byte Id="Contrast" />
+        <byte Id="DisabledModes" />
+        <ushort Id="ClkRatio" />
+        <ushort Id="PreheatPwr" />
+        <byte Id="PreheatTime" />
+        <byte Id="MClicks" ArrayLength="3">
+          <Value Id="None" Value="0" />
+          <Value Id="Edit" Value="1" />
+          <Value Id="Clock" Value="2" />
+          <Value Id="TDom" Value="3" />
+          <Value Id="NextMode" Value="4" />
+          <Value Id="OnOff" Value="5" />
+        </byte>
+        <byte Id="ScreenDimTimeout" />
+        <object Id="CustomBattery" Offset="1">
+          <Properties>
+            <object Id="PercentsVoltage" ArrayLength="11">
+              <Properties>
+                <ushort Id="Percents" />
+                <ushort Id="Voltage" />
+              </Properties>
+            </object>
+            <ushort Id="Cutoff" />
+            <ushort Id="InternalResistance" />
+          </Properties>
+        </object>
+      </Properties>
+    </object>
+    <object Id="Infos" Offset="256" OffsetType="Absolute">
+      <Properties>
+        <uint Id="FWVersion" />
+        <uint Id="LDVersion" />
+        <uint Id="fmcCID" />
+        <uint Id="fmcDID" />
+        <uint Id="fmcPID" />
+        <uint Id="fmcUID" ArrayLength="3" />
+        <uint Id="fmcUCID" ArrayLength="4" />
+        <uint Id="PuffCount" />
+        <uint Id="TimeCount" />
+        <string Id="ProductId" StringLength="4" />
+        <uint Id="MaxHWVersion" />
+        <ushort Id="MaxHWVersion" />
+        <ushort Id="Year" />
+        <byte Id="Month" />
+        <byte Id="Day" />
+        <byte Id="Hour" />
+        <byte Id="Minute" />
+        <byte Id="Second" />
+      </Properties>
+    </object>
+  </Properties>
+</DataflashDefinition>
