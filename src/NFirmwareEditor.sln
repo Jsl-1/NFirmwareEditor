@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NConfigure", "NConfigure\NC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Android", "Android", "{354168A4-C250-4862-B4DC-551CDACE26BF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCore.Android", "Android\NCore.Android\NCore.Android.csproj", "{208B8583-02C3-46F7-B529-DE63A8DA87E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,11 +69,16 @@ Global
 		{BFA07770-5102-489E-A458-5A14C73315B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFA07770-5102-489E-A458-5A14C73315B5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFA07770-5102-489E-A458-5A14C73315B5}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{208B8583-02C3-46F7-B529-DE63A8DA87E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208B8583-02C3-46F7-B529-DE63A8DA87E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208B8583-02C3-46F7-B529-DE63A8DA87E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208B8583-02C3-46F7-B529-DE63A8DA87E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{BFA07770-5102-489E-A458-5A14C73315B5} = {354168A4-C250-4862-B4DC-551CDACE26BF}
+		{208B8583-02C3-46F7-B529-DE63A8DA87E3} = {354168A4-C250-4862-B4DC-551CDACE26BF}
 	EndGlobalSection
 EndGlobal

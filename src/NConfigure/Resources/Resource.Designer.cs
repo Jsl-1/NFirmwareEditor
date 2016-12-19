@@ -26,6 +26,8 @@ namespace NConfigure
 		
 		public static void UpdateIdValues()
 		{
+			global::NCore.Android.Resource.String.ApplicationName = global::NConfigure.Resource.String.ApplicationName;
+			global::NCore.Android.Resource.String.Hello = global::NConfigure.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -60,11 +62,23 @@ namespace NConfigure
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050000
-			public const int ButtonTest = 2131034112;
+			// aapt resource value: 0x7f050004
+			public const int ButtonTest = 2131034116;
+			
+			// aapt resource value: 0x7f050003
+			public const int TabDebug = 2131034115;
+			
+			// aapt resource value: 0x7f050002
+			public const int TabMain = 2131034114;
+			
+			// aapt resource value: 0x7f050005
+			public const int UsbTextView = 2131034117;
 			
 			// aapt resource value: 0x7f050001
-			public const int UsbTextView = 2131034113;
+			public const int linearLayout1 = 2131034113;
+			
+			// aapt resource value: 0x7f050000
+			public const int tabHost1 = 2131034112;
 			
 			static Id()
 			{
