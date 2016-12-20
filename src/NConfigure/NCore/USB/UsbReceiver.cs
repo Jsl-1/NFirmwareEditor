@@ -11,13 +11,13 @@ namespace NConfigure
     public class HidUsbReceiver : BroadcastReceiver
     {
         private const int VendorId = 0x0416;
+        //private const int ProductId = 
 
         private  NCore.USB.HidConnector m_Connector;
 
         private UsbManager m_UsbManager;
         private UsbDevice m_Device;
-        private UsbDeviceConnection mConnectionRead;
-        private UsbDeviceConnection mConnectionWrite;
+        private UsbDeviceConnection mConnection;
         private UsbEndpoint mEndpointRead;
         private UsbEndpoint mEndpointWrite;
 
@@ -40,112 +40,63 @@ namespace NConfigure
             {
                 foreach (var device in m_UsbManager.DeviceList)
                 {
-                    if( device.Value.VendorId == VendorId)
-                        m_Device = device.Value;
-                    var connected = _SetHIDDevice(device);
-                    if (DeviceConnected != null)
-                        DeviceConnected(connected);
-                    return;
+                    if (device.Value.VendorId == VendorId)
+                    {
+                        m_Device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
+                        m_UsbManager.RequestPermission(m_Device, intent.)
+                        if (intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false))
+                        {
+                            var connected = _SetHIDDevice(device);
+
+                            if (DeviceConnected != null)
+                                DeviceConnected(connected);
+
+                            return;
+
+                        }
+
+                    }
+                    
                 }
             }
+
+            m_Device = null;
             if (intent.Action == UsbManager.ActionUsbDeviceDetached)
             {
-                m_Device = null;
+                DeviceConnected(false);
             }
-            DeviceConnected(false);
+           
         }
 
         private bool _SetHIDDevice(KeyValuePair<string, UsbDevice> device)
         {
-            //UsbInterface usbInterfaceRead = null;
-            //UsbInterface usbInterfaceWrite = null;
-            //UsbEndpoint ep1 = null;
-            //UsbEndpoint ep2 = null;
-            //Boolean UsingSingleInterface = true;
-
-            //m_Device = device.Value;
-
-           
-            //usbInterfaceRead = m_Device.GetInterface(0x00);
-            //usbInterfaceWrite = m_Device.GetInterface(0x01);
-            //if ((usbInterfaceRead.EndpointCount == 1) && (usbInterfaceWrite.EndpointCount == 1))
-            //{
-            //    ep1 = usbInterfaceRead.GetEndpoint(0);
-            //    ep2 = usbInterfaceWrite.GetEndpoint(0);
-            //}            
 
 
-            ////because ep1 = ep2 this will now not cause a return unless no ep is found at all
-            //if ((ep1 == null) || (ep2 == null))
-            //{
-            //    return false;
-            //}
+           m_Device = device.Value;
 
-            //// Determine which endpoint is the read, and which is the write
-            //if (ep1.Type == UsbConstants.USB_ENDPOINT_XFER_INT)//I am getting a return of 3, which is an interrupt transfer
-            //{
-            //    if (ep1.Direction ==  UsbAddressing.In )//I am getting a return of 128, which is a device-to-host endpoint
-            //    {
-            //        mEndpointRead = ep1;                 
-            //    }
-            //    if (ep1.UsbAddressing.In)//nope
-            //    {
-            //        mEndpointWrite = ep1;
-            //        if (DEBUG == 6)
-            //        {
-            //            Toast.makeText(UsbHidDeviceTesterActivity.this, "EP1 is a write", Toast.LENGTH_LONG).show();
-            //        }
-            //    }
-            //}
+            if (device.Value.InterfaceCount != 1)
+                return false;
 
-            ////if (ep2.getType() == UsbConstants.USB_ENDPOINT_XFER_INT)
-            ////{
-            ////    if (ep2.getDirection() == UsbConstants.USB_DIR_IN)
-            ////    {
-            ////        //Try treating it as a write anyway             
-            ////        //mEndpointRead = ep2;
-            ////        mEndpointWrite = ep2;
-            ////    }
-            ////    else if (ep2.getDirection() == UsbConstants.USB_DIR_OUT)
-            ////    {
-            ////        //usbEndpointWrite = ep2;
-            ////        mEndpointWrite = ep2;
-            ////    }
-            ////}
+           var usbInterface = m_Device.GetInterface(0);
 
-            //////check that we should be able to read and write
-            ////if ((mEndpointRead == null) || (mEndpointWrite == null))
-            ////{
-            ////    return false;
-            ////}
-            ////if (device != null)
-            ////{
-            ////    UsbDeviceConnection connection = m_UsbManager.openDevice(device);
-            ////    if (connection != null && connection.claimInterface(usbInterfaceRead, true))
-            ////    {
-            ////        Log.d(TAG, "open SUCCESS");
-            ////        mConnectionRead = connection;
-            ////        // Start the read thread
-            ////        //Comment out while desperately attempting to write on this connection/interface
-            ////        //Thread thread = new Thread(this);
-            ////        //thread.start();
+           if (usbInterface.EndpointCount != 2)
+                return false;
 
-            ////    }
-            ////    else
-            ////    {
-            ////        Log.d(TAG, "open FAIL");
-            ////        mConnectionRead = null;
-            ////    }
-            ////}
-            ////if (UsingSingleInterface)
-            ////{
-            ////    mConnectionWrite = mConnectionRead;
-            ////}
-            ////else //! UsingSingleInterface
-            ////{
-            ////    mConnectionWrite = m_UsbManager.openDevice(device);
-            ////    mConnectionWrite.claimInterface(usbInterfaceWrite, true);
-            ////}
+
+            mEndpointRead = usbInterface.GetEndpoint(0);
+            mEndpointWrite = usbInterface.GetEndpoint(1);
+
+            //check that we should be able to read and write
+            
+
+             UsbDeviceConnection connection = m_UsbManager.OpenDevice(m_Device);
+             if (connection != null && connection.ClaimInterface(usbInterface, true))
+             {
+                 mConnection = connection;
+                return true;
+             }
+
+            mConnection = null;
             return false;
         }
 

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Containers>
+  <Container Key="-1592402827">
+    <Items>
+      <Item Id="{6fcf4dc2-f083-4228-afdb-90fbbf8b153f}">
+        <Id>1</Id>
+        <File>NConfigure\Assets\AboutAssets.txt</File>
+      </Item>
+      <Item Id="{3519b8fc-c6b0-431b-8032-9c59dafa1393}">
+        <Id>2</Id>
+        <File>NConfigure\MainActivity.cs</File>
+        <Line>62</Line>
+      </Item>
+    </Items>
+  </Container>
+</Containers>
