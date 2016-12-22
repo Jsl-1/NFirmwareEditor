@@ -51,11 +51,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\NCore\USB\HidConnector.cs">
+      <Link>NCore\USB\HidConnector.cs</Link>
+    </Compile>
+    <Compile Include="..\ncore\usb\HidDeviceInfo.cs">
+      <Link>NCore\USB\HidDeviceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\ncore\usb\SimpleDataflash.cs">
+      <Link>NCore\USB\SimpleDataflash.cs</Link>
+    </Compile>
+    <Compile Include="Usb\HidSharp\HidDeviceLoader.cs" />
+    <Compile Include="Usb\HidSharp\HidHelper.cs" />
+    <Compile Include="Usb\HidSharp\HidStream.cs" />
+    <Compile Include="Usb\HidSharp\HidUsbReceiver.cs" />
+    <Compile Include="Compat\JetBrain.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="NCore\USB\HidBridge.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NCore\USB\UsbReceiver.cs" />
+    <Compile Include="Usb\AbstractUSBHIDService.cs" />
+    <Compile Include="Usb\USBHIDService.cs" />
+    <Compile Include="Utils\UsbDeviceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GettingStarted.Xamarin" />
@@ -76,13 +92,15 @@
     <AndroidResource Include="Resources\drawable\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\Android\NCore.Android\NCore.Android.csproj">
-      <Project>{208b8583-02c3-46f7-b529-de63a8da87e3}</Project>
-      <Name>NCore.Android</Name>
-    </ProjectReference>
+    <AndroidResource Include="Resources\xml\usb_device_filter.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

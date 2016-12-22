@@ -16,36 +16,129 @@ namespace HidSharp
 {
     public sealed class HidStream : IDisposable
     {
+        private readonly object locker = new object();
+        private UsbDevice m_Device;
+        private UsbInterface m_UsbInterface;
+        private UsbEndpoint m_EndPointRead;
+        private UsbEndpoint m_EndPointWrite;
+        private UsbDeviceConnection m_Connection;
+        private Handler m_UiHandler = new Handler();
+
+
+        private System.Collections.Concurrent.ConcurrentStack<byte> m_ReceivedBytes = new System.Collections.Concurrent.ConcurrentStack<byte>();
+
+        public HidStream(UsbDevice device)
+        {
+            m_Device = device;
+
+            var usbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
+            m_Connection = usbManager.OpenDevice(m_Device);
+            m_UsbInterface = m_Device.GetInterface(0);
+            if (m_Connection == null)
+            {
+
+                //Unable to establish connection
+            }
+
+            for (var i = 0; i < m_UsbInterface.EndpointCount; i++)
+            {
+                var endpoint = m_UsbInterface.GetEndpoint(i);
+                if (endpoint.Direction == UsbAddressing.Out)
+                {
+                    m_EndPointWrite = endpoint;
+                    MaxOutputReportLength = endpoint.MaxPacketSize;
+                }
+                if (endpoint.Direction == UsbAddressing.In)
+                {
+                    m_EndPointRead = endpoint;
+                    MaxInputReportLength = endpoint.MaxPacketSize;
+                }
+            }
+            if (m_EndPointRead == null)
+                System.Diagnostics.Debug.WriteLine("Unable to get endpoint for reading");
+            if (m_EndPointWrite == null)
+                System.Diagnostics.Debug.WriteLine("Unable to get endpoint for writing");
+        }
+
         public int MaxOutputReportLength { get; internal set; }
 
-        public int MaxInputReportLength
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public int MaxInputReportLength { get; internal set; }
+
 
         public HidStream Open()
         {
-            throw new NotImplementedException();
+            if(!m_Connection.ClaimInterface(m_UsbInterface, true))
+            {
+                throw new Exception("Can't lock interface");
+            }
+            return this;
         }
+        public void Write(byte[] buffer)
+        {
+            lock (locker)
+            {
 
+                var bytes = new byte[buffer.Length - 1];
+                Buffer.BlockCopy(buffer, 1, bytes, 0, bytes.Length);
+                //int transfer = m_Connection.ControlTransfer((UsbAddressing)0x21, 0x09, 0x00, 0x01, buffer, buffer.Length, 0);
+                //transfer = m_Connection.ControlTransfer((UsbAddressing)0xA1, 0x01, 0x00, 0x01, buffer, buffer.Length, 0);
+                int status = m_Connection.BulkTransfer(m_EndPointWrite, bytes, bytes.Length, 250);
+            }
+        }
         public void Read(byte[] value)
         {
-            throw new NotImplementedException();
+
+            m_Connection.BulkTransfer(m_EndPointRead, value, 1 , value.Length, 1000);
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+           // m_ShouldStop = true;
+           // m_ReceiverThread.Join();
+            if (m_Connection != null)
+            {
+                m_Connection.ReleaseInterface(m_UsbInterface);
+                m_Connection.Close();
+                m_Connection.Dispose();
+                m_Connection = null;
+            }
+           
         }
 
-        public void Write(byte[] buffer)
-        {
-            throw new NotImplementedException();
-        }
+     
+
+        //public void onUSBDataReceive(byte[] buffer)
+        //{
+        //    foreach(var b in buffer)
+        //        m_ReceivedBytes.Append(b);
+        //}
+
+        //private void RunDataReceive()
+        //{
+        //    try
+        //    {
+        //        if (m_Connection != null && m_EndPointRead != null)
+        //        {
+        //            while (!m_ShouldStop)
+        //            {
+        //                var buffer = new Byte[MaxInputReportLength];
+        //                var status = m_Connection.BulkTransfer(m_EndPointRead, buffer, MaxInputReportLength, 100);
+        //                if (status > 0)
+        //                {
+        //                    m_UiHandler.Post(new Java.Lang.Runnable(() => onUSBDataReceive(buffer)));
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        System.Diagnostics.Debug.WriteLine(ex.Message);
+        //    }
+        //}
+
     }
+
+  
 }
 
 

@@ -26,8 +26,6 @@ namespace NConfigure
 		
 		public static void UpdateIdValues()
 		{
-			global::NCore.Android.Resource.String.ApplicationName = global::NConfigure.Resource.String.ApplicationName;
-			global::NCore.Android.Resource.String.Hello = global::NConfigure.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -62,20 +60,11 @@ namespace NConfigure
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f050003
-			public const int TabDebug = 2131034115;
+			// aapt resource value: 0x7f060000
+			public const int TestButton = 2131099648;
 			
-			// aapt resource value: 0x7f050002
-			public const int TabMain = 2131034114;
-			
-			// aapt resource value: 0x7f050004
-			public const int UsbTextView = 2131034116;
-			
-			// aapt resource value: 0x7f050001
-			public const int linearLayout1 = 2131034113;
-			
-			// aapt resource value: 0x7f050000
-			public const int tabHost1 = 2131034112;
+			// aapt resource value: 0x7f060001
+			public const int UsbTextView = 2131099649;
 			
 			static Id()
 			{
@@ -106,11 +95,11 @@ namespace NConfigure
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f040001
-			public const int ApplicationName = 2130968577;
+			// aapt resource value: 0x7f050001
+			public const int ApplicationName = 2131034113;
 			
-			// aapt resource value: 0x7f040000
-			public const int Hello = 2130968576;
+			// aapt resource value: 0x7f050000
+			public const int Hello = 2131034112;
 			
 			static String()
 			{
@@ -118,6 +107,22 @@ namespace NConfigure
 			}
 			
 			private String()
+			{
+			}
+		}
+		
+		public partial class Xml
+		{
+			
+			// aapt resource value: 0x7f040000
+			public const int usb_device_filter = 2130968576;
+			
+			static Xml()
+			{
+				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
+			}
+			
+			private Xml()
 			{
 			}
 		}

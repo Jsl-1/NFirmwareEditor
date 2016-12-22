@@ -1,83 +1,116 @@
 ﻿using Android.App;
 using Android.Content;
 using Android.Hardware.Usb;
+using NCore.USB;
 using System;
 using System.Collections.Generic;
 
 namespace NConfigure
 {
+
+
     [BroadcastReceiver(Enabled = true)]
-    [IntentFilter(new[] { Android.Hardware.Usb.UsbManager.ActionUsbAccessoryAttached })]
+    [IntentFilter(new[] {
+        Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
+        Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached })]
+    [MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
+    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached, Resource = "@xml/usb_device_filter")]
     public class HidUsbReceiver : BroadcastReceiver
     {
+        public const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+
         private const int VendorId = 0x0416;
-        //private const int ProductId = 
 
-        private  NCore.USB.HidConnector m_Connector;
-
-        private UsbManager m_UsbManager;
-        private UsbDevice m_Device;
         private UsbDeviceConnection mConnection;
         private UsbEndpoint mEndpointRead;
         private UsbEndpoint mEndpointWrite;
 
-        public event Action<bool> DeviceConnected;
+        public event Action<UsbDevice, bool> DeviceConnected;
 
         public HidUsbReceiver()
         {
-            m_UsbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
+
         }
 
-        public HidUsbReceiver(UsbManager usbManager)
-        {
-            m_UsbManager = usbManager;
-            m_Connector = new NCore.USB.HidConnector();
-        }
-        
         public override void OnReceive(Context context, Intent intent)
         {
-            if (intent.Action == UsbManager.ActionUsbDeviceAttached)
+            var usbManager = (UsbManager)context.GetSystemService(Context.UsbService);
+            if (intent.Action == ACTION_USB_PERMISSION)
             {
-                foreach (var device in m_UsbManager.DeviceList)
+                lock (this)
                 {
-                    if (device.Value.VendorId == VendorId)
+                    UsbDevice device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
+                    if (device != null)
                     {
-                        m_Device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
-                        m_UsbManager.RequestPermission(m_Device, intent.)
-                        if (intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false))
+                       
+                        bool hasPermision = usbManager.HasPermission(device);
+                        if (!hasPermision)
                         {
-                            var connected = _SetHIDDevice(device);
-
-                            if (DeviceConnected != null)
-                                DeviceConnected(connected);
-
-                            return;
-
+                            hasPermision = intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false);
                         }
-
+                        if (hasPermision)
+                        {
+                            //var connected = _SetHIDDevice(device, usbManager);
+                            //if (connected && DeviceConnected != null)
+                            //    DeviceConnected(device);
+                            return;
+                        } 
                     }
-                    
                 }
             }
+            if (intent.Action == UsbManager.ActionUsbDeviceAttached)
+            {
+               
+                
+                //foreach (var device in usbManager.DeviceList.Values)
+                //{
+                //    if (device.VendorId == VendorId)
+                //    {
+                //        m_Device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
 
-            m_Device = null;
+                //        bool hasPermision = usbManager.HasPermission(m_Device);
+                //        if (!hasPermision)
+                //        {
+                //            hasPermision = intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false);
+                //            if (!hasPermision)
+                //            {
+                //                PendingIntent mPermissionIntent = PendingIntent.GetBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                //                usbManager.RequestPermission(m_Device, mPermissionIntent);
+                //                return;
+                //            }                            
+                //        }                        
+
+                //        if (intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false))
+                //        {
+                //            var connected = _SetHIDDevice(m_Device, usbManager);
+                //            if (connected && DeviceConnected != null)
+                //                DeviceConnected(m_Device);
+                //            return;
+                //        }
+                //    }
+                //}
+            }
             if (intent.Action == UsbManager.ActionUsbDeviceDetached)
             {
-                DeviceConnected(false);
+                var device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
+                _RaiseDeviceConnected(device, false);
             }
-           
+          
         }
 
-        private bool _SetHIDDevice(KeyValuePair<string, UsbDevice> device)
+        private void _RaiseDeviceConnected(UsbDevice device, bool connected)
         {
+            if (DeviceConnected != null)
+                DeviceConnected(device, connected);
+        }
 
-
-           m_Device = device.Value;
-
-            if (device.Value.InterfaceCount != 1)
+       
+        private bool _SetHIDDevice(UsbDevice device, UsbManager manager)
+        {
+            if (device.InterfaceCount != 1)
                 return false;
 
-           var usbInterface = m_Device.GetInterface(0);
+           var usbInterface = device.GetInterface(0);
 
            if (usbInterface.EndpointCount != 2)
                 return false;
@@ -87,9 +120,7 @@ namespace NConfigure
             mEndpointWrite = usbInterface.GetEndpoint(1);
 
             //check that we should be able to read and write
-            
-
-             UsbDeviceConnection connection = m_UsbManager.OpenDevice(m_Device);
+             UsbDeviceConnection connection = manager.OpenDevice(device);
              if (connection != null && connection.ClaimInterface(usbInterface, true))
              {
                  mConnection = connection;

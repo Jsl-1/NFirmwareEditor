@@ -4,16 +4,24 @@ using Android.OS;
 using Android.Content;
 using Android.Hardware.Usb;
 using System.Collections.Generic;
+using NCore.USB;
+using System;
 
 namespace NConfigure
 {
     [Activity(Label = "NConfigure", MainLauncher = true, Icon = "@drawable/icon")]
+    //[IntentFilter(new[] {
+    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
+    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached })]
+    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
+    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached, Resource = "@xml/usb_device_filter")]
     public class MainActivity : Activity
     {
         private const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
-        private UsbManager m_UsbManager;
-        private TextView m_UsbTextView;
+        private TextView m_DebugTextView;
+        private Button m_TestButton;
         private HidUsbReceiver m_HidUsbReceiver;
+        private HidConnector m_HidConnector;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -22,8 +30,63 @@ namespace NConfigure
             // Set our view from the "main" layout resource
             SetContentView(Resource.Layout.Main);
 
-            m_UsbTextView = FindViewById<TextView>(Resource.Id.UsbTextView);
+            //DebugTextView
+            m_DebugTextView = FindViewById<TextView>(Resource.Id.UsbTextView);
 
+            //Test Button
+            m_TestButton = FindViewById<Button>(Resource.Id.TestButton);
+            m_TestButton.Click += M_TestButton_Click;
+
+            m_HidConnector = new HidConnector(false);
+            m_HidConnector.DeviceConnected += M_HidConnector_DeviceConnected;
+            m_HidConnector.RefreshState();
+
+            _InitUsb();
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            m_HidConnector.RefreshState();
+        }
+
+        private void M_HidConnector_DeviceConnected(bool obj)
+        {
+           
+        }
+
+
+
+        private void M_TestButton_Click(object sender, System.EventArgs e)
+        {
+            try
+            {
+
+                if (m_HidConnector.IsDeviceConnected)
+                {
+                    //m_HidConnector.RestartDevice();
+                    var dataflash = m_HidConnector.ReadDataflash();
+                    //m_HidConnector.MakePuff(1);
+                }
+            }
+            catch(Exception ex)
+            {
+                m_DebugTextView.Append("\n");
+                m_DebugTextView.Text = ex.Message;
+                m_DebugTextView.Append("\n");
+                if (ex.InnerException != null)
+                {
+                    m_DebugTextView.Append(ex.InnerException.Message);
+                    m_DebugTextView.Append("\n");
+                }
+                m_DebugTextView.Append(ex.StackTrace);
+
+            }
+
+        }
+
+        private void _InitUsb()
+        {
             IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
             filter.AddAction(UsbManager.ActionUsbDeviceAttached);
             filter.AddAction(UsbManager.ActionUsbDeviceDetached);
@@ -31,72 +94,28 @@ namespace NConfigure
             filter.AddAction(UsbManager.ActionUsbAccessoryDetached);
             filter.AddAction(UsbManager.ActionUsbDeviceDetached);
 
-            m_UsbManager = (UsbManager)Application.Context.GetSystemService(Context.UsbService);
-            m_HidUsbReceiver = new HidUsbReceiver(m_UsbManager);
-            m_HidUsbReceiver.DeviceConnected += UsbReceiver_DeviceConnected;
+            m_HidUsbReceiver = new HidUsbReceiver();
+            m_HidUsbReceiver.DeviceConnected += HidReceiver_DeviceConnected;
 
             RegisterReceiver(m_HidUsbReceiver, filter);
-
         }
 
-        private void UsbReceiver_DeviceConnected(bool connected)
+        private void HidReceiver_DeviceConnected(UsbDevice device, bool connected)
         {
-            if (connected)
+            m_DebugTextView.Text = string.Empty;
+            if (device != null)
             {
-                m_UsbTextView.Append("\nDevice Connected : ");
-                ShowDeviceInfo();
+                m_DebugTextView.Text = "";
+                m_DebugTextView.Append("\nDevice Connected : " + connected.ToString());
+                ShowDeviceInfo(device);
             }
-            else
-            {
-                m_UsbTextView.Text = string.Empty;
-            }
+            m_HidConnector.RefreshState();
         }
 
-
-
-        private void ShowDeviceInfo()
+        private void ShowDeviceInfo(UsbDevice device)
         {
-            foreach (var device in m_UsbManager.DeviceList)
-            {
-                m_UsbTextView.Append(device.Key);
-                m_UsbTextView.Append($"DeviceId : {device.Value.DeviceId} \n");
-                m_UsbTextView.Append($"ProductId : {device.Value.ProductId} \n");
-                m_UsbTextView.Append($"ProductName : {device.Value.ProductName} \n");
-                m_UsbTextView.Append($"ManufacturerName : {device.Value.ManufacturerName} \n");
-                m_UsbTextView.Append($"SerialNumber : {device.Value.SerialNumber} \n");
-                m_UsbTextView.Append($"VendorId : {device.Value.VendorId} \n");
-                m_UsbTextView.Append($"Version : {device.Value.Version} \n");
-                m_UsbTextView.Append($"Interface count : {device.Value.InterfaceCount} \n");
-                m_UsbTextView.Append($"Class : {device.Value.Class } \n");
-                m_UsbTextView.Append($"SubClass : {device.Value.DeviceSubclass } \n");
-                m_UsbTextView.Append("\r\n");
-
-                for (var i = 0; i < device.Value.InterfaceCount; i++)
-                {
-                    var usbInterface = device.Value.GetInterface(i);
-                    m_UsbTextView.Append("\n  Interface " + i);
-                    m_UsbTextView.Append("\n\tInterface ID: " + usbInterface.Id);
-                    m_UsbTextView.Append("\n\tClass: " + usbInterface.InterfaceClass);
-                    m_UsbTextView.Append("\n\tProtocol: " + usbInterface.InterfaceProtocol);
-                    m_UsbTextView.Append("\n\tSubclass: " + usbInterface.InterfaceSubclass);
-                    m_UsbTextView.Append("\n\tEndpoint count: " + usbInterface.EndpointCount);
-
-                    for (int j = 0; j < usbInterface.EndpointCount; j++)
-                    {
-                        m_UsbTextView.Append("\n\t  Endpoint " + j);
-                        m_UsbTextView.Append("\n\t\tAddress: " + usbInterface.GetEndpoint(j).Address);
-                        m_UsbTextView.Append("\n\t\tAttributes: " + usbInterface.GetEndpoint(j).Attributes);
-                        m_UsbTextView.Append("\n\t\tDirection: " + usbInterface.GetEndpoint(j).Direction);
-                        m_UsbTextView.Append("\n\t\tNumber: " + usbInterface.GetEndpoint(j).EndpointNumber);
-                        m_UsbTextView.Append("\n\t\tInterval: " + usbInterface.GetEndpoint(j).Interval);
-                        m_UsbTextView.Append("\n\t\tType: " + usbInterface.GetEndpoint(j).Type);
-                        m_UsbTextView.Append("\n\t\tMax packet size: " + usbInterface.GetEndpoint(j).MaxPacketSize);
-                    }
-                }
-
-            }
+            m_DebugTextView.Append(device.GetDeviceInfoText());
         }
-
     }
 }
 

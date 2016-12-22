@@ -55,25 +55,40 @@ namespace NCore.USB
 			get { return s_instance; }
 		}
 
-		public HidConnector()
-		{
-			m_monitoringTimer = new Timer(state =>
-			{
-				var previousState = m_isDeviceConnected;
-				var device = s_loader.GetDeviceOrDefault(VendorId, ProductId);
+       
 
-				if (previousState.HasValue)
-				{
-					if (device == null && previousState == false) return;
-					if (device != null && previousState == true) return;
-				}
+        public HidConnector() : this(true)
+        {
+           
+        }
 
-				m_isDeviceConnected = device != null;
-				OnDeviceConnected(m_isDeviceConnected.Value);
-			});
-		}
+        public HidConnector(Boolean startTimer)
+        {
+            if (startTimer)
+            {
+                m_monitoringTimer = new Timer(state =>
+                {
+                    RefreshState();
+                });
+            }
+        }
 
-		public event Action<bool> DeviceConnected;
+        public void RefreshState()
+        {
+            var previousState = m_isDeviceConnected;
+            var device = s_loader.GetDeviceOrDefault(VendorId, ProductId);
+
+            if (previousState.HasValue)
+            {
+                if (device == null && previousState == false) return;
+                if (device != null && previousState == true) return;
+            }
+
+            m_isDeviceConnected = device != null;
+            OnDeviceConnected(m_isDeviceConnected.Value);
+        }
+
+        public event Action<bool> DeviceConnected;
 
 		public bool IsDeviceConnected
 		{
