@@ -46,12 +46,12 @@ namespace HidSharp
                 if (endpoint.Direction == UsbAddressing.Out)
                 {
                     m_EndPointWrite = endpoint;
-                    MaxOutputReportLength = endpoint.MaxPacketSize;
+                    MaxOutputReportLength = endpoint.MaxPacketSize + 1;
                 }
                 if (endpoint.Direction == UsbAddressing.In)
                 {
                     m_EndPointRead = endpoint;
-                    MaxInputReportLength = endpoint.MaxPacketSize;
+                    MaxInputReportLength = endpoint.MaxPacketSize + 1;
                 }
             }
             if (m_EndPointRead == null)
@@ -87,8 +87,11 @@ namespace HidSharp
         }
         public void Read(byte[] value)
         {
+            var data = new byte[value.Length - 1];
 
-            m_Connection.BulkTransfer(m_EndPointRead, value, 1 , value.Length, 1000);
+            m_Connection.BulkTransfer(m_EndPointRead, data, data.Length, 1000);
+
+            Buffer.BlockCopy(data, 0, value, 1, data.Length);
         }
 
         public void Dispose()
