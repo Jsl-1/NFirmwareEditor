@@ -9,7 +9,7 @@ using System;
 
 namespace NToolbox
 {
-    [Activity(Label = "NConfigure", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "NFE Toolbox", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity
     {
         private const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
