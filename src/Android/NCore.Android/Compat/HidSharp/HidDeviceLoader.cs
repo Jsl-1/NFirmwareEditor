@@ -10,7 +10,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.Hardware.Usb;
-using NConfigure;
+using NCore.USB;
 
 namespace HidSharp
 {

@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("NConfigure.Resource", IsApplication=true)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("NToolbox.Resource", IsApplication=true)]
 
-namespace NConfigure
+namespace NToolbox
 {
 	
 	
@@ -26,8 +26,8 @@ namespace NConfigure
 		
 		public static void UpdateIdValues()
 		{
-			global::NCore.Android.Resource.String.ApplicationName = global::NConfigure.Resource.String.ApplicationName;
-			global::NCore.Android.Resource.String.Hello = global::NConfigure.Resource.String.Hello;
+			global::NCore.Resource.String.ApplicationName = global::NToolbox.Resource.String.ApplicationName;
+			global::NCore.Resource.String.Hello = global::NToolbox.Resource.String.Hello;
 		}
 		
 		public partial class Attribute

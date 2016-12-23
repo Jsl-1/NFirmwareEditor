@@ -9,9 +9,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Android.Runtime.ResourceDesignerAttribute("NCore.Android.Resource", IsApplication=false)]
+[assembly: global::Android.Runtime.ResourceDesignerAttribute("NCore.Resource", IsApplication=false)]
 
-namespace NCore.Android
+namespace NCore
 {
 	
 	

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using NCore.USB;
 using System;
 
-namespace NConfigure
+namespace NToolbox
 {
     [Activity(Label = "NConfigure", MainLauncher = true, Icon = "@drawable/icon")]
     public class MainActivity : Activity

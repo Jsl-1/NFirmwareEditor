@@ -4,7 +4,7 @@ using Android.Hardware.Usb;
 using System;
 using System.Collections.Generic;
 
-namespace NConfigure
+namespace NCore.USB
 {
 
 
