@@ -2,14 +2,9 @@
 <Containers>
   <Container Key="-1592402827">
     <Items>
-      <Item Id="{407179f3-0d61-44fa-9d26-e89f75d8b575}">
+      <Item Id="{0dc78034-c0a4-442d-b212-c0a02a198cc1}">
         <Id>1</Id>
         <File>NConfigure\Assets\AboutAssets.txt</File>
-      </Item>
-      <Item Id="{bafae42c-8604-453c-97b0-10c4b38cf4d9}">
-        <Id>2</Id>
-        <File>NConfigure\MainActivity.cs</File>
-        <Line>62</Line>
       </Item>
     </Items>
   </Container>

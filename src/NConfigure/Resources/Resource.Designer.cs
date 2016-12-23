@@ -26,6 +26,8 @@ namespace NConfigure
 		
 		public static void UpdateIdValues()
 		{
+			global::NCore.Android.Resource.String.ApplicationName = global::NConfigure.Resource.String.ApplicationName;
+			global::NCore.Android.Resource.String.Hello = global::NConfigure.Resource.String.Hello;
 		}
 		
 		public partial class Attribute
@@ -81,6 +83,9 @@ namespace NConfigure
 			
 			// aapt resource value: 0x7f030000
 			public const int Main = 2130903040;
+			
+			// aapt resource value: 0x7f030001
+			public const int Profiles = 2130903041;
 			
 			static Layout()
 			{

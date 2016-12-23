@@ -10,11 +10,6 @@ using System;
 namespace NConfigure
 {
     [Activity(Label = "NConfigure", MainLauncher = true, Icon = "@drawable/icon")]
-    //[IntentFilter(new[] {
-    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
-    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached })]
-    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
-    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached, Resource = "@xml/usb_device_filter")]
     public class MainActivity : Activity
     {
         private const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
