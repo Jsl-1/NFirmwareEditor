@@ -752,8 +752,7 @@ namespace NToolbox.Windows
 			UpdateUI(() =>
 			{
 				DownloadButton.Enabled = UploadButton.Enabled = ResetButton.Enabled = m_isDeviceConnected;
-				StatusLabel.Text = @"Device is " + (m_isDeviceConnected ? "connected" : "disconnected");
-			});
+ 			});
 
 			if (m_isWorkspaceOpen || !onStartup) return;
 			if (!m_isDeviceConnected)

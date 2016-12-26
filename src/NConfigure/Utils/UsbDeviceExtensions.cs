@@ -23,7 +23,6 @@ namespace Android.Hardware.Usb
             sb.Append($"ManufacturerName : {device.ManufacturerName} \n");
             sb.Append($"SerialNumber : {device.SerialNumber} \n");
             sb.Append($"VendorId : {device.VendorId} \n");
-            sb.Append($"Version : {device.Version} \n");
             sb.Append($"Interface count : {device.InterfaceCount} \n");
             sb.Append($"Class : {device.Class } \n");
             sb.Append($"SubClass : {device.DeviceSubclass } \n");

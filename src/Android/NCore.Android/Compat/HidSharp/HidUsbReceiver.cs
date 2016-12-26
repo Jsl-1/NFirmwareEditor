@@ -6,8 +6,6 @@ using System.Collections.Generic;
 
 namespace NCore.USB
 {
-
-
     [BroadcastReceiver(Enabled = true)]
     [IntentFilter(new[] {
         Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
@@ -49,9 +47,7 @@ namespace NCore.USB
                         }
                         if (hasPermision)
                         {
-                            //var connected = _SetHIDDevice(device, usbManager);
-                            //if (connected && DeviceConnected != null)
-                            //    DeviceConnected(device);
+                            HidConnectorInstance.HidConnector.RefreshState();
                             return;
                         } 
                     }
@@ -59,40 +55,13 @@ namespace NCore.USB
             }
             if (intent.Action == UsbManager.ActionUsbDeviceAttached)
             {
-               
-                
-                //foreach (var device in usbManager.DeviceList.Values)
-                //{
-                //    if (device.VendorId == VendorId)
-                //    {
-                //        m_Device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
-
-                //        bool hasPermision = usbManager.HasPermission(m_Device);
-                //        if (!hasPermision)
-                //        {
-                //            hasPermision = intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false);
-                //            if (!hasPermision)
-                //            {
-                //                PendingIntent mPermissionIntent = PendingIntent.GetBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                //                usbManager.RequestPermission(m_Device, mPermissionIntent);
-                //                return;
-                //            }                            
-                //        }                        
-
-                //        if (intent.GetBooleanExtra(UsbManager.ExtraPermissionGranted, false))
-                //        {
-                //            var connected = _SetHIDDevice(m_Device, usbManager);
-                //            if (connected && DeviceConnected != null)
-                //                DeviceConnected(m_Device);
-                //            return;
-                //        }
-                //    }
-                //}
+                HidConnectorInstance.HidConnector.RefreshState();
             }
             if (intent.Action == UsbManager.ActionUsbDeviceDetached)
             {
-                var device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
-                _RaiseDeviceConnected(device, false);
+                HidConnectorInstance.HidConnector.RefreshState();
+                //var device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
+                //_RaiseDeviceConnected(device, false);
             }
           
         }

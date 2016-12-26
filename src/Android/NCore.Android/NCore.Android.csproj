@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\NCore\BinaryStructure.cs">
+      <Link>BinaryStructure.cs</Link>
+    </Compile>
     <Compile Include="..\..\NCore\Safe.cs">
       <Link>Safe.cs</Link>
     </Compile>
@@ -62,6 +65,7 @@
     <Compile Include="Compat\JetBrain.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="USB\HidConnectorInstance.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
