@@ -12,17 +12,19 @@ namespace NToolbox.Windows
 {
 	internal partial class MainWindow : WindowBase
 	{
-		private const string ApplicationVersion = "1.1";
+		private const string ApplicationVersion = "1.3";
 		private const string SettingsFileName = "NToolboxConfiguration.xml";
 		private readonly ConfigurationStorage m_configurationStorage = new ConfigurationStorage();
 		private readonly StartupMode m_startupMode;
 
 		private ToolboxConfiguration m_configuration;
 		private WindowBase m_openedWindow;
+		private bool m_hideToTray;
 
 		public MainWindow(StartupMode startupMode)
 		{
 			m_startupMode = startupMode;
+			m_hideToTray = m_startupMode.HasFlag(StartupMode.Minimized) || GetAutorunState();
 
 			InitializeComponent();
 			Initialize();
@@ -56,7 +58,7 @@ namespace NToolbox.Windows
 			};
 			Closing += (s, e) =>
 			{
-				if (m_startupMode == StartupMode.Minimized)
+				if (m_hideToTray)
 				{
 					e.Cancel = true;
 					WindowState = FormWindowState.Minimized;
@@ -64,9 +66,11 @@ namespace NToolbox.Windows
 			};
 			SizeChanged += (s, e) =>
 			{
-				if (WindowState == FormWindowState.Minimized) HideToTray();
+				if (WindowState == FormWindowState.Minimized)
+				{
+					HideToTray();
+				}
 			};
-
 			HidConnector.Instance.DeviceConnected += DeviceConnected;
 		}
 
@@ -78,6 +82,14 @@ namespace NToolbox.Windows
 			DeviceMonitorButton.Click += StartDeviceMonitor;
 			ScreenshooterButton.Click += StartScreenshooter;
 			FirmwareUpdaterButton.Click += StartFirmwareUpdater;
+
+			AboutLinkLabel.Click += (s, e) =>
+			{
+				using (var aboutWindow = new AboutWindow())
+				{
+					aboutWindow.ShowDialog();
+				}
+			};
 		}
 
 		private void InitializeTray()
@@ -112,7 +124,11 @@ namespace NToolbox.Windows
 			};
 
 			AutorunTrayMenuItem.Checked = GetAutorunState();
-			AutorunTrayMenuItem.CheckedChanged += (s, e) => SetAutorunState(AutorunTrayMenuItem.Checked);
+			AutorunTrayMenuItem.CheckedChanged += (s, e) =>
+			{
+				m_hideToTray = AutorunTrayMenuItem.Checked;
+				SetAutorunState(AutorunTrayMenuItem.Checked);
+			};
 		}
 
 		private ToolboxConfiguration LoadConfiguration()
