@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using Android.Support.V7.App;
 using Android.Support.V4.Widget;
+using V7Toolbar = Android.Support.V7.Widget.Toolbar;
 
 namespace NToolbox
 {
@@ -18,22 +19,20 @@ namespace NToolbox
     {
         MainActivity owner;
 
-        public MainMenuActionBarDrawerToggle(MainActivity activity, DrawerLayout layout, int openRes, int closeRes)
-            : base(activity, layout, openRes, closeRes)
+        public MainMenuActionBarDrawerToggle(MainActivity activity,  DrawerLayout layout, V7Toolbar toolbar, int openRes, int closeRes)
+            : base(activity, layout, toolbar, openRes, closeRes)
         {
             owner = activity;           
         }
 
         public override void OnDrawerClosed(View drawerView)
         {
-            owner.ActionBar.Title = owner.Title;
-            owner.InvalidateOptionsMenu();
+            base.OnDrawerClosed(drawerView);
         }
 
         public override void OnDrawerOpened(View drawerView)
         {
-            owner.ActionBar.Title = $"{owner.Title}";
-            owner.InvalidateOptionsMenu();
+            base.OnDrawerOpened(drawerView);
         }
     }   
 }

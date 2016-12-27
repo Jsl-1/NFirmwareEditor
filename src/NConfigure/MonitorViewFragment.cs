@@ -16,21 +16,6 @@ namespace NToolbox
 {
     public class MonitorViewFragment : Fragment
     {
-        private static MonitorViewFragment s_Instance;
-        public static MonitorViewFragment Instance
-        {
-            get
-            {
-                if (s_Instance == null)
-                    s_Instance = new MonitorViewFragment();
-                return s_Instance;
-            }
-        }
-
-        private MonitorViewFragment()
-        {
-
-        }
 
         private View m_View;
 

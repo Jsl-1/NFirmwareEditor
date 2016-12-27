@@ -17,22 +17,6 @@ namespace NToolbox
 {
     public class ConfigureViewFragment : Fragment
     {
-        private static ConfigureViewFragment s_Instance;
-        public static ConfigureViewFragment Instance
-        {
-            get
-            {
-                if (s_Instance == null)
-                    s_Instance = new ConfigureViewFragment();
-                return s_Instance;
-            }
-        }
-
-        private ConfigureViewFragment()
-        {
-
-        }
-
         private View m_View;
         private TabHost m_TabHost;
 

@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+  <color name="orange">#F26201</color>
+  
+  <color name="colorPrimary">@color/orange</color>
+  <color name="colorPrimaryDark">@color/orange</color>
+  <color name="colorAccent">@color/orange</color>
+  <color name="statusBarColor">@color/orange</color>
+</resources>

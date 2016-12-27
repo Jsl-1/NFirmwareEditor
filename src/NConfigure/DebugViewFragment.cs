@@ -17,21 +17,6 @@ namespace NToolbox
 {
     public class DebugViewFragment : Fragment
     {
-        private static DebugViewFragment s_Instance;
-        public static DebugViewFragment Instance
-        {
-            get
-            {
-                if (s_Instance == null)
-                    s_Instance = new DebugViewFragment();
-                return s_Instance;
-            }
-        }
-
-        private DebugViewFragment()
-        {
-
-        }
 
         private View m_View;
         private TextView m_DebugTextView;

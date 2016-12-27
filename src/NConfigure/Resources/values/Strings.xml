@@ -5,12 +5,6 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
   
-  
-    <string name="view_control_title">Control</string>    
-    <string name="view_configuration_title">Configuration</string>
-    <string name="view_monitor_title">Monitor</string>
-    <string name="view_debug_title">Debug</string>
-
     <string name="text_disconnected">Disconnected</string>
     <string name="text_connected">Connected</string>
     <string name="text_restart_device">Restart Device</string>

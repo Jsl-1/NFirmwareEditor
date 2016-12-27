@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<component format="1" id="xamandroidsupportpreferences" is-shell="true">
+  <name>Android Support Preferences V7, V14, V17 Library</name>
+  <publisher>Xamarin Inc.</publisher>
+  <publisher-url>http://xamarin.com</publisher-url>
+  <src-url>https://github.com/xamarin/AndroidSupportComponents</src-url>
+  <version>23.4.0.1</version>
+  <summary>Provide backward-compatible versions of Android framework APIs.</summary>
+  <packages>
+    <package id="Xamarin.Android.Support.v7.Preference" version="23.4.0.1" framework="android" />
+    <package id="Xamarin.Android.Support.v14.Preference" version="23.4.0.1" framework="android" />
+    <package id="Xamarin.Android.Support.v17.Preference.Leanback" version="23.4.0.1" framework="android" />
+  </packages>
+  <samples>
+    <sample id="AndroidSupportSample">
+      <name>Preference V7, V14, V17 Sample</name>
+      <summary>Preference V7, V14, V17 Sample</summary>
+    </sample>
+  </samples>
+</component>

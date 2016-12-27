@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/nav_configure"
+      android:title="Configure">
+      <menu>
+        <item
+           android:id="@+id/nav_profile1"
+           android:title="Profile 1" />
+        <item
+           android:id="@+id/nav_profile2"
+           android:title="Profile 2" />
+        <item
+           android:id="@+id/nav_profile3"
+           android:title="Profile 3" />
+        <item
+           android:id="@+id/nav_profile4"
+           android:title="Profile 4" />
+        <item
+           android:id="@+id/nav_profile5"
+           android:title="Profile 5" />
+        <item
+           android:id="@+id/nav_profile6"
+           android:title="Profile 6" />
+        <item
+           android:id="@+id/nav_profile7"
+           android:title="Profile 7" />
+        <item
+           android:id="@+id/nav_profile8"
+           android:title="Profile 8" />
+      </menu>
+    </item>
+    <item
+      android:id="@+id/nav_control"
+      android:title="Control" />
+    <item
+      android:id="@+id/nav_monitor"
+      android:title="Monitor" />
+    <item
+      android:id="@+id/nav_debug"
+      android:title="Debug" />
+  </group>
+</menu>

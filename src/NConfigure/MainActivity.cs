@@ -16,19 +16,21 @@ using Android.Graphics.Drawables;
 using NCore;
 using NToolbox.Models;
 using System.Globalization;
+using V7Toolbar = Android.Support.V7.Widget.Toolbar;
+using Android.Support.Design.Widget;
 
 namespace NToolbox
 {
-    [Activity(Label = "NFE Toolbox", MainLauncher = true, Icon = "@drawable/icon", LaunchMode = Android.Content.PM.LaunchMode.SingleInstance)]
+    [Activity(Label = "NFE Toolbox", MainLauncher = true, Theme = "@style/Theme.NToolbox", Icon = "@drawable/icon", LaunchMode = Android.Content.PM.LaunchMode.SingleInstance)]
     [IntentFilter(new string[] { Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached })]
     [MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
-    public class MainActivity : Activity, MainMenuAdapter.OnItemClickListener, View.IOnClickListener
+    public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener //Activity, MainMenuAdapter.OnItemClickListener, View.IOnClickListener
     {
         private const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
         private DrawerLayout mDrawerLayout;
-        private RecyclerView mDrawerList;
-        private ActionBarDrawerToggle mDrawerToggle;
+        private NavigationView mNavigationView;
+        private Dictionary<int, Fragment> mFragmentCache = new Dictionary<int, Fragment>(); 
 
         private TextView mTxtDevice;
         private TextView mTxtFirmware;
@@ -36,9 +38,8 @@ namespace NToolbox
         private TextView mTxtConnected;
 
         private Boolean m_IsConnected;
+        private Boolean m_IsFirstDeviceConnection = true;
         private int m_TxtConnectedStringId = Resource.String.text_disconnected;
-        private String[] mViewTitles;
-
        
         private HidUsbReceiver m_HidUsbReceiver;
 
@@ -46,100 +47,45 @@ namespace NToolbox
         {
             base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
+          
+
+            _InitializeComponents();
+            _InitializeUsb();
+        }
+
+        private void _InitializeComponents()
+        {
             SetContentView(Resource.Layout.activity_main);
 
-            mViewTitles = new string[]
-            {
-                GetString(Resource.String.view_configuration_title),
-                GetString(Resource.String.view_control_title),
-                GetString(Resource.String.view_monitor_title),
-                GetString(Resource.String.view_debug_title),
-            };
+            //Toolbar
+            var toolbar = FindViewById<V7Toolbar>(Resource.Id.toolbar);
+            SetSupportActionBar(toolbar);
+            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar.SetDisplayShowTitleEnabled(false);
+            SupportActionBar.SetHomeButtonEnabled(true);
+            SupportActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_drawer);
 
-            mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);   
-            // set a custom shadow that overlays the main content when the drawer opens
-            //mDrawerLayout.SetDrawerShadow(Resource.Drawable.drawer_shadow, GravityCompat.Start);
+            //Navigation View
+            mNavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+            mNavigationView.SetNavigationItemSelectedListener(this);
 
-        
+            mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
+            var actionbarDrawerToggle = new MainMenuActionBarDrawerToggle(this, mDrawerLayout, toolbar, Resource.String.drawer_open, Resource.String.drawer_close);
+            mDrawerLayout.AddDrawerListener(actionbarDrawerToggle);
+            actionbarDrawerToggle.SyncState();
 
-            mDrawerList = FindViewById<RecyclerView>(Resource.Id.left_drawer);
-            // improve performance by indicating the list if fixed size.
-            mDrawerList.HasFixedSize = true;
-            mDrawerList.SetLayoutManager(new LinearLayoutManager(this));
 
-            // set up the drawer's list view with items and click listener
-            mDrawerList.SetAdapter(new MainMenuAdapter(mViewTitles, this));
-            // enable ActionBar app icon to behave as action to toggle nav drawer
-            this.ActionBar.SetDisplayHomeAsUpEnabled(true);
-            this.ActionBar.SetHomeButtonEnabled(true);
-            this.ActionBar.SetHomeAsUpIndicator(Resource.Drawable.ic_drawer);
+            //mChkConnected = FindViewById<CheckBox>(Resource.Id.chk_connected);
+            //mChkConnected.Checked = m_IsConnected;
 
-            mDrawerList.SetOnClickListener(this);
-            // ActionBarDrawerToggle ties together the the proper interactions
-            // between the sliding drawer and the action bar app icon
+            //mTxtConnected = FindViewById<TextView>(Resource.Id.txt_connected);
+            //mTxtConnected.Text = GetString(m_TxtConnectedStringId);
 
-            mDrawerToggle = new MainMenuActionBarDrawerToggle(
-                this, mDrawerLayout,
-                Resource.String.drawer_open,
-                Resource.String.drawer_close);
-
-            mDrawerLayout.AddDrawerListener(mDrawerToggle);
-            
-            if (bundle == null) //first launch
-                mDrawerLayout.OpenDrawer(mDrawerList);
-
-            HidConnectorInstance.HidConnector.DeviceConnected += HidConnector_DeviceConnected;
-            HidConnectorInstance.HidConnector.RefreshState();
-
-            mChkConnected = FindViewById<CheckBox>(Resource.Id.chk_connected);
-            mChkConnected.Checked = m_IsConnected;
-
-            mTxtConnected = FindViewById<TextView>(Resource.Id.txt_connected);
-            mTxtConnected.Text = GetString(m_TxtConnectedStringId);
-
-            mTxtDevice = FindViewById<TextView>(Resource.Id.txt_device);
-            mTxtFirmware= FindViewById<TextView>(Resource.Id.txt_firmware);
-
-            _InitUsb();
+            //mTxtDevice = FindViewById<TextView>(Resource.Id.txt_device);
+            //mTxtFirmware= FindViewById<TextView>(Resource.Id.txt_firmware);
         }
 
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-            HidConnectorInstance.HidConnector.RefreshState();
-        }
-
-        private void HidConnector_DeviceConnected(bool connected)
-        {
-            m_IsConnected = connected;
-            m_TxtConnectedStringId = connected ? Resource.String.text_connected : Resource.String.text_disconnected;
-            if (mChkConnected != null)
-                mChkConnected.Checked = connected;
-            if (mTxtConnected != null)
-                mTxtConnected.Text = GetString(m_TxtConnectedStringId);
-
-            if (connected)
-            {
-                var data = HidConnector.Instance.ReadConfiguration();
-                var info = BinaryStructure.Read<ArcticFoxConfiguration>(data);
-                if (mTxtDevice != null)
-                {
-
-                    mTxtDevice.Text = HidDeviceInfo.Get(info.Info.ProductId).Name;
-                    mTxtFirmware.Text = String.Format(
-                        GetString(Resource.String.format_firmware_version),
-                        new object[] {
-                        (info.Info.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture),
-                        info.Info.FirmwareBuild,
-                        (info.Info.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture)
-                        });
-                }
-            }
-        }       
-
-        private void _InitUsb()
+        private void _InitializeUsb()
         {
             IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
             filter.AddAction(UsbManager.ActionUsbDeviceAttached);
@@ -151,58 +97,152 @@ namespace NToolbox
             m_HidUsbReceiver = new HidUsbReceiver();
 
             RegisterReceiver(m_HidUsbReceiver, filter);
+
+            HidConnectorInstance.HidConnector.DeviceConnected += HidConnector_DeviceConnected;
+            HidConnectorInstance.HidConnector.RefreshState();
+
         }
 
-        private void ShowDeviceInfo(UsbDevice device)
+        public bool OnNavigationItemSelected(IMenuItem menuItem)
         {
-           // m_DebugTextView.Append(device.GetDeviceInfoText());
-        }
+            ////Checking if the item is in checked state or not, if not make it in checked state
+            //if (menuItem.IsChecked) menuItem.SetChecked(false);
+            //else menuItem.SetChecked(true);
 
-        public void OnClick(View view, int position)
-        {
-            var title = mViewTitles[position];
+            //Closing drawer on item click
+            mDrawerLayout.CloseDrawers();
+
+            //Declare fragment to display
             Fragment fragment = null;
-            if(title == GetString(Resource.String.view_debug_title))
+
+            if (!mFragmentCache.TryGetValue(menuItem.ItemId, out fragment))
             {
-                fragment = DebugViewFragment.Instance;
+
+                //Check to see which item was being clicked and perform appropriate action
+                switch (menuItem.ItemId)
+                {
+                    case Resource.Id.nav_configure:
+                        fragment = new ConfigureViewFragment();
+                        break;
+                    //case Resource.Id.nav_profile1:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile2:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile3:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile4:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile5:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile6:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile7:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_profile8:
+                    //    fragment = new ProfileViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_control:
+                    //    fragment = new ControlViewFragment();
+                    //    break;
+                    //case Resource.Id.nav_monitor:
+                    //    fragment = new MonitorViewFragment();
+                    //    break;
+                    case Resource.Id.nav_debug:
+                        fragment = new DebugViewFragment();
+                        break;
+                    default:
+                        Toast.MakeText(ApplicationContext, "Invalid Menu Item", 0).Show();
+                        return false;
+                }
+
+                mFragmentCache.Add(menuItem.ItemId, fragment);
             }
-            else if(title == GetString(Resource.String.view_configuration_title))
-            {
-                fragment = ConfigureViewFragment.Instance;
-            }
-            else if (title == GetString(Resource.String.view_control_title))
-            {
-                fragment = ConfigureViewFragment.Instance;
-            }
-            else if (title == GetString(Resource.String.view_monitor_title))
-            {
-                fragment = MonitorViewFragment.Instance;
-            }
+
             if (fragment != null)
             {
                 var fragmentManager = this.FragmentManager;
                 var ft = fragmentManager.BeginTransaction();
-                ft.Replace(Resource.Id.content_frame, fragment);
+                ft.Replace(Resource.Id.frame, fragment);
                 ft.Commit();
-            }
-            mDrawerLayout.CloseDrawer(mDrawerList);
-        }
-
-        public void OnClick(View v)
-        {
-            if (mDrawerLayout.IsDrawerOpen(mDrawerList))
-            {
-                mDrawerLayout.CloseDrawer(mDrawerList);
             }
             else
             {
-                mDrawerLayout.OpenDrawer(mDrawerList);
+                Toast.MakeText(ApplicationContext, "Error creating view", 0).Show();
+                return false;
             }
-           
+            return true;
         }
-    }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            switch (item.ItemId)
+            {
+                case Android.Resource.Id.Home:
+                    if(mDrawerLayout.IsDrawerOpen(Android.Support.V4.View.GravityCompat.Start))
+                        mDrawerLayout.CloseDrawer(Android.Support.V4.View.GravityCompat.Start);
+                    else
+                        mDrawerLayout.OpenDrawer(Android.Support.V4.View.GravityCompat.Start);
+                    return true;
+            }
+            return base.OnOptionsItemSelected(item);
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.action_menu, menu);
+            return true;
+        }
+
+        protected override void OnResume()
+        {
+            base.OnResume();
+            HidConnectorInstance.HidConnector.RefreshState();
+        }
+
+        private void HidConnector_DeviceConnected(bool connected)
+        {
+            m_IsConnected = connected;
 
 
-  
+
+            //m_TxtConnectedStringId = connected ? Resource.String.text_connected : Resource.String.text_disconnected;
+            //if (mChkConnected != null)
+            //    mChkConnected.Checked = connected;
+            //if (mTxtConnected != null)
+            //    mTxtConnected.Text = GetString(m_TxtConnectedStringId);
+
+            if (connected)
+            {
+                if (m_IsFirstDeviceConnection)
+                {
+                    m_IsFirstDeviceConnection = false;
+                }
+
+                var data = HidConnector.Instance.ReadConfiguration();
+                var info = BinaryStructure.Read<ArcticFoxConfiguration>(data);
+                if (mTxtDevice != null)
+                {
+
+                    //mTxtDevice.Text = HidDeviceInfo.Get(info.Info.ProductId).Name;
+                    //mTxtFirmware.Text = String.Format(
+                    //    GetString(Resource.String.format_firmware_version),
+                    //    new object[] {
+                    //        (info.Info.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture),
+                    //        info.Info.FirmwareBuild,
+                    //        (info.Info.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture)
+                    //    });
+                }
+            }
+        }       
+
+     
+    }  
 }
 
