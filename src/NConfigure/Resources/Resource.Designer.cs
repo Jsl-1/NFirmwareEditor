@@ -2112,47 +2112,20 @@ namespace NToolbox
 			// aapt resource value: 0x7f070016
 			public const int multiply = 2131165206;
 			
-			// aapt resource value: 0x7f07008c
-			public const int nav_action_reload_settings = 2131165324;
+			// aapt resource value: 0x7f070098
+			public const int nav_action_download_settings = 2131165336;
 			
-			// aapt resource value: 0x7f07008d
-			public const int nav_action_restart_device = 2131165325;
+			// aapt resource value: 0x7f07009a
+			public const int nav_action_reset_device = 2131165338;
 			
-			// aapt resource value: 0x7f07008e
-			public const int nav_configure = 2131165326;
-			
-			// aapt resource value: 0x7f070097
-			public const int nav_control = 2131165335;
+			// aapt resource value: 0x7f07009b
+			public const int nav_action_restart_device = 2131165339;
 			
 			// aapt resource value: 0x7f070099
-			public const int nav_debug = 2131165337;
+			public const int nav_action_upload_device = 2131165337;
 			
-			// aapt resource value: 0x7f070098
-			public const int nav_monitor = 2131165336;
-			
-			// aapt resource value: 0x7f07008f
-			public const int nav_profile1 = 2131165327;
-			
-			// aapt resource value: 0x7f070090
-			public const int nav_profile2 = 2131165328;
-			
-			// aapt resource value: 0x7f070091
-			public const int nav_profile3 = 2131165329;
-			
-			// aapt resource value: 0x7f070092
-			public const int nav_profile4 = 2131165330;
-			
-			// aapt resource value: 0x7f070093
-			public const int nav_profile5 = 2131165331;
-			
-			// aapt resource value: 0x7f070094
-			public const int nav_profile6 = 2131165332;
-			
-			// aapt resource value: 0x7f070095
-			public const int nav_profile7 = 2131165333;
-			
-			// aapt resource value: 0x7f070096
-			public const int nav_profile8 = 2131165334;
+			// aapt resource value: 0x7f07009c
+			public const int nav_general = 2131165340;
 			
 			// aapt resource value: 0x7f07006c
 			public const int nav_view = 2131165292;
@@ -2298,9 +2271,6 @@ namespace NToolbox
 			// aapt resource value: 0x7f07004d
 			public const int textSpacerNoButtons = 2131165261;
 			
-			// aapt resource value: 0x7f07008b
-			public const int textView1 = 2131165323;
-			
 			// aapt resource value: 0x7f07007d
 			public const int time = 2131165309;
 			
@@ -2319,11 +2289,50 @@ namespace NToolbox
 			// aapt resource value: 0x7f07006d
 			public const int touch_outside = 2131165293;
 			
+			// aapt resource value: 0x7f070095
+			public const int txt_welcome_arcticfox = 2131165333;
+			
+			// aapt resource value: 0x7f070094
+			public const int txt_welcome_connectWith = 2131165332;
+			
+			// aapt resource value: 0x7f070097
+			public const int txt_welcome_fw = 2131165335;
+			
+			// aapt resource value: 0x7f070093
+			public const int txt_welcome_logo = 2131165331;
+			
+			// aapt resource value: 0x7f070096
+			public const int txt_welcome_version = 2131165334;
+			
 			// aapt resource value: 0x7f070009
 			public const int up = 2131165193;
 			
 			// aapt resource value: 0x7f070014
 			public const int useLogo = 2131165204;
+			
+			// aapt resource value: 0x7f070090
+			public const int view_general_build = 2131165328;
+			
+			// aapt resource value: 0x7f07008f
+			public const int view_general_build_label = 2131165327;
+			
+			// aapt resource value: 0x7f07008c
+			public const int view_general_devicename = 2131165324;
+			
+			// aapt resource value: 0x7f07008e
+			public const int view_general_fw_ver = 2131165326;
+			
+			// aapt resource value: 0x7f07008d
+			public const int view_general_fw_ver_label = 2131165325;
+			
+			// aapt resource value: 0x7f070092
+			public const int view_general_hw_ver = 2131165330;
+			
+			// aapt resource value: 0x7f070091
+			public const int view_general_hw_ver_label = 2131165329;
+			
+			// aapt resource value: 0x7f07008b
+			public const int view_general_logo = 2131165323;
 			
 			// aapt resource value: 0x7f07000a
 			public const int view_offset_helper = 2131165194;
@@ -2544,13 +2553,16 @@ namespace NToolbox
 			public const int view_debug = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int view_disconnected = 2130903094;
+			public const int view_general = 2130903094;
 			
 			// aapt resource value: 0x7f030037
 			public const int view_monitor = 2130903095;
 			
 			// aapt resource value: 0x7f030038
 			public const int view_profile = 2130903096;
+			
+			// aapt resource value: 0x7f030039
+			public const int view_welcome = 2130903097;
 			
 			static Layout()
 			{

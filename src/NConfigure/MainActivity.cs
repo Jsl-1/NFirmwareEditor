@@ -39,12 +39,17 @@ namespace NToolbox
         private CheckBox mChkConnected;
         private TextView mTxtConnected;
 
+        private Fragment m_CurrentFragment;
+        private InitialViewFragment m_InitialViewFragment;
+        private GeneralViewFragment m_GeneralViewFragment;
+
         private Boolean m_IsConnected;
         private Boolean m_IsFirstDeviceConnection = true;
         private int m_TxtConnectedStringId = Resource.String.text_disconnected;
        
         private HidUsbReceiver m_HidUsbReceiver;
-        private ArcticFoxConfigurationWindow m_WrapeprArcticFoxConfigurationWindow;
+        private ArcticFoxConfigurationWindow m_WrapperArcticFoxConfigurationWindow;
+        private ArcticFoxConfiguration mConfiguration;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -77,24 +82,25 @@ namespace NToolbox
             actionbarDrawerToggle.SyncState();
 
             //Initial Content
+            m_GeneralViewFragment = new GeneralViewFragment();
             mFrameContent = FindViewById<FrameLayout>(Resource.Id.frame);
+            m_InitialViewFragment = new InitialViewFragment();
+            _ReplaceFrameContent(m_InitialViewFragment);
+
+        }
+
+        private void _ReplaceFrameContent(Fragment fragment)
+        {
             var ft = this.FragmentManager.BeginTransaction();
-            ft.Replace(Resource.Id.frame, new InitialViewFragment());
+            ft.Replace(Resource.Id.frame, fragment);
             ft.Commit();
-
-            //mChkConnected = FindViewById<CheckBox>(Resource.Id.chk_connected);
-            //mChkConnected.Checked = m_IsConnected;
-
-            //mTxtConnected = FindViewById<TextView>(Resource.Id.txt_connected);
-            //mTxtConnected.Text = GetString(m_TxtConnectedStringId);
-
-            //mTxtDevice = FindViewById<TextView>(Resource.Id.txt_device);
-            //mTxtFirmware= FindViewById<TextView>(Resource.Id.txt_firmware);
+            m_CurrentFragment = fragment;
         }
 
         private void _InitializeNToolboxWrappers()
         {
-            m_WrapeprArcticFoxConfigurationWindow = new ArcticFoxConfigurationWindow(this);
+            m_WrapperArcticFoxConfigurationWindow = new ArcticFoxConfigurationWindow(this);
+            m_InitialViewFragment.FirmwareMinVersion = m_WrapperArcticFoxConfigurationWindow.MinimumBuildNumber;
         }
 
         private void _InitializeUsb()
@@ -107,7 +113,6 @@ namespace NToolbox
             filter.AddAction(UsbManager.ActionUsbDeviceDetached);
 
             m_HidUsbReceiver = new HidUsbReceiver();
-
             RegisterReceiver(m_HidUsbReceiver, filter);
 
             HidConnector.Instance.DeviceConnected += HidConnector_DeviceConnected;
@@ -138,8 +143,8 @@ namespace NToolbox
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.ItemId)
                 {
-                    case Resource.Id.nav_configure:
-                        fragment = new ConfigureViewFragment();
+                    case Resource.Id.nav_general:
+                        fragment = m_GeneralViewFragment;
                         break;
                     //case Resource.Id.nav_profile1:
                     //    fragment = new ProfileViewFragment();
@@ -171,9 +176,9 @@ namespace NToolbox
                     //case Resource.Id.nav_monitor:
                     //    fragment = new MonitorViewFragment();
                     //    break;
-                    case Resource.Id.nav_debug:
-                        fragment = new DebugViewFragment();
-                        break;
+                    //case Resource.Id.nav_debug:
+                    //    fragment = new DebugViewFragment();
+                    //    break;
                     default:
                         Toast.MakeText(ApplicationContext, "Invalid Menu Item", 0).Show();
                         return false;
@@ -184,10 +189,7 @@ namespace NToolbox
 
             if (fragment != null)
             {
-                var fragmentManager = this.FragmentManager;
-                var ft = fragmentManager.BeginTransaction();
-                ft.Replace(Resource.Id.frame, fragment);
-                ft.Commit();
+                _ReplaceFrameContent(fragment);
             }
             else
             {
@@ -197,22 +199,38 @@ namespace NToolbox
             return true;
         }
 
+
+
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
             switch (item.ItemId)
             {
                 case Android.Resource.Id.Home:
-                    if(mDrawerLayout.IsDrawerOpen(Android.Support.V4.View.GravityCompat.Start))
+                    if (mDrawerLayout.IsDrawerOpen(Android.Support.V4.View.GravityCompat.Start))
                         mDrawerLayout.CloseDrawer(Android.Support.V4.View.GravityCompat.Start);
-                    else
+                    else if (m_IsConnected)
                         mDrawerLayout.OpenDrawer(Android.Support.V4.View.GravityCompat.Start);
-                    return true;
+                    break;
+                case Resource.Id.nav_action_download_settings :
+                    RefreshFromDevice();
+                    break;
+                case Resource.Id.nav_action_upload_device:
+                    UploadToDevice();
+                    break;
+                case Resource.Id.nav_action_reset_device:
+                    HidConnector.Instance.ResetDataflash();
+                    break;
                 case Resource.Id.nav_action_restart_device:
                     HidConnector.Instance.RestartDevice();
-                    return true;
+                    break;
+                default:
+                    return false;
+
             }
-            return base.OnOptionsItemSelected(item);
+            return true;
         }
+
+
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
@@ -224,7 +242,9 @@ namespace NToolbox
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
 
-            menu.FindItem(Resource.Id.nav_action_reload_settings).SetEnabled(m_IsConnected);
+            menu.FindItem(Resource.Id.nav_action_download_settings).SetEnabled(m_IsConnected);
+            menu.FindItem(Resource.Id.nav_action_reset_device).SetEnabled(m_IsConnected);
+            menu.FindItem(Resource.Id.nav_action_upload_device).SetEnabled(m_IsConnected);
             menu.FindItem(Resource.Id.nav_action_restart_device).SetEnabled(m_IsConnected);
             return base.OnPrepareOptionsMenu(menu);
         }
@@ -235,17 +255,50 @@ namespace NToolbox
             HidConnector.Instance.RefreshState();
         }
 
+        private void _SetDataFromArticFoxConfiguration(ArcticFoxConfiguration data)
+        {
+            m_GeneralViewFragment.DeviceName = HidDeviceInfo.Get(data.Info.ProductId).Name;
+            m_GeneralViewFragment.Build = data.Info.FirmwareBuild.ToString();
+            m_GeneralViewFragment.FwVer = (data.Info.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
+            m_GeneralViewFragment.HwVer = (data.Info.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
+        }
+
+        private void _SetDataToArticFoxConfiguration(ArcticFoxConfiguration data)
+        {
+            
+        }
+
+        private void RefreshFromDevice()
+        {
+            mConfiguration = _ReadConfiguration();
+            _SetDataFromArticFoxConfiguration(mConfiguration);
+
+        }
+
+        private void UploadToDevice()
+        {
+            _SetDataToArticFoxConfiguration(mConfiguration);
+            var data = BinaryStructure.Write(mConfiguration);
+            try
+            {
+                HidConnector.Instance.WriteConfiguration(data, null);
+            }
+            catch (TimeoutException)
+            {
+                InfoBox.Show("Unable to write configuration.");
+            }
+
+        }
+
+        private ArcticFoxConfiguration _ReadConfiguration()
+        {
+            var data = HidConnector.Instance.ReadConfiguration();
+            return BinaryStructure.Read<ArcticFoxConfiguration>(data);
+        }
+
         private void HidConnector_DeviceConnected(bool connected)
         {
             m_IsConnected = connected;
-
-
-
-            //m_TxtConnectedStringId = connected ? Resource.String.text_connected : Resource.String.text_disconnected;
-            //if (mChkConnected != null)
-            //    mChkConnected.Checked = connected;
-            //if (mTxtConnected != null)
-            //    mTxtConnected.Text = GetString(m_TxtConnectedStringId);
 
             if (connected)
             {
@@ -254,19 +307,20 @@ namespace NToolbox
                     m_IsFirstDeviceConnection = false;
                 }
 
-                var data = HidConnector.Instance.ReadConfiguration();
-                var info = BinaryStructure.Read<ArcticFoxConfiguration>(data);
-                if (mTxtDevice != null)
+                try
                 {
 
-                    //mTxtDevice.Text = HidDeviceInfo.Get(info.Info.ProductId).Name;
-                    //mTxtFirmware.Text = String.Format(
-                    //    GetString(Resource.String.format_firmware_version),
-                    //    new object[] {
-                    //        (info.Info.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture),
-                    //        info.Info.FirmwareBuild,
-                    //        (info.Info.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture)
-                    //    });
+                    RefreshFromDevice();
+
+                    if (m_CurrentFragment == m_InitialViewFragment)
+                        _ReplaceFrameContent(m_GeneralViewFragment);
+
+                   
+
+                }
+                catch
+                {
+                    Toast.MakeText(Application.Context, "Error reading device data", ToastLength.Long);
                 }
             }
         }       

@@ -17,12 +17,14 @@ namespace NToolbox
 {
     internal class MainMenuActionBarDrawerToggle : ActionBarDrawerToggle
     {
-        MainActivity owner;
+        AppCompatActivity owner;
+        V7Toolbar m_toolbar;
 
-        public MainMenuActionBarDrawerToggle(MainActivity activity,  DrawerLayout layout, V7Toolbar toolbar, int openRes, int closeRes)
+        public MainMenuActionBarDrawerToggle(AppCompatActivity activity,  DrawerLayout layout, V7Toolbar toolbar, int openRes, int closeRes)
             : base(activity, layout, toolbar, openRes, closeRes)
         {
-            owner = activity;           
+            owner = activity;
+            m_toolbar = toolbar;
         }
 
         public override void OnDrawerClosed(View drawerView)
@@ -32,6 +34,8 @@ namespace NToolbox
 
         public override void OnDrawerOpened(View drawerView)
         {
+            //m_toolbar.Menu.GetItem()
+
             base.OnDrawerOpened(drawerView);
         }
     }   

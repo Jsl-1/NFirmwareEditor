@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ImageView
+        android:src="@drawable/arctic_fox_logo"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:id="@+id/view_general_logo"
+        android:layout_alignParentTop="true"
+        android:padding="5dp"/>
+    <TextView
+        android:text="[Device Name]"
+        android:id="@+id/view_general_devicename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/view_general_logo"
+        android:padding="5dp"
+        android:paddingTop="30dp" />
+
+    <TextView
+        android:text="FW Ver:"
+        android:id="@+id/view_general_fw_ver_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_logo"
+        android:padding="5dp"/>
+    <TextView
+        android:text="[FW Ver]"
+        android:id="@+id/view_general_fw_ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_fw_ver_label"
+        android:padding="5dp"/>
+
+    <TextView
+        android:text="Build:"
+        android:id="@+id/view_general_build_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_fw_ver"
+        android:padding="5dp"/>
+    <TextView
+        android:text="[Build]"
+        android:id="@+id/view_general_build"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_build_label"
+        android:padding="5dp"/>
+
+    <TextView
+        android:text="HW Ver:"
+        android:id="@+id/view_general_hw_ver_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_build"
+        android:padding="5dp"/>
+    <TextView
+        android:text="[HW Ver]"
+        android:id="@+id/view_general_hw_ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_general_devicename"
+        android:layout_toRightOf="@id/view_general_hw_ver_label"
+        android:padding="5dp"/>
+</RelativeLayout>

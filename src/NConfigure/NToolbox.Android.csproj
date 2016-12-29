@@ -127,6 +127,7 @@
     <Compile Include="ConfigureViewFragment.cs" />
     <Compile Include="ControlViewFragment.cs" />
     <Compile Include="DebugViewFragment.cs" />
+    <Compile Include="GeneralViewFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainMenuActionBarDrawerToggle.cs" />
     <Compile Include="InitialViewFragment.cs" />
@@ -138,9 +139,9 @@
     <Compile Include="Windows\ArcticFoxConfigurationWindow.partial.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\NToolbox\Resources\new_configuration.afc">
+    <EmbeddedResource Include="..\NToolbox\Resources\new_configuration.afc">
       <Link>Resources\raw\new_configuration.afc</Link>
-    </None>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
@@ -162,7 +163,10 @@
     <AndroidResource Include="Resources\layout\view_profile.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\view_disconnected.axml">
+    <AndroidResource Include="Resources\layout\view_welcome.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\view_general.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

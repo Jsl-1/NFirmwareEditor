@@ -3,6 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
   <group>
     <item
+          android:id="@+id/nav_general"
+          android:title="General" />
+    <!--<item
       android:id="@+id/nav_configure"
       android:title="Configure">
       <menu>
@@ -40,6 +43,6 @@
       android:title="Monitor" />
     <item
       android:id="@+id/nav_debug"
-      android:title="Debug" />
+      android:title="Debug" />-->
   </group>
 </menu>

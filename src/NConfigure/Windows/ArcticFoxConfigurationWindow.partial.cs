@@ -14,5 +14,13 @@ namespace NToolbox.Windows
         {
             
         }
+        
+        public String MinimumBuildNumber
+        {
+            get
+            {
+                return MinimumSupportedBuildNumber.ToString();
+            }
+        }
     }
 }

@@ -3,10 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
   <group>
     <item
-      android:id="@+id/nav_action_reload_settings"
-      android:title="Reload Settings"/>
+        android:id="@+id/nav_action_download_settings"
+        android:title="Reload settings"
+            />
     <item
-     android:id="@+id/nav_action_restart_device"
-     android:title="Restart Device"/>
+        android:id="@+id/nav_action_upload_device"
+        android:title="Upload settings"/>
+    <item
+        android:id="@+id/nav_action_reset_device"
+        android:title="Reset device settings"/>
+    <item
+        android:id="@+id/nav_action_restart_device"
+        android:title="Restart device"/>
   </group>
 </menu>
