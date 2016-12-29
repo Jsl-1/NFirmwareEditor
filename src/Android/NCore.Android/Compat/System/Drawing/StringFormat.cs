@@ -9,10 +9,13 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using System.Windows.Forms;
 
-namespace NToolbox.Windows
+namespace System.Drawing
 {
-    class TFRProfileWindow
+    public class StringFormat
     {
+        public StringAlignment Alignment { get; set; }
+        public StringAlignment LineAlignment { get; set; }
     }
 }

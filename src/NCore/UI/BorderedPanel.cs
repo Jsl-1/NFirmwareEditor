@@ -83,7 +83,9 @@ namespace NCore.UI
 			}
 		}
 
-		public BorderedPanel()
+        public string Text { get; set; }
+
+        public BorderedPanel()
 		{
 			Size = new Size(150, 150);
 
@@ -96,7 +98,7 @@ namespace NCore.UI
 			BackColor = Color.Transparent;
 		}
 
-		private void GetClientRect()
+        private void GetClientRect()
 		{
 			m_clientRect = new RectangleF(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width - 1, ClientRectangle.Height - 1);
 		}

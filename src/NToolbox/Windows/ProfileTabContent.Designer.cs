@@ -1,4 +1,6 @@
-﻿namespace NToolbox.Windows
+﻿using System;
+
+namespace NToolbox.Windows
 {
 	partial class ProfileTabContent
 	{
@@ -539,9 +541,9 @@
 
 		}
 
-		#endregion
+        #endregion
 
-		public System.Windows.Forms.TextBox ProfileNameTextBox;
+        public System.Windows.Forms.TextBox ProfileNameTextBox;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label TemperatureLabel;
 		private System.Windows.Forms.Label label5;

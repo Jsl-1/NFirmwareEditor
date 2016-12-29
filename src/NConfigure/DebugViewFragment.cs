@@ -46,9 +46,9 @@ namespace NToolbox
             try
             {
 
-                if (HidConnectorInstance.HidConnector.IsDeviceConnected)
+                if (HidConnector.Instance.IsDeviceConnected)
                 {
-                    HidConnectorInstance.HidConnector.RestartDevice();
+                    HidConnector.Instance.RestartDevice();
                     //var dataflash = HidConnectorInstance.HidConnector.ReadDataflash();
                     //HidConnectorInstance.HidConnector.MakePuff(1);
                 }

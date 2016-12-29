@@ -10,18 +10,10 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-namespace NToolbox.Windows
+namespace System.Windows.Forms
 {
-    class ArcticFoxConfigurationWindow
+    public class UserControl : Control
     {
-        public void UpdatePowerCurveNames()
-        {
 
-        }
-
-        public void UpdateTFRCurveNames()
-        {
-
-        }
     }
 }

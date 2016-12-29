@@ -2013,8 +2013,8 @@ namespace NToolbox
 			// aapt resource value: 0x7f07000e
 			public const int disableHome = 2131165198;
 			
-			// aapt resource value: 0x7f070069
-			public const int drawer_layout = 2131165289;
+			// aapt resource value: 0x7f07006a
+			public const int drawer_layout = 2131165290;
 			
 			// aapt resource value: 0x7f07005c
 			public const int edit_query = 2131165276;
@@ -2097,6 +2097,9 @@ namespace NToolbox
 			// aapt resource value: 0x7f070041
 			public const int list_item = 2131165249;
 			
+			// aapt resource value: 0x7f070069
+			public const int main_toolbar = 2131165289;
+			
 			// aapt resource value: 0x7f07007a
 			public const int media_actions = 2131165306;
 			
@@ -2109,44 +2112,47 @@ namespace NToolbox
 			// aapt resource value: 0x7f070016
 			public const int multiply = 2131165206;
 			
-			// aapt resource value: 0x7f07008b
-			public const int nav_action_reload_settings = 2131165323;
-			
 			// aapt resource value: 0x7f07008c
-			public const int nav_configure = 2131165324;
-			
-			// aapt resource value: 0x7f070095
-			public const int nav_control = 2131165333;
-			
-			// aapt resource value: 0x7f070097
-			public const int nav_debug = 2131165335;
-			
-			// aapt resource value: 0x7f070096
-			public const int nav_monitor = 2131165334;
+			public const int nav_action_reload_settings = 2131165324;
 			
 			// aapt resource value: 0x7f07008d
-			public const int nav_profile1 = 2131165325;
+			public const int nav_action_restart_device = 2131165325;
 			
 			// aapt resource value: 0x7f07008e
-			public const int nav_profile2 = 2131165326;
+			public const int nav_configure = 2131165326;
+			
+			// aapt resource value: 0x7f070097
+			public const int nav_control = 2131165335;
+			
+			// aapt resource value: 0x7f070099
+			public const int nav_debug = 2131165337;
+			
+			// aapt resource value: 0x7f070098
+			public const int nav_monitor = 2131165336;
 			
 			// aapt resource value: 0x7f07008f
-			public const int nav_profile3 = 2131165327;
+			public const int nav_profile1 = 2131165327;
 			
 			// aapt resource value: 0x7f070090
-			public const int nav_profile4 = 2131165328;
+			public const int nav_profile2 = 2131165328;
 			
 			// aapt resource value: 0x7f070091
-			public const int nav_profile5 = 2131165329;
+			public const int nav_profile3 = 2131165329;
 			
 			// aapt resource value: 0x7f070092
-			public const int nav_profile6 = 2131165330;
+			public const int nav_profile4 = 2131165330;
 			
 			// aapt resource value: 0x7f070093
-			public const int nav_profile7 = 2131165331;
+			public const int nav_profile5 = 2131165331;
 			
 			// aapt resource value: 0x7f070094
-			public const int nav_profile8 = 2131165332;
+			public const int nav_profile6 = 2131165332;
+			
+			// aapt resource value: 0x7f070095
+			public const int nav_profile7 = 2131165333;
+			
+			// aapt resource value: 0x7f070096
+			public const int nav_profile8 = 2131165334;
 			
 			// aapt resource value: 0x7f07006c
 			public const int nav_view = 2131165292;
@@ -2292,6 +2298,9 @@ namespace NToolbox
 			// aapt resource value: 0x7f07004d
 			public const int textSpacerNoButtons = 2131165261;
 			
+			// aapt resource value: 0x7f07008b
+			public const int textView1 = 2131165323;
+			
 			// aapt resource value: 0x7f07007d
 			public const int time = 2131165309;
 			
@@ -2300,9 +2309,6 @@ namespace NToolbox
 			
 			// aapt resource value: 0x7f070048
 			public const int title_template = 2131165256;
-			
-			// aapt resource value: 0x7f07006a
-			public const int toolbar = 2131165290;
 			
 			// aapt resource value: 0x7f070032
 			public const int top = 2131165234;
@@ -2538,10 +2544,13 @@ namespace NToolbox
 			public const int view_debug = 2130903093;
 			
 			// aapt resource value: 0x7f030036
-			public const int view_monitor = 2130903094;
+			public const int view_disconnected = 2130903094;
 			
 			// aapt resource value: 0x7f030037
-			public const int view_profile = 2130903095;
+			public const int view_monitor = 2130903095;
+			
+			// aapt resource value: 0x7f030038
+			public const int view_profile = 2130903096;
 			
 			static Layout()
 			{

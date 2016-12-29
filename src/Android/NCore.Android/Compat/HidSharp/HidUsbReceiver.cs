@@ -6,17 +6,16 @@ using System.Collections.Generic;
 
 namespace NCore.USB
 {
-    [BroadcastReceiver(Enabled = true)]
-    [IntentFilter(new[] {
-        Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
-        Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached })]
-    [MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
+
+    [BroadcastReceiver(Enabled = false)]
+    //[IntentFilter(new[] {
+    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached,
+    //    Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached })]
+    //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
     //[MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceDetached, Resource = "@xml/usb_device_filter")]
     public class HidUsbReceiver : BroadcastReceiver
     {
         public const string ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
-
-        private const int VendorId = 0x0416;
 
         private UsbDeviceConnection mConnection;
         private UsbEndpoint mEndpointRead;
@@ -47,7 +46,7 @@ namespace NCore.USB
                         }
                         if (hasPermision)
                         {
-                            HidConnectorInstance.HidConnector.RefreshState();
+                            HidConnector.Instance.RefreshState();
                             return;
                         } 
                     }
@@ -55,13 +54,11 @@ namespace NCore.USB
             }
             if (intent.Action == UsbManager.ActionUsbDeviceAttached)
             {
-                HidConnectorInstance.HidConnector.RefreshState();
+                HidConnector.Instance.RefreshState();
             }
             if (intent.Action == UsbManager.ActionUsbDeviceDetached)
             {
-                HidConnectorInstance.HidConnector.RefreshState();
-                //var device = (UsbDevice)intent.GetParcelableExtra(UsbManager.ExtraDevice);
-                //_RaiseDeviceConnected(device, false);
+                HidConnector.Instance.RefreshState();
             }
           
         }

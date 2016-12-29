@@ -159,7 +159,12 @@ namespace NToolbox.Windows
 			}
 		}
 
-		private void PowerCurveChart_MouseDown(object sender, MouseEventArgs e)
+        private bool Equals(object tag, string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void PowerCurveChart_MouseDown(object sender, MouseEventArgs e)
 		{
 			m_isDragginPoint = true;
 		}

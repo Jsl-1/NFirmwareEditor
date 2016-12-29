@@ -89,17 +89,58 @@
     <Compile Include="..\NToolbox\Models\StartupMode.cs">
       <Link>Models\StartupMode.cs</Link>
     </Compile>
+    <Compile Include="..\NToolbox\Windows\ArcticFoxConfigurationWindow.cs">
+      <Link>Windows\ArcticFoxConfigurationWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\ArcticFoxConfigurationWindow.designer.cs">
+      <Link>Windows\ArcticFoxConfigurationWindow.designer.cs</Link>
+      <DependentUpon>ArcticFoxConfigurationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\DischargeProfileWindow.cs">
+      <Link>Windows\DischargeProfileWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\DischargeProfileWindow.designer.cs">
+      <Link>Windows\DischargeProfileWindow.designer.cs</Link>
+      <DependentUpon>DischargeProfileWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\PowerCurveProfileWindow.cs">
+      <Link>Windows\PowerCurveProfileWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\PowerCurveProfileWindow.designer.cs">
+      <Link>Windows\PowerCurveProfileWindow.designer.cs</Link>
+      <DependentUpon>PowerCurveProfileWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\ProfileTabContent.cs">
+      <Link>Windows\ProfileTabContent.cs</Link>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\ProfileTabContent.designer.cs">
+      <Link>Windows\ProfileTabContent.designer.cs</Link>
+      <DependentUpon>ProfileTabContent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\TFRProfileWindow.cs">
+      <Link>Windows\TFRProfileWindow.cs</Link>
+    </Compile>
+    <Compile Include="..\NToolbox\Windows\TFRProfileWindow.Designer.cs">
+      <Link>Windows\TFRProfileWindow.Designer.cs</Link>
+      <DependentUpon>TFRProfileWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConfigureViewFragment.cs" />
     <Compile Include="ControlViewFragment.cs" />
     <Compile Include="DebugViewFragment.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="MainMenuActionBarDrawerToggle.cs" />
+    <Compile Include="InitialViewFragment.cs" />
     <Compile Include="MonitorViewFragment.cs" />
+    <Compile Include="Properties.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\UsbDeviceExtensions.cs" />
+    <Compile Include="Windows\ArcticFoxConfigurationWindow.partial.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\NToolbox\Resources\new_configuration.afc">
+      <Link>Resources\raw\new_configuration.afc</Link>
+    </None>
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
@@ -119,6 +160,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\view_profile.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\view_disconnected.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -187,7 +231,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
-    <Folder Include="Windows\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportdesign">
@@ -198,6 +241,28 @@
       <Visible>False</Visible>
       <Version>24.2.1.0</Version>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\NToolbox\Windows\ArcticFoxConfigurationWindow.resx">
+      <Link>Windows\ArcticFoxConfigurationWindow.resx</Link>
+      <DependentUpon>ArcticFoxConfigurationWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NToolbox\Windows\DischargeProfileWindow.resx">
+      <Link>Windows\DischargeProfileWindow.resx</Link>
+      <DependentUpon>DischargeProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NToolbox\Windows\PowerCurveProfileWindow.resx">
+      <Link>Windows\PowerCurveProfileWindow.resx</Link>
+      <DependentUpon>PowerCurveProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NToolbox\Windows\ProfileTabContent.resx">
+      <Link>Windows\ProfileTabContent.resx</Link>
+      <DependentUpon>ProfileTabContent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\NToolbox\Windows\TFRProfileWindow.resx">
+      <Link>Windows\TFRProfileWindow.resx</Link>
+      <DependentUpon>TFRProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

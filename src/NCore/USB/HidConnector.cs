@@ -57,20 +57,12 @@ namespace NCore.USB
 
        
 
-        public HidConnector() : this(true)
+        public HidConnector()
         {
-           
-        }
-
-        public HidConnector(Boolean startTimer)
-        {
-            if (startTimer)
+            m_monitoringTimer = new Timer(state =>
             {
-                m_monitoringTimer = new Timer(state =>
-                {
-                    RefreshState();
-                });
-            }
+                RefreshState();
+            });
         }
 
         public void RefreshState()

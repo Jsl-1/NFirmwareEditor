@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android">
-  <group android:checkableBehavior="single">
+  <group>
     <item
       android:id="@+id/nav_action_reload_settings"
-      android:title="Reload Settings"/>   
+      android:title="Reload Settings"/>
+    <item
+     android:id="@+id/nav_action_restart_device"
+     android:title="Restart Device"/>
   </group>
 </menu>

@@ -18,6 +18,7 @@ using NToolbox.Models;
 using System.Globalization;
 using V7Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.Design.Widget;
+using NToolbox.Windows;
 
 namespace NToolbox
 {
@@ -30,6 +31,7 @@ namespace NToolbox
 
         private DrawerLayout mDrawerLayout;
         private NavigationView mNavigationView;
+        private FrameLayout mFrameContent;
         private Dictionary<int, Fragment> mFragmentCache = new Dictionary<int, Fragment>(); 
 
         private TextView mTxtDevice;
@@ -42,15 +44,15 @@ namespace NToolbox
         private int m_TxtConnectedStringId = Resource.String.text_disconnected;
        
         private HidUsbReceiver m_HidUsbReceiver;
+        private ArcticFoxConfigurationWindow m_WrapeprArcticFoxConfigurationWindow;
 
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);
+            base.OnCreate(bundle);          
 
-          
-
-            _InitializeComponents();
+            _InitializeComponents();           
             _InitializeUsb();
+            _InitializeNToolboxWrappers();
         }
 
         private void _InitializeComponents()
@@ -58,7 +60,7 @@ namespace NToolbox
             SetContentView(Resource.Layout.activity_main);
 
             //Toolbar
-            var toolbar = FindViewById<V7Toolbar>(Resource.Id.toolbar);
+            var toolbar = FindViewById<V7Toolbar>(Resource.Id.main_toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
@@ -74,6 +76,11 @@ namespace NToolbox
             mDrawerLayout.AddDrawerListener(actionbarDrawerToggle);
             actionbarDrawerToggle.SyncState();
 
+            //Initial Content
+            mFrameContent = FindViewById<FrameLayout>(Resource.Id.frame);
+            var ft = this.FragmentManager.BeginTransaction();
+            ft.Replace(Resource.Id.frame, new InitialViewFragment());
+            ft.Commit();
 
             //mChkConnected = FindViewById<CheckBox>(Resource.Id.chk_connected);
             //mChkConnected.Checked = m_IsConnected;
@@ -83,6 +90,11 @@ namespace NToolbox
 
             //mTxtDevice = FindViewById<TextView>(Resource.Id.txt_device);
             //mTxtFirmware= FindViewById<TextView>(Resource.Id.txt_firmware);
+        }
+
+        private void _InitializeNToolboxWrappers()
+        {
+            m_WrapeprArcticFoxConfigurationWindow = new ArcticFoxConfigurationWindow(this);
         }
 
         private void _InitializeUsb()
@@ -98,10 +110,15 @@ namespace NToolbox
 
             RegisterReceiver(m_HidUsbReceiver, filter);
 
-            HidConnectorInstance.HidConnector.DeviceConnected += HidConnector_DeviceConnected;
-            HidConnectorInstance.HidConnector.RefreshState();
+            HidConnector.Instance.DeviceConnected += HidConnector_DeviceConnected;
+            HidConnector.Instance.RefreshState();
+
+            //HidConnectorInstance.HidConnector.DeviceConnected += HidConnector_DeviceConnected;
+            //HidConnectorInstance.HidConnector.RefreshState();
 
         }
+
+    
 
         public bool OnNavigationItemSelected(IMenuItem menuItem)
         {
@@ -190,6 +207,9 @@ namespace NToolbox
                     else
                         mDrawerLayout.OpenDrawer(Android.Support.V4.View.GravityCompat.Start);
                     return true;
+                case Resource.Id.nav_action_restart_device:
+                    HidConnector.Instance.RestartDevice();
+                    return true;
             }
             return base.OnOptionsItemSelected(item);
         }
@@ -197,13 +217,22 @@ namespace NToolbox
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.action_menu, menu);
+            
             return true;
+        }
+
+        public override bool OnPrepareOptionsMenu(IMenu menu)
+        {
+
+            menu.FindItem(Resource.Id.nav_action_reload_settings).SetEnabled(m_IsConnected);
+            menu.FindItem(Resource.Id.nav_action_restart_device).SetEnabled(m_IsConnected);
+            return base.OnPrepareOptionsMenu(menu);
         }
 
         protected override void OnResume()
         {
             base.OnResume();
-            HidConnectorInstance.HidConnector.RefreshState();
+            HidConnector.Instance.RefreshState();
         }
 
         private void HidConnector_DeviceConnected(bool connected)
