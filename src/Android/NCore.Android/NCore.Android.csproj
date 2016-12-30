@@ -58,15 +58,6 @@
     <Compile Include="..\..\NCore\Safe.cs">
       <Link>Safe.cs</Link>
     </Compile>
-    <Compile Include="..\..\NCore\UI\BorderedPanel.cs">
-      <Link>UI\BorderedPanel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\NCore\UI\GroupPanel.cs">
-      <Link>UI\GroupPanel.cs</Link>
-    </Compile>
-    <Compile Include="..\..\NCore\UI\NamedItemContainer.cs">
-      <Link>UI\NamedItemContainer.cs</Link>
-    </Compile>
     <Compile Include="..\..\NCore\USB\HidConnector.cs">
       <Link>USB\HidConnector.cs</Link>
     </Compile>
@@ -76,90 +67,15 @@
     <Compile Include="..\..\NCore\USB\SimpleDataflash.cs">
       <Link>USB\SimpleDataflash.cs</Link>
     </Compile>
-    <Compile Include="Compat\IWrappable.cs" />
-    <Compile Include="Compat\System\Drawing\ContentAlignment.cs" />
-    <Compile Include="Compat\System\Drawing\FontStyle.cs" />
-    <Compile Include="Compat\System\Drawing\GraphicUnit.cs" />
-    <Compile Include="Compat\System\Drawing\SizeF.cs" />
-    <Compile Include="Compat\System\Windows\Forms\AnchorStyles.cs" />
-    <Compile Include="Compat\System\Windows\Forms\AutoScaleMode.cs" />
-    <Compile Include="Compat\System\Windows\Forms\BorderStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\CharacterCasing.cs" />
-    <Compile Include="Compat\System\Windows\Forms\CheckBox.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ComboBox.cs" />
-    <Compile Include="Compat\System\Windows\Forms\Button.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ComboBoxStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ContextMenu.cs" />
-    <Compile Include="Compat\System\Windows\Forms\Control.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ControlStyles.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\Axis.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\ChartColorPalette.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\ChartElementType.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\HitTestResult.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\SeriesCollection.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\ChartValueType.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\Chart.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\LabelAlignmentStyles.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\LabelOutsidePlotAreaStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\MarkerStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\Series.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\SeriesChartType.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DataVisualization\Charting\SmartLabelStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DockStyle.cs" />
-    <Compile Include="Compat\System\Drawing\Brush.cs" />
-    <Compile Include="Compat\System\Drawing\Graphics.cs" />
-    <Compile Include="Compat\System\Windows\Forms\FormBorderStyle.cs" />
-    <Compile Include="Compat\System\Windows\Forms\FormStartPosition.cs" />
-    <Compile Include="Compat\System\Windows\Forms\HorizontalAlignment.cs" />
-    <Compile Include="Compat\System\Windows\Forms\HScrollBar.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ImageLayout.cs" />
-    <Compile Include="Compat\System\Windows\Forms\MenuItemCollection.cs" />
-    <Compile Include="Compat\System\Windows\Forms\MessageBoxButtons.cs" />
-    <Compile Include="Compat\System\Windows\Forms\MouseButtons.cs" />
-    <Compile Include="Compat\System\Windows\Forms\MouseEventArgs.cs" />
-    <Compile Include="Compat\System\Windows\Forms\Padding.cs" />
-    <Compile Include="Compat\System\Drawing\PaddingConverter.cs" />
-    <Compile Include="Compat\System\Drawing\PaintEventArgs.cs" />
-    <Compile Include="Compat\System\Drawing\StringAlignment.cs" />
-    <Compile Include="Compat\System\Drawing\StringFormat.cs" />
-    <Compile Include="Compat\System\Drawing\TextRenderer.cs" />
-    <Compile Include="Compat\System\Windows\Forms\LinkLabelLinkClickedEventArgs.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ProgressChangedEventHandler.cs" />
-    <Compile Include="Compat\System\Windows\Forms\FileDialog.cs" />
-    <Compile Include="Compat\System\Drawing\Font.cs" />
-    <Compile Include="Compat\System\Windows\Forms\GroupBox.cs" />
-    <Compile Include="Compat\System\Windows\Forms\DialogResult.cs" />
-    <Compile Include="Compat\System\Windows\Forms\Label.cs" />
-    <Compile Include="Compat\System\Windows\Forms\Panel.cs" />
-    <Compile Include="Compat\System\Windows\Forms\PictureBox.cs" />
-    <Compile Include="Compat\System\Windows\Forms\PictureBoxSizeMode.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ScrollEventArgs.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ScrollEventType.cs" />
-    <Compile Include="Compat\System\Windows\Forms\ScrollOrientation.cs" />
-    <Compile Include="Compat\System\Windows\Forms\StatusStrip.cs" />
-    <Compile Include="Compat\System\Windows\Forms\TabControl.cs" />
-    <Compile Include="Compat\System\Windows\Forms\TabSizeMode.cs" />
-    <Compile Include="Compat\System\Windows\Forms\TextBox.cs" />
-    <Compile Include="Compat\System\Windows\Forms\UserControl.cs" />
-    <Compile Include="Compat\System\Windows\Forms\WindowsFormsUtils.cs" />
     <Compile Include="Compat\HidSharp\HidDeviceLoader.cs" />
     <Compile Include="Compat\HidSharp\HidHelper.cs" />
     <Compile Include="Compat\HidSharp\HidStream.cs" />
     <Compile Include="Compat\HidSharp\HidUsbReceiver.cs" />
     <Compile Include="Compat\JetBrain.cs" />
-    <Compile Include="Compat\Wrapable.cs" />
-    <Compile Include="InfoBox.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Compat\System\Windows\Forms\NumericUpDown.cs" />
-    <Compile Include="Compat\System\Windows\Forms\LinkLabel.cs" />
     <Compile Include="Trace.cs" />
-    <Compile Include="UI\MultiPanel.cs" />
-    <Compile Include="Compat\System\Drawing\Pen.cs" />
-    <Compile Include="Compat\System\Drawing\SolidBrush.cs" />
-    <Compile Include="UI\Test.cs" />
-    <Compile Include="UI\WindowBase.cs" />
     <Compile Include="USB\HidConnectorInstance.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -168,7 +84,9 @@
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="UI\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

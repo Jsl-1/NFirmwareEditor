@@ -18,7 +18,7 @@ using NToolbox.Models;
 using System.Globalization;
 using V7Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.Design.Widget;
-using NToolbox.Windows;
+using NToolbox.ViewModels;
 
 namespace NToolbox
 {
@@ -48,8 +48,7 @@ namespace NToolbox
         private int m_TxtConnectedStringId = Resource.String.text_disconnected;
        
         private HidUsbReceiver m_HidUsbReceiver;
-        private ArcticFoxConfigurationWindow m_WrapperArcticFoxConfigurationWindow;
-        private ArcticFoxConfiguration mConfiguration;
+        private ArcticFoxConfigurationViewModel m_ViewModel;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -99,8 +98,8 @@ namespace NToolbox
 
         private void _InitializeNToolboxWrappers()
         {
-            m_WrapperArcticFoxConfigurationWindow = new ArcticFoxConfigurationWindow(this);
-            m_InitialViewFragment.FirmwareMinVersion = m_WrapperArcticFoxConfigurationWindow.MinimumBuildNumber;
+            m_ViewModel = new ArcticFoxConfigurationViewModel();
+            m_InitialViewFragment.FirmwareMinVersion = m_ViewModel.MinimumBuildNumber;
         }
 
         private void _InitializeUsb()
@@ -255,37 +254,36 @@ namespace NToolbox
             HidConnector.Instance.RefreshState();
         }
 
-        private void _SetDataFromArticFoxConfiguration(ArcticFoxConfiguration data)
+        private void _SetDataFromArticFoxConfiguration()
         {
-            m_GeneralViewFragment.DeviceName = HidDeviceInfo.Get(data.Info.ProductId).Name;
-            m_GeneralViewFragment.Build = data.Info.FirmwareBuild.ToString();
-            m_GeneralViewFragment.FwVer = (data.Info.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
-            m_GeneralViewFragment.HwVer = (data.Info.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
+            m_GeneralViewFragment.DeviceName = m_ViewModel.DeviceName;
+            m_GeneralViewFragment.Build = m_ViewModel.Build;
+            m_GeneralViewFragment.FwVer = m_ViewModel.FwVer;
+            m_GeneralViewFragment.HwVer = m_ViewModel.HwVer;
         }
 
-        private void _SetDataToArticFoxConfiguration(ArcticFoxConfiguration data)
+        private void _SetDataToArticFoxConfiguration()
         {
             
         }
 
         private void RefreshFromDevice()
         {
-            mConfiguration = _ReadConfiguration();
-            _SetDataFromArticFoxConfiguration(mConfiguration);
+            m_ViewModel.ReadConfigurationFromDevice();
+            _SetDataFromArticFoxConfiguration();
 
         }
 
         private void UploadToDevice()
-        {
-            _SetDataToArticFoxConfiguration(mConfiguration);
-            var data = BinaryStructure.Write(mConfiguration);
+        {  
             try
             {
-                HidConnector.Instance.WriteConfiguration(data, null);
+                _SetDataToArticFoxConfiguration();
+                m_ViewModel.WriteConfigurationToDevice();
             }
             catch (TimeoutException)
             {
-                InfoBox.Show("Unable to write configuration.");
+                Toast.MakeText(Application.Context,"Unable to write configuration.", ToastLength.Long);
             }
 
         }

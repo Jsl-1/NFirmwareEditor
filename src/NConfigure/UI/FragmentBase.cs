@@ -10,21 +10,19 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 
-using Fragment = Android.App.Fragment;
-
-namespace NToolbox
+namespace NToolbox.UI
 {
-    public class MonitorViewFragment : Fragment
-    {
-
-        private View m_View;
+    public abstract class FragmentBase : Fragment
+    {       
+        public abstract Int32 LayoutId { get; }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            if (m_View == null)
-                m_View = inflater.Inflate(Resource.Layout.view_monitor, container, false);
+            var view = inflater.Inflate(LayoutId, container, false);
 
-            return m_View;
+
+
+            return view;
         }
     }
 }

@@ -12,6 +12,7 @@ using Android.Widget;
 using System.IO;
 using Android.Media;
 using Android.Graphics.Drawables;
+using System.Resources;
 
 namespace NToolbox.Properties
 {
@@ -21,15 +22,14 @@ namespace NToolbox.Properties
         {
             get
             {
-                //using (var stream = Application.Context.Resources.OpenRawResource(Resource.Raw.new_configuration))
-                //using(var ms = new MemoryStream())
-                //{
-                //    stream.CopyTo(ms);
-                //    ms.Seek(0, SeekOrigin.Begin);
-                //    return ms.ToArray();
-                //}
+                using (var stream = typeof(Resources).Assembly.GetManifestResourceStream("NToolbox.Resources.raw.new_configuration.afc"))
+                using (var ms = new MemoryStream())
+                {
 
-                return new byte[0];
+                    stream.CopyTo(ms);
+                    ms.Seek(0, SeekOrigin.Begin);
+                    return ms.ToArray();
+                }
             }
         }
 
