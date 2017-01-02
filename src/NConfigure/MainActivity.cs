@@ -19,6 +19,7 @@ using System.Globalization;
 using V7Toolbar = Android.Support.V7.Widget.Toolbar;
 using Android.Support.Design.Widget;
 using NToolbox.ViewModels;
+using NToolbox.UI;
 
 namespace NToolbox
 {
@@ -32,12 +33,10 @@ namespace NToolbox
         private DrawerLayout mDrawerLayout;
         private NavigationView mNavigationView;
         private FrameLayout mFrameContent;
-        private Dictionary<int, Fragment> mFragmentCache = new Dictionary<int, Fragment>(); 
 
-
-        private Fragment m_CurrentFragment;
-        private InitialViewFragment m_InitialViewFragment;
-        private GeneralViewFragment m_GeneralViewFragment;
+        private string m_CurrentFragmentTypeName;
+        private Int32 m_CurrentFragmentId;
+        private string m_CurrentFragmentTag;
 
         private Boolean m_IsConnected;
         private Boolean m_IsFirstDeviceConnection = true;
@@ -73,20 +72,58 @@ namespace NToolbox
             mDrawerLayout.AddDrawerListener(actionbarDrawerToggle);
             actionbarDrawerToggle.SyncState();
 
-            //Initial Content
-            m_GeneralViewFragment = new GeneralViewFragment();
+            //Initial Content         
             mFrameContent = FindViewById<FrameLayout>(Resource.Id.frame);
-            m_InitialViewFragment = new InitialViewFragment();
-            _ReplaceFrameContent(m_InitialViewFragment);
-
+            _restoreSelectedFrame();
         }
 
-        private void _ReplaceFrameContent(Fragment fragment)
+        private void _restoreSelectedFrame()
         {
-            var ft = this.FragmentManager.BeginTransaction();
-            ft.Replace(Resource.Id.frame, fragment);
-            ft.Commit();
-            m_CurrentFragment = fragment;
+            if (string.IsNullOrWhiteSpace(m_CurrentFragmentTypeName))
+            {
+                _SetFrame<InitialViewFragment>(InitialViewFragment.LayoutResourceId);
+            }
+            else
+            {
+                _SetFrame(m_CurrentFragmentTypeName, m_CurrentFragmentId, m_CurrentFragmentTag);
+            }
+        }
+
+        private void _SetFrame(String fragmentTypeName, Int32 fragmentId, string tag = null)
+        {
+            FragmentBase fragment = null;
+            if (!String.IsNullOrWhiteSpace(tag))
+            {
+                fragment = FragmentManager.FindFragmentByTag(tag) as FragmentBase;
+            }
+            else
+            {
+                fragment = (FragmentBase)FragmentManager.FindFragmentById(fragmentId);
+            }
+            if (fragment == null)
+            {
+                var type = Type.GetType(fragmentTypeName);
+                fragment = (FragmentBase)Activator.CreateInstance(type);
+                var ft = this.FragmentManager.BeginTransaction();
+                if (!String.IsNullOrWhiteSpace(tag))
+                {
+                    ft.Replace(Resource.Id.frame, fragment, tag);
+                }
+                else
+                {
+                    ft.Replace(Resource.Id.frame, fragment);
+                }               
+                ft.Commit();
+                m_CurrentFragmentId = fragmentId;
+                m_CurrentFragmentTypeName = fragmentTypeName;
+                m_CurrentFragmentTag = tag;
+            }
+        }
+
+        private void _SetFrame<T>(Int32 fragmentId, string tag = null)
+            where T : FragmentBase, new()
+        {
+            _SetFrame(typeof(T).FullName, fragmentId, tag);
         }
 
     
@@ -121,68 +158,53 @@ namespace NToolbox
             //Closing drawer on item click
             mDrawerLayout.CloseDrawers();
 
-            //Declare fragment to display
-            Fragment fragment = null;
-
-            if (!mFragmentCache.TryGetValue(menuItem.ItemId, out fragment))
-            {
 
                 //Check to see which item was being clicked and perform appropriate action
-                switch (menuItem.ItemId)
-                {
-                    case Resource.Id.nav_general:
-                        fragment = m_GeneralViewFragment;
-                        break;
-                    //case Resource.Id.nav_profile1:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile2:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile3:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile4:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile5:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile6:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile7:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_profile8:
-                    //    fragment = new ProfileViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_control:
-                    //    fragment = new ControlViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_monitor:
-                    //    fragment = new MonitorViewFragment();
-                    //    break;
-                    //case Resource.Id.nav_debug:
-                    //    fragment = new DebugViewFragment();
-                    //    break;
-                    default:
-                        Toast.MakeText(ApplicationContext, "Invalid Menu Item", 0).Show();
-                        return false;
-                }
-
-                mFragmentCache.Add(menuItem.ItemId, fragment);
+            switch (menuItem.ItemId)
+            {
+                case Resource.Id.nav_general:
+                    _SetFrame<GeneralViewFragment>(GeneralViewFragment.LayoutResourceId);
+                    break;
+                //case Resource.Id.nav_profile1:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile2:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile3:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile4:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile5:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile6:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile7:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_profile8:
+                //    fragment = new ProfileViewFragment();
+                //    break;
+                //case Resource.Id.nav_control:
+                //    fragment = new ControlViewFragment();
+                //    break;
+                //case Resource.Id.nav_monitor:
+                //    fragment = new MonitorViewFragment();
+                //    break;
+                //case Resource.Id.nav_debug:
+                //    fragment = new DebugViewFragment();
+                //    break;
+                default:
+                    Toast.MakeText(ApplicationContext, "Invalid Menu Item", 0).Show();
+                    return false;
             }
 
-            if (fragment != null)
-            {
-                _ReplaceFrameContent(fragment);
-            }
-            else
-            {
-                Toast.MakeText(ApplicationContext, "Error creating view", 0).Show();
-                return false;
-            }
+               
+                 
             return true;
         }
 
@@ -242,6 +264,25 @@ namespace NToolbox
             HidConnector.Instance.RefreshState();
         }
 
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+            outState.PutString("m_CurrentFragmentTypeName", m_CurrentFragmentTypeName);
+            outState.PutString("m_CurrentFragmentTag", m_CurrentFragmentTag);
+            outState.PutInt("m_CurrentFragmentId", m_CurrentFragmentId);
+        }
+
+        protected override void OnRestoreInstanceState(Bundle savedInstanceState)
+        {
+            base.OnRestoreInstanceState(savedInstanceState);
+
+            m_CurrentFragmentTypeName   = savedInstanceState.GetString("m_CurrentFragmentTypeName");
+            m_CurrentFragmentTag        = savedInstanceState.GetString("m_CurrentFragmentTag");
+            m_CurrentFragmentId         = savedInstanceState.GetInt("m_CurrentFragmentId");
+
+            _restoreSelectedFrame();
+        }
+
         //private void _SetDataFromArticFoxConfiguration()
         //{
         //    m_GeneralViewFragment.DeviceName = m_ViewModel.DeviceName;
@@ -298,9 +339,8 @@ namespace NToolbox
 
                     RefreshFromDevice();
 
-                    if (m_CurrentFragment == m_InitialViewFragment)
-                        _ReplaceFrameContent(m_GeneralViewFragment);
-
+                    if (m_CurrentFragmentId == 0 || m_CurrentFragmentId == InitialViewFragment.LayoutResourceId)
+                        _SetFrame<GeneralViewFragment>(GeneralViewFragment.LayoutResourceId);
                    
 
                 }
