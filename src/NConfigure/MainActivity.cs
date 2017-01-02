@@ -34,10 +34,6 @@ namespace NToolbox
         private FrameLayout mFrameContent;
         private Dictionary<int, Fragment> mFragmentCache = new Dictionary<int, Fragment>(); 
 
-        private TextView mTxtDevice;
-        private TextView mTxtFirmware;
-        private CheckBox mChkConnected;
-        private TextView mTxtConnected;
 
         private Fragment m_CurrentFragment;
         private InitialViewFragment m_InitialViewFragment;
@@ -45,18 +41,15 @@ namespace NToolbox
 
         private Boolean m_IsConnected;
         private Boolean m_IsFirstDeviceConnection = true;
-        private int m_TxtConnectedStringId = Resource.String.text_disconnected;
        
         private HidUsbReceiver m_HidUsbReceiver;
-        private ArcticFoxConfigurationViewModel m_ViewModel;
 
         protected override void OnCreate(Bundle bundle)
         {
-            base.OnCreate(bundle);          
-
+            base.OnCreate(bundle);
             _InitializeComponents();           
             _InitializeUsb();
-            _InitializeNToolboxWrappers();
+            
         }
 
         private void _InitializeComponents()
@@ -96,12 +89,7 @@ namespace NToolbox
             m_CurrentFragment = fragment;
         }
 
-        private void _InitializeNToolboxWrappers()
-        {
-            m_ViewModel = new ArcticFoxConfigurationViewModel();
-            m_InitialViewFragment.FirmwareMinVersion = m_ViewModel.MinimumBuildNumber;
-        }
-
+    
         private void _InitializeUsb()
         {
             IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
@@ -254,13 +242,13 @@ namespace NToolbox
             HidConnector.Instance.RefreshState();
         }
 
-        private void _SetDataFromArticFoxConfiguration()
-        {
-            m_GeneralViewFragment.DeviceName = m_ViewModel.DeviceName;
-            m_GeneralViewFragment.Build = m_ViewModel.Build;
-            m_GeneralViewFragment.FwVer = m_ViewModel.FwVer;
-            m_GeneralViewFragment.HwVer = m_ViewModel.HwVer;
-        }
+        //private void _SetDataFromArticFoxConfiguration()
+        //{
+        //    m_GeneralViewFragment.DeviceName = m_ViewModel.DeviceName;
+        //    m_GeneralViewFragment.Build = m_ViewModel.Build;
+        //    m_GeneralViewFragment.FwVer = m_ViewModel.FwVer;
+        //    m_GeneralViewFragment.HwVer = m_ViewModel.HwVer;
+        //}
 
         private void _SetDataToArticFoxConfiguration()
         {
@@ -269,8 +257,8 @@ namespace NToolbox
 
         private void RefreshFromDevice()
         {
-            m_ViewModel.ReadConfigurationFromDevice();
-            _SetDataFromArticFoxConfiguration();
+            ArcticFoxConfigurationViewModel.Instance.ReadConfigurationFromDevice();
+            //_SetDataFromArticFoxConfiguration();
 
         }
 
@@ -279,7 +267,7 @@ namespace NToolbox
             try
             {
                 _SetDataToArticFoxConfiguration();
-                m_ViewModel.WriteConfigurationToDevice();
+                ArcticFoxConfigurationViewModel.Instance.WriteConfigurationToDevice();
             }
             catch (TimeoutException)
             {

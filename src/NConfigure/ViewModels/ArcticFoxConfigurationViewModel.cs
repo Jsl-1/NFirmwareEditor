@@ -20,8 +20,12 @@ namespace NToolbox.ViewModels
 
 
 
-    public  class ArcticFoxConfigurationViewModel
+    public class ArcticFoxConfigurationViewModel
     {
+        public static ArcticFoxConfigurationViewModel Instance { get; } = new ArcticFoxConfigurationViewModel();
+
+
+
         private const ushort MaxPower = 2500;
         private const byte MaxBatteries = 3;
         private const int MinimumSupportedBuildNumber = 161223;

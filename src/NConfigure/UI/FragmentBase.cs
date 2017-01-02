@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using NToolbox.ViewModels;
 
 namespace NToolbox.UI
 {
@@ -16,13 +17,72 @@ namespace NToolbox.UI
     {       
         public abstract Int32 LayoutId { get; }
 
+        private View m_View;
+        protected View View
+        {
+            get
+            {
+                return m_View;
+            }
+        }
+
+        protected ArcticFoxConfigurationViewModel ViewModel
+        {
+            get
+            {
+                return ArcticFoxConfigurationViewModel.Instance;
+            }
+        }
+
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+        }
+
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
-            var view = inflater.Inflate(LayoutId, container, false);
 
+            m_View = inflater.Inflate(LayoutId, container, false);
+            InitializeControls();
+            SetValuesToControls();
 
+            return m_View;
+        }
 
-            return view;
+        public override void OnAttach(Context context)
+        {
+            base.OnAttach(context);
+            if (m_View != null)
+            {
+                SetValuesToControls();
+            }
+        }
+
+        public override void OnDetach()
+        {
+            base.OnDetach();
+        }
+
+        public override void OnActivityCreated(Bundle savedInstanceState)
+        {
+            base.OnActivityCreated(savedInstanceState);
+            if (m_View != null)
+            {
+                SetValuesToControls();
+            }
+        }
+
+        protected abstract void InitializeControls();
+
+        protected abstract void SetValuesToControls();
+
+        public override void OnResume()
+        {
+            base.OnResume();
+            if (m_View != null)
+            {
+                SetValuesToControls();
+            }
         }
     }
 }

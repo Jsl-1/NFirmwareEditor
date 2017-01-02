@@ -11,38 +11,33 @@ using Android.Views;
 using Android.Widget;
 
 using Fragment = Android.App.Fragment;
+using NToolbox.UI;
 
 namespace NToolbox
 {
-    public class InitialViewFragment : Fragment
+    public class InitialViewFragment : FragmentBase
     {
+        public const Int32 LayoutResourceId = Resource.Layout.view_welcome;
 
-        private View m_View;
         private TextView m_TxtMinVersion;
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override int LayoutId
         {
-            if (m_View == null)
+            get
             {
-                m_View = inflater.Inflate(Resource.Layout.view_welcome, container, false);
-                m_TxtMinVersion = m_View.FindViewById<TextView>(Resource.Id.txt_welcome_version);
-                m_TxtMinVersion.Text = FirmwareMinVersion;
+                return LayoutResourceId;
             }
-
-            return m_View;
         }
 
-        private string m_FirmwareMinVersion;
-        public String FirmwareMinVersion
+        protected override void InitializeControls()
         {
-            get { return m_FirmwareMinVersion;  }
-            set {
-                m_FirmwareMinVersion = value;
-                if (m_TxtMinVersion != null)
-                    m_TxtMinVersion.Text = value;
-            }
+            m_TxtMinVersion = View.FindViewById<TextView>(Resource.Id.txt_welcome_version);
         }
 
-
+        protected override void SetValuesToControls()
+        {
+            if(m_TxtMinVersion != null)
+                m_TxtMinVersion.Text = ViewModel.MinimumBuildNumber;
+        }      
     }
 }

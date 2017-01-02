@@ -74,7 +74,4 @@
         android:layout_below="@id/view_general_devicename"
         android:layout_toRightOf="@id/view_general_hw_ver_label"
         android:padding="5dp" />
-
-
-  
 </RelativeLayout>
