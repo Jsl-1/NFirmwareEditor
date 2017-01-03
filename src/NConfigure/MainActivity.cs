@@ -63,7 +63,7 @@ namespace NToolbox
            
 
             //Toolbar
-            var toolbar = FindViewById<V7Toolbar>(Resource.Id.main_toolbar);
+            var toolbar = FindViewById<V7Toolbar>(Resource.Id.toolbar);
             SetSupportActionBar(toolbar);
             SupportActionBar.SetDisplayHomeAsUpEnabled(true);
             SupportActionBar.SetDisplayShowTitleEnabled(false);
@@ -76,7 +76,7 @@ namespace NToolbox
 
 
             var headerView = mNavigationView.GetHeaderView(0);
-          
+
             m_txtDeviceName = headerView.FindViewById<TextView>(Resource.Id.header_devicename);
             m_txtFwVer = headerView.FindViewById<TextView>(Resource.Id.header_fw_ver);
             m_txtBuild = headerView.FindViewById<TextView>(Resource.Id.header_build);
@@ -84,12 +84,12 @@ namespace NToolbox
 
 
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            var actionbarDrawerToggle = new MainMenuActionBarDrawerToggle(this, mDrawerLayout, toolbar, Resource.String.drawer_open, Resource.String.drawer_close);
+            var actionbarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, Resource.String.drawer_open, Resource.String.drawer_close);
             mDrawerLayout.AddDrawerListener(actionbarDrawerToggle);
             actionbarDrawerToggle.SyncState();
 
             //Initial Content         
-            mFrameContent = FindViewById<FrameLayout>(Resource.Id.frame);
+            mFrameContent = FindViewById<FrameLayout>(Resource.Id.content_main);
             _restoreSelectedFrame();
         }
 
@@ -123,15 +123,15 @@ namespace NToolbox
                 var ft = this.FragmentManager.BeginTransaction();
                 if (!String.IsNullOrWhiteSpace(tag))
                 {
-                    ft.Replace(Resource.Id.frame, fragment, tag);
+                    ft.Replace(Resource.Id.content_main, fragment, tag);
                 }
                 else if(fragmentId == -1)
                 {
-                    ft.Replace(Resource.Id.frame, fragment);
+                    ft.Replace(Resource.Id.content_main, fragment);
                 }     
                 else
                 {
-                    ft.Replace(Resource.Id.frame, fragment);
+                    ft.Replace(Resource.Id.content_main, fragment);
                 }          
                 ft.Commit();
                 m_CurrentFragmentId = fragmentId;
@@ -175,9 +175,7 @@ namespace NToolbox
             //if (menuItem.IsChecked) menuItem.SetChecked(false);
             //else menuItem.SetChecked(true);
 
-            //Closing drawer on item click
-            mDrawerLayout.CloseDrawers();
-
+          
 
                 //Check to see which item was being clicked and perform appropriate action
             switch (menuItem.ItemId)
@@ -223,8 +221,9 @@ namespace NToolbox
                     return false;
             }
 
-               
-                 
+            //Closing drawer on item click
+            mDrawerLayout.CloseDrawer(GravityCompat.Start);
+
             return true;
         }
 

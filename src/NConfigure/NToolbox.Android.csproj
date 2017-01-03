@@ -131,26 +131,10 @@
     </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\nav_header_main.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\layout\view_welcome.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\view_general.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-    <AndroidResource Include="Resources\layout\number_pref.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_main.axml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\Strings.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -183,9 +167,6 @@
     <AndroidResource Include="Resources\values\base-strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\template-dimens.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="..\NToolbox\Resources\arctic_fox_logo.png">
       <Link>Resources\drawable\arctic_fox_logo.png</Link>
     </AndroidResource>
@@ -196,17 +177,9 @@
     </AndroidResource>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\menu\main_menu.xml">
+    <AndroidResource Include="Resources\menu\activity_main_drawer.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\Styles.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
-  </ItemGroup>
-  <ItemGroup>
-    <AndroidResource Include="Resources\values\Colors.xml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\menu\action_menu.xml" />
@@ -233,10 +206,42 @@
     <AndroidResource Include="Resources\xml\preferences_profile_detail.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\Dimens.xml" />
+    <AndroidResource Include="Resources\drawable\side_nav_bar.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\side_nav_bar.xml" />
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\values\colors.xml">
+      <Link>Resources\values\colors.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\values\strings.xml">
+      <Link>Resources\values\strings.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\values\dimens.xml">
+      <Link>Resources\values\dimens.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\values\styles.xml">
+      <Link>Resources\values\styles.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\layout\content_main.xml">
+      <Link>Resources\layout\content_main.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\layout\activity_main.xml">
+      <Link>Resources\layout\activity_main.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\layout\nav_header_main.xml">
+      <Link>Resources\layout\nav_header_main.xml</Link>
+    </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
