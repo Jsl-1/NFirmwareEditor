@@ -33,6 +33,9 @@ namespace NToolbox.UI
         {
             base.OnCreate(savedInstanceState);
 
+            if(Tag != null)
+                PreferenceManager.SharedPreferencesName = String.Format("{0}", Tag);
+
             this.AddPreferencesFromResource(PreferenceId);
 
             _InitSumary(PreferenceScreen);

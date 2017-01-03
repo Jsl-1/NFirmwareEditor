@@ -319,12 +319,20 @@ namespace NToolbox
         {
             ArcticFoxConfigurationViewModel.Instance.ReadConfigurationFromDevice();
 
+
+
             m_txtDeviceName.Text = ArcticFoxConfigurationViewModel.Instance.DeviceName;
             m_txtFwVer.Text = ArcticFoxConfigurationViewModel.Instance.FwVer;
             m_txtBuild.Text = ArcticFoxConfigurationViewModel.Instance.Build;
             m_txtHwVer.Text = ArcticFoxConfigurationViewModel.Instance.HwVer;
 
+
+            //var preference = this.ApplicationContext.GetSharedPreferences("")
+
+
             //_SetDataFromArticFoxConfiguration();
+
+
 
         }
 
