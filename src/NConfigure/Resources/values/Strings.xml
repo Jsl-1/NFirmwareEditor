@@ -11,6 +11,49 @@
 
     <string name="format_device_name">Restart Device</string>
     <string name="format_firmware_version">FW Ver : {0} - Build : {1} - HW Ver : {2}</string>
-  
-  
+
+
+    <string-array name="pref_profiledetail_preheattypes_titles">
+      <item>Absolute (W)</item>
+      <item>Relative (%)</item>
+      <item>Curve</item>
+    </string-array>
+    <string-array name="pref_profiledetail_preheattypes_values">
+      <item>Watts</item>
+      <item>Percents</item>
+      <item>Curve</item>
+    </string-array>
+
+    <string-array name="pref_profiledetail_preheatcurves_titles">
+      <item>Curve 1</item>
+      <item>Curve 2</item>
+      <item>Curve 3</item>
+    </string-array>
+    <string-array name="pref_profiledetail_preheatcurves_values">
+      <item>0</item>
+      <item>1</item>
+      <item>2</item>
+    </string-array>
+
+
+    <string-array name="pref_profiledetail_powermode_titles">
+      <item>Power</item>
+      <item>Temp. Control</item>
+    </string-array>
+    <string-array name="pref_profiledetail_powermode_values">
+      <item>0</item>
+      <item>1</item>
+    </string-array>
+
+    <string-array name="list_preference_entries">
+      <item>Entry 1</item>
+      <item>Entry 2</item>
+      <item>Entry 3</item>
+    </string-array>
+
+    <string-array name="list_preference_entry_values">
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+    </string-array>
 </resources>

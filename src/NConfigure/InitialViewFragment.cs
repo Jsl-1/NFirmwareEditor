@@ -31,7 +31,7 @@ namespace NToolbox
 
         protected override void InitializeControls()
         {
-            m_TxtMinVersion = View.FindViewById<TextView>(Resource.Id.txt_welcome_version);
+            m_TxtMinVersion = m_View.FindViewById<TextView>(Resource.Id.txt_welcome_version);
         }
 
         protected override void SetValuesToControls()

@@ -91,10 +91,10 @@ namespace NToolbox
 
         private void _SetFrame(String fragmentTypeName, Int32 fragmentId, string tag = null)
         {
-            FragmentBase fragment = null;
+            Fragment fragment = null;
             if (!String.IsNullOrWhiteSpace(tag))
             {
-                fragment = FragmentManager.FindFragmentByTag(tag) as FragmentBase;
+                fragment = FragmentManager.FindFragmentByTag(tag) as Fragment;
             }
             else
             {
@@ -103,16 +103,20 @@ namespace NToolbox
             if (fragment == null)
             {
                 var type = Type.GetType(fragmentTypeName);
-                fragment = (FragmentBase)Activator.CreateInstance(type);
+                fragment = (Fragment)Activator.CreateInstance(type);
                 var ft = this.FragmentManager.BeginTransaction();
                 if (!String.IsNullOrWhiteSpace(tag))
                 {
                     ft.Replace(Resource.Id.frame, fragment, tag);
                 }
+                else if(fragmentId == -1)
+                {
+                    ft.Replace(Resource.Id.frame, fragment);
+                }     
                 else
                 {
                     ft.Replace(Resource.Id.frame, fragment);
-                }               
+                }          
                 ft.Commit();
                 m_CurrentFragmentId = fragmentId;
                 m_CurrentFragmentTypeName = fragmentTypeName;
@@ -121,12 +125,12 @@ namespace NToolbox
         }
 
         private void _SetFrame<T>(Int32 fragmentId, string tag = null)
-            where T : FragmentBase, new()
+            where T : Fragment, new()
         {
             _SetFrame(typeof(T).FullName, fragmentId, tag);
         }
 
-    
+
         private void _InitializeUsb()
         {
             IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
@@ -165,35 +169,35 @@ namespace NToolbox
                 case Resource.Id.nav_general:
                     _SetFrame<GeneralViewFragment>(GeneralViewFragment.LayoutResourceId);
                     break;
-                //case Resource.Id.nav_profile1:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile2:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile3:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile4:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile5:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile6:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile7:
-                //    fragment = new ProfileViewFragment();
-                //    break;
-                //case Resource.Id.nav_profile8:
-                //    fragment = new ProfileViewFragment();
-                //    break;
+                case Resource.Id.nav_profile1:
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile1.ToString());
+                    break;
+                case Resource.Id.nav_profile2:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile2.ToString());
+                    break;
+                case Resource.Id.nav_profile3:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile3.ToString());
+                    break;
+                case Resource.Id.nav_profile4:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile4.ToString());
+                    break;
+                case Resource.Id.nav_profile5:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile5.ToString());
+                    break;
+                case Resource.Id.nav_profile6:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile6.ToString());
+                    break;
+                case Resource.Id.nav_profile7:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile7.ToString());
+                    break;
+                case Resource.Id.nav_profile8:
+                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile8.ToString());
+                    break;
                 //case Resource.Id.nav_control:
-                //    fragment = new ControlViewFragment();
+                //    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, "Profile1");
                 //    break;
                 //case Resource.Id.nav_monitor:
-                //    fragment = new MonitorViewFragment();
+                //    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, "Profile1");
                 //    break;
                 //case Resource.Id.nav_debug:
                 //    fragment = new DebugViewFragment();

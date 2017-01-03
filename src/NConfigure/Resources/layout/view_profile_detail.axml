@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/view_profile_detail_name_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:text="[ProfileName]"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="text"
+            android:id="@+id/view_profile_detail_name" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+         android:id="@+id/view_profile_detail_power_wrapper"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+      <EditText
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:singleLine="true"
+          android:inputType="numberDecimal"
+          android:hint="Power"
+          android:id="@+id/view_profile_detail_power" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+       android:id="@+id/view_profile_detail_preheattype_wrapper"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/view_profile_detail_preheattype" />
+    </android.support.design.widget.TextInputLayout>
+  <android.support.design.widget.TextInputLayout
+   android:id="@+id/view_profile_detail_preheatpower_wrapper"
+   android:layout_width="match_parent"
+   android:layout_height="wrap_content">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:inputType="numberDecimal"
+        android:hint="Power"
+        android:id="@+id/view_profile_detail_preheatpower" />
+  </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+     android:id="@+id/view_profile_detail_preheatcurve_wrapper"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content">
+      <Spinner
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/view_profile_detail_preheatcurve" />
+    </android.support.design.widget.TextInputLayout>
+  
+</LinearLayout>

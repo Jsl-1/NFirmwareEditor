@@ -1,0 +1,101 @@
+﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="prefs_profiledetail_isactive"
+      android:summary="Activate this option to set as active profile"
+      android:title="Set as active profile" />
+
+  <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+  <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+  <EditTextPreference
+      android:defaultValue="[Profile Name]"
+      android:inputType="text"
+      android:key="pref_profiledetail_name"
+      android:maxLines="1"
+      android:selectAllOnFocus="true"
+      android:singleLine="true"
+      android:title="Profile Name" />
+
+  <PreferenceCategory android:title="Power">
+    <ListPreference
+        android:defaultValue="0"
+        android:title="Power Mode"
+        android:entries="@array/pref_profiledetail_powermode_titles"
+        android:entryValues="@array/pref_profiledetail_powermode_values"
+        android:key="pref_profiledetail_powermode" />
+    <EditTextPreference
+        android:defaultValue="0"
+        android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Power (W)"
+        android:key="pref_profiledetail_power" />
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Temperature Control">
+    <ListPreference
+        android:defaultValue="1"
+        android:title="Coil Material"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_entry_values"
+        android:key="pref_profiledetail_material" />
+    <EditTextPreference
+        android:defaultValue="0"
+        android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="TCR"
+        android:key="pref_profiledetail_tcr" />
+    <EditTextPreference
+        android:defaultValue="0"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Resistance"
+        android:inputType="numberDecimal"
+        android:key="pref_profiledetail_resistance" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Resistance locked"
+        android:key="pref_profiledetail_resistance_locked" />
+    <EditTextPreference
+        android:defaultValue="0"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Temperature"
+        android:inputType="number"
+        android:key="pref_profiledetail_temperature" />
+    <ListPreference
+        android:defaultValue="1"
+        android:title="Temperature Unit"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_entry_values"
+        android:key="pref_profiledetail_material" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:title="Temperature Dominant"
+        android:key="pref_profiledetail_tdom" />
+  </PreferenceCategory>
+  <PreferenceCategory android:title="Preheat">
+    <ListPreference
+        android:defaultValue="Watts"
+        android:title="Preheat Type"
+        android:entries="@array/pref_profiledetail_preheattypes_titles"
+        android:entryValues="@array/pref_profiledetail_preheattypes_values"
+        android:key="list_preference_1" />
+
+    <EditTextPreference
+        android:defaultValue="0"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="Power (W)"
+        android:inputType="number"
+        android:key="pref_profiledetail_prehitpower" />
+
+    <ListPreference
+        android:defaultValue="0"
+        android:title="Preheat Curve"
+        android:entries="@array/pref_profiledetail_preheatcurves_titles"
+        android:entryValues="@array/pref_profiledetail_preheatcurves_values"
+        android:key="pref_profiledetail_prehitcurve" />
+  </PreferenceCategory>
+</PreferenceScreen>

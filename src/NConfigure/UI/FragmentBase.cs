@@ -17,14 +17,8 @@ namespace NToolbox.UI
     {       
         public abstract Int32 LayoutId { get; }
 
-        private View m_View;
-        protected View View
-        {
-            get
-            {
-                return m_View;
-            }
-        }
+        protected View m_View;
+
 
         protected ArcticFoxConfigurationViewModel ViewModel
         {

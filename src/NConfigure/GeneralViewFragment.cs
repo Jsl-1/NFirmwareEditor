@@ -33,10 +33,10 @@ namespace NToolbox
 
         protected override void InitializeControls()
         {
-            m_txtDeviceName = View.FindViewById<TextView>(Resource.Id.view_general_devicename);
-            m_txtFwVer = View.FindViewById<TextView>(Resource.Id.view_general_fw_ver);
-            m_txtBuild = View.FindViewById<TextView>(Resource.Id.view_general_build);
-            m_txtHwVer = View.FindViewById<TextView>(Resource.Id.view_general_hw_ver);
+            m_txtDeviceName = m_View.FindViewById<TextView>(Resource.Id.view_general_devicename);
+            m_txtFwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_fw_ver);
+            m_txtBuild = m_View.FindViewById<TextView>(Resource.Id.view_general_build);
+            m_txtHwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_hw_ver);
         }
         
         protected override void SetValuesToControls()
