@@ -23,7 +23,7 @@ using NToolbox.UI;
 
 namespace NToolbox
 {
-    [Activity(Label = "NFE Toolbox", MainLauncher = true, Theme = "@style/Theme.NToolbox", Icon = "@drawable/icon", LaunchMode = Android.Content.PM.LaunchMode.SingleInstance)]
+    [Activity(Label = "NFE Toolbox", MainLauncher = true, Theme = "@style/AppTheme", Icon = "@drawable/icon", LaunchMode = Android.Content.PM.LaunchMode.SingleInstance)]
     [IntentFilter(new string[] { Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached })]
     [MetaData(Android.Hardware.Usb.UsbManager.ActionUsbDeviceAttached, Resource = "@xml/usb_device_filter")]
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener //Activity, MainMenuAdapter.OnItemClickListener, View.IOnClickListener
@@ -33,6 +33,11 @@ namespace NToolbox
         private DrawerLayout mDrawerLayout;
         private NavigationView mNavigationView;
         private FrameLayout mFrameContent;
+
+        private TextView m_txtDeviceName;
+        private TextView m_txtFwVer;
+        private TextView m_txtBuild;
+        private TextView m_txtHwVer;
 
         private string m_CurrentFragmentTypeName;
         private Int32 m_CurrentFragmentId;
@@ -55,6 +60,8 @@ namespace NToolbox
         {
             SetContentView(Resource.Layout.activity_main);
 
+           
+
             //Toolbar
             var toolbar = FindViewById<V7Toolbar>(Resource.Id.main_toolbar);
             SetSupportActionBar(toolbar);
@@ -66,6 +73,15 @@ namespace NToolbox
             //Navigation View
             mNavigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             mNavigationView.SetNavigationItemSelectedListener(this);
+
+
+            var headerView = mNavigationView.GetHeaderView(0);
+          
+            m_txtDeviceName = headerView.FindViewById<TextView>(Resource.Id.header_devicename);
+            m_txtFwVer = headerView.FindViewById<TextView>(Resource.Id.header_fw_ver);
+            m_txtBuild = headerView.FindViewById<TextView>(Resource.Id.header_build);
+            m_txtHwVer = headerView.FindViewById<TextView>(Resource.Id.header_hw_ver);
+
 
             mDrawerLayout = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
             var actionbarDrawerToggle = new MainMenuActionBarDrawerToggle(this, mDrawerLayout, toolbar, Resource.String.drawer_open, Resource.String.drawer_close);
@@ -173,25 +189,25 @@ namespace NToolbox
                     _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile1.ToString());
                     break;
                 case Resource.Id.nav_profile2:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile2.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile2.ToString());
                     break;
                 case Resource.Id.nav_profile3:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile3.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile3.ToString());
                     break;
                 case Resource.Id.nav_profile4:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile4.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile4.ToString());
                     break;
                 case Resource.Id.nav_profile5:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile5.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile5.ToString());
                     break;
                 case Resource.Id.nav_profile6:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile6.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile6.ToString());
                     break;
                 case Resource.Id.nav_profile7:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile7.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile7.ToString());
                     break;
                 case Resource.Id.nav_profile8:
-                    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, ProfileSelection.Profile8.ToString());
+                    _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile8.ToString());
                     break;
                 //case Resource.Id.nav_control:
                 //    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, "Profile1");
@@ -303,6 +319,12 @@ namespace NToolbox
         private void RefreshFromDevice()
         {
             ArcticFoxConfigurationViewModel.Instance.ReadConfigurationFromDevice();
+
+            m_txtDeviceName.Text = ArcticFoxConfigurationViewModel.Instance.DeviceName;
+            m_txtFwVer.Text = ArcticFoxConfigurationViewModel.Instance.FwVer;
+            m_txtBuild.Text = ArcticFoxConfigurationViewModel.Instance.Build;
+            m_txtHwVer.Text = ArcticFoxConfigurationViewModel.Instance.HwVer;
+
             //_SetDataFromArticFoxConfiguration();
 
         }

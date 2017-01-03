@@ -33,18 +33,18 @@ namespace NToolbox
 
         protected override void InitializeControls()
         {
-            m_txtDeviceName = m_View.FindViewById<TextView>(Resource.Id.view_general_devicename);
-            m_txtFwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_fw_ver);
-            m_txtBuild = m_View.FindViewById<TextView>(Resource.Id.view_general_build);
-            m_txtHwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_hw_ver);
+            //m_txtDeviceName = m_View.FindViewById<TextView>(Resource.Id.view_general_devicename);
+            //m_txtFwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_fw_ver);
+            //m_txtBuild = m_View.FindViewById<TextView>(Resource.Id.view_general_build);
+            //m_txtHwVer = m_View.FindViewById<TextView>(Resource.Id.view_general_hw_ver);
         }
         
         protected override void SetValuesToControls()
         {
-            m_txtDeviceName.Text = ViewModel.DeviceName;
-            m_txtFwVer.Text = ViewModel.FwVer;
-            m_txtBuild.Text = ViewModel.Build;
-            m_txtHwVer.Text = ViewModel.HwVer;
+            //m_txtDeviceName.Text = ViewModel.DeviceName;
+            //m_txtFwVer.Text = ViewModel.FwVer;
+            //m_txtBuild.Text = ViewModel.Build;
+            //m_txtHwVer.Text = ViewModel.HwVer;
         }
     }
 }

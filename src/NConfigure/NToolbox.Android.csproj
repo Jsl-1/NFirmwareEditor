@@ -120,7 +120,6 @@
     <Compile Include="UI\FragmentBase.cs" />
     <Compile Include="Utils\UsbDeviceExtensions.cs" />
     <Compile Include="ViewModels\ArcticFoxConfigurationViewModel.cs" />
-    <Compile Include="ViewProfileDetail.cs" />
     <Compile Include="ViewProfileDetailPreferences.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -132,7 +131,7 @@
     </None>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\header.axml">
+    <AndroidResource Include="Resources\layout\nav_header_main.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\view_welcome.axml">
@@ -141,7 +140,7 @@
     <AndroidResource Include="Resources\layout\view_general.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
-    <AndroidResource Include="Resources\layout\view_profile_detail.axml">
+    <AndroidResource Include="Resources\layout\number_pref.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -214,6 +213,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
+    <Folder Include="UI\Preference\" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportdesign">
@@ -231,6 +231,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\xml\preferences_profile_detail.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\values\Dimens.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\side_nav_bar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.4.0.1\build\Xamarin.Android.Support.Vector.Drawable.targets')" />

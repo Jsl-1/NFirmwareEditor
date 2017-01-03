@@ -30,20 +30,6 @@ namespace NToolbox.ViewModels
 
         public static ArcticFoxConfigurationViewModel Instance { get; } = new ArcticFoxConfigurationViewModel();
 
-        public static Dictionary<String, byte> PreheatTypes
-        {
-            get
-            {
-                var preheatTypes = new Dictionary<String, byte>()
-                {
-                    { "Absolute (W)" , (byte)PreheatType.Watts},
-                    { "Relative (%)" , (byte)PreheatType.Percents},                   
-                    { "Curve" , (byte)PreheatType.Curve},
-                };
-                return preheatTypes;
-            }
-        }
-
         private ArcticFoxConfiguration Configuration { get; set; }
 
         public ArcticFoxConfigurationViewModel()
@@ -148,8 +134,7 @@ namespace NToolbox.ViewModels
         {
             ProfileName = m_profile.Name;
             Power = Convert.ToDecimal(m_profile.Power) / Convert.ToDecimal(10);
-            PreHitPower = m_profile.PreheatPower;
-            PreheatType = ArcticFoxConfigurationViewModel.PreheatTypes.Where( x => x.Value == (byte)m_profile.PreheatType).First().Key;
+            PreHitPower = m_profile.PreheatPower;           
         }
 
         public String ProfileName { get; set; }
@@ -165,8 +150,6 @@ namespace NToolbox.ViewModels
         }
 
         public Decimal PreHitPower { get; set; }
-        
-        public string PreheatType { get; set; }
 
     }
 
