@@ -11,6 +11,7 @@ using NCore.UI;
 using NCore.USB;
 using NToolbox.Models;
 using NToolbox.Properties;
+using NToolbox.Services;
 
 namespace NToolbox.Windows
 {
@@ -18,17 +19,12 @@ namespace NToolbox.Windows
 	{
 		private const ushort MaxPower = 2500;
 		private const byte MaxBatteries = 3;
-		private const int MinimumSupportedBuildNumber = 161223;
-		private const int MaximumSupportedSettingsVersion = 5;
+		private const int MinimumSupportedBuildNumber = 170103;
+		private const int SupportedSettingsVersion = 6;
 
 		private readonly BackgroundWorker m_worker = new BackgroundWorker { WorkerReportsProgress = true };
-
+		private readonly IEncryption m_encryption = new ArcticFoxEncryption();
 		private readonly Func<BackgroundWorker, byte[]> m_deviceConfigurationProvider = worker => HidConnector.Instance.ReadConfiguration(worker);
-
-		private Label[] m_powerCurveLabels;
-		private Button[] m_powerCurveButtons;
-		private Label[] m_tfrLabels;
-		private Button[] m_tfrButtons;
 
 		private bool m_isWorkspaceOpen;
 		private bool m_isDeviceConnected;
@@ -76,25 +72,14 @@ namespace NToolbox.Windows
 			HardwareVersionTextBox.ReadOnly = true;
 			HardwareVersionTextBox.BackColor = Color.White;
 
+			SmartCheckBox.CheckedChanged += (s, e) => SelectedProfleComboBox.Enabled = !SmartCheckBox.Checked;
 			BrightnessTrackBar.ValueChanged += (s, e) => BrightnessPercentLabel.Text = (int)(BrightnessTrackBar.Value * 100m / 255) + @"%";
 
-			m_powerCurveLabels = new[] { PowerCurve1Label, PowerCurve2Label, PowerCurve3Label, PowerCurve4Label, PowerCurve5Label, PowerCurve6Label, PowerCurve7Label, PowerCurve8Label };
-			m_powerCurveButtons = new[] { PowerCurve1EditButton, PowerCurve2EditButton, PowerCurve3EditButton, PowerCurve4EditButton, PowerCurve5EditButton, PowerCurve6EditButton, PowerCurve7EditButton, PowerCurve8EditButton };
+			PowerCurvesListView.LargeImageList = new ImageList { ImageSize = new Size(60, 30) };
+			PowerCurvesListView.Click += PowerCurvesListView_Click;
 
-			m_tfrLabels = new[] { TFR1Label, TFR2Label, TFR3Label, TFR4Label, TFR5Label, TFR6Label, TFR7Label, TFR8Label };
-			m_tfrButtons = new[] { TFR1EditButton, TFR2EditButton, TFR3EditButton, TFR4EditButton, TFR5EditButton, TFR6EditButton, TFR7EditButton, TFR8EditButton };
-
-			for (var i = 0; i < m_tfrButtons.Length; i++)
-			{
-				m_powerCurveButtons[i].Tag = i;
-				m_powerCurveButtons[i].Click += PowerCurveEditButton_Click;
-			}
-
-			for (var i = 0; i < m_tfrButtons.Length; i++)
-			{
-				m_tfrButtons[i].Tag = i;
-				m_tfrButtons[i].Click += TFREditButton_Click;
-			}
+			MaterialsListView.LargeImageList = new ImageList { ImageSize = new Size(60, 30) };
+			MaterialsListView.Click += MaterialsListView_Click;
 
 			BatteryEditButton.Click += BatteryEditButton_Click;
 
@@ -119,196 +104,73 @@ namespace NToolbox.Windows
 
 		private void InitializeComboBoxes()
 		{
-			var classicSkinLineContentItems = new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Non dominant (Pwr / Temp)", ArcticFoxConfiguration.LineContent.NonDominant),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Volts", ArcticFoxConfiguration.LineContent.Volt),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Volts", ArcticFoxConfiguration.LineContent.Vout),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Amps", ArcticFoxConfiguration.LineContent.Amps),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Resistance", ArcticFoxConfiguration.LineContent.Resistance),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Live Resistance", ArcticFoxConfiguration.LineContent.RealResistance),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs", ArcticFoxConfiguration.LineContent.Puffs),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs Time", ArcticFoxConfiguration.LineContent.Time),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery(s) Volts", ArcticFoxConfiguration.LineContent.BatteryVolts),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Date/Time", ArcticFoxConfiguration.LineContent.DateTime),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Board Temperature", ArcticFoxConfiguration.LineContent.BoardTemperature),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Puff Time", ArcticFoxConfiguration.LineContent.LastPuff),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Power", ArcticFoxConfiguration.LineContent.LastPower),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Temperature", ArcticFoxConfiguration.LineContent.LastTemperature),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery", ArcticFoxConfiguration.LineContent.Battery),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery + %", ArcticFoxConfiguration.LineContent.BatteryWithPercents),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery + V", ArcticFoxConfiguration.LineContent.BatteryWithVolts)
-			};
-
-			var circleSkinLineContentItems = new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Volts", ArcticFoxConfiguration.LineContent.Vout),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Amps", ArcticFoxConfiguration.LineContent.Amps),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Resistance", ArcticFoxConfiguration.LineContent.Resistance),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Live Resistance", ArcticFoxConfiguration.LineContent.RealResistance),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs", ArcticFoxConfiguration.LineContent.Puffs),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs Time", ArcticFoxConfiguration.LineContent.Time),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery(s) Volts", ArcticFoxConfiguration.LineContent.BatteryVolts),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Date/Time", ArcticFoxConfiguration.LineContent.DateTime),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Board Temperature", ArcticFoxConfiguration.LineContent.BoardTemperature),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Puff Time", ArcticFoxConfiguration.LineContent.LastPuff),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Power", ArcticFoxConfiguration.LineContent.LastPower),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Temperature", ArcticFoxConfiguration.LineContent.LastTemperature),
-			};
-
-			var smallScreenLineContentItems = new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Volts", ArcticFoxConfiguration.LineContent.Vout),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Output Amps", ArcticFoxConfiguration.LineContent.Amps),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Resistance", ArcticFoxConfiguration.LineContent.Resistance),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Live Resistance", ArcticFoxConfiguration.LineContent.RealResistance),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs", ArcticFoxConfiguration.LineContent.Puffs),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Puffs Time", ArcticFoxConfiguration.LineContent.Time),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery Volts", ArcticFoxConfiguration.LineContent.BatteryVolts),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery %", ArcticFoxConfiguration.LineContent.BatteryPercents),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Date/Time", ArcticFoxConfiguration.LineContent.DateTime),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Board Temperature", ArcticFoxConfiguration.LineContent.BoardTemperature),
-
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Puff Time", ArcticFoxConfiguration.LineContent.LastPuff),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Power", ArcticFoxConfiguration.LineContent.LastPower),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Last Temperature", ArcticFoxConfiguration.LineContent.LastTemperature),
-			};
-
-			var circleSkin3RdLineContentItems = new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery", ArcticFoxConfiguration.LineContent.Battery),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery + %", ArcticFoxConfiguration.LineContent.BatteryWithPercents),
-				new NamedItemContainer<ArcticFoxConfiguration.LineContent>("Battery + V", ArcticFoxConfiguration.LineContent.BatteryWithVolts)
-			};
-
-			var classicLinesComboBoxes = new[]
+			// Fill Classic Skin ComboBoxes
+			foreach (var comboBox in new[]
 			{
 				ClassicVWLine1ComboBox, ClassicVWLine2ComboBox, ClassicVWLine3ComboBox, ClassicVWLine4ComboBox,
 				ClassicTCLine1ComboBox, ClassicTCLine2ComboBox, ClassicTCLine3ComboBox, ClassicTCLine4ComboBox,
-			};
-
-			var circleLinesComboBoxes = new[]
+			})
 			{
-				CircleVWLine1ComboBox, CircleVWLine2ComboBox,
-				CircleTCLine1ComboBox, CircleTCLine2ComboBox
-			};
-
-			var smallLinesComboBoxes = new[]
-			{
-				SmallVWLine1ComboBox, SmallVWLine2ComboBox,
-				SmallTCLine1ComboBox, SmallTCLine2ComboBox,
-			};
-
-			// Fill Classic Skin ComboBoxes
-			foreach (var lineComboBox in classicLinesComboBoxes)
-			{
-				lineComboBox.Items.Clear();
-				lineComboBox.Items.AddRange(classicSkinLineContentItems);
+				comboBox.Fill(PredefinedData.ArcticFox.ClassicSkinLineContentItems);
 			}
 
 			// Fill Circle Skin ComboBoxes
-			foreach (var lineComboBox in circleLinesComboBoxes)
+			foreach (var comboBox in new[]
 			{
-				lineComboBox.Items.Clear();
-				lineComboBox.Items.AddRange(circleSkinLineContentItems);
+				CircleVWLine1ComboBox, CircleVWLine2ComboBox,
+				CircleTCLine1ComboBox, CircleTCLine2ComboBox
+			})
+			{
+				comboBox.Fill(PredefinedData.ArcticFox.CircleSkinLineContentItems);
 			}
-
-			CircleVWLine3ComboBox.Items.Clear();
-			CircleVWLine3ComboBox.Items.AddRange(circleSkin3RdLineContentItems);
-
-			CircleTCLine3ComboBox.Items.Clear();
-			CircleTCLine3ComboBox.Items.AddRange(circleSkin3RdLineContentItems);
+			CircleVWLine3ComboBox.Fill(PredefinedData.ArcticFox.CircleSkin3RdLineContentItems);
+			CircleTCLine3ComboBox.Fill(PredefinedData.ArcticFox.CircleSkin3RdLineContentItems);
 
 			// Fill Small Skin ComboBoxes
-			foreach (var lineComboBox in smallLinesComboBoxes)
+			foreach (var comboBox in new[] { SmallVWLine1ComboBox, SmallVWLine2ComboBox, SmallTCLine1ComboBox, SmallTCLine2ComboBox, })
 			{
-				lineComboBox.Items.Clear();
-				lineComboBox.Items.AddRange(smallScreenLineContentItems);
+				comboBox.Fill(PredefinedData.ArcticFox.SmallScreenLineContentItems);
 			}
 
-			ChargeScreenComboBox.Items.Clear();
-			ChargeScreenComboBox.Items.AddRange(new object[]
+			MainScreenSkinComboBox.Fill(PredefinedData.ArcticFox.MainScreenSkins);
+			ChargeScreenComboBox.Fill(PredefinedData.ArcticFox.ChargeScreenTypes);
+			ClockTypeComboBox.Fill(PredefinedData.ArcticFox.ClockTypes);
+			ScreensaverTimeComboBox.Fill(PredefinedData.ArcticFox.ScreenSaverTimes);
+
+			foreach (var clickComboBox in new[] { Clicks2ComboBox, Clicks3ComboBox, Clicks4ComboBox })
 			{
-				new NamedItemContainer<ArcticFoxConfiguration.ChargeScreenType>("Classic", ArcticFoxConfiguration.ChargeScreenType.Classic),
-				new NamedItemContainer<ArcticFoxConfiguration.ChargeScreenType>("Extended", ArcticFoxConfiguration.ChargeScreenType.Extended)
-			});
-
-			ClockTypeComboBox.Items.Clear();
-			ClockTypeComboBox.Items.AddRange(new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.ClockType>("Analog", ArcticFoxConfiguration.ClockType.Analog),
-				new NamedItemContainer<ArcticFoxConfiguration.ClockType>("Digital", ArcticFoxConfiguration.ClockType.Digital)
-			});
-
-			ScreensaverTimeComboBox.Items.Clear();
-			ScreensaverTimeComboBox.Items.AddRange(new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("Off", ArcticFoxConfiguration.ScreenProtectionTime.Off),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("1 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min1),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("2 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min2),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("5 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min5),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("10 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min10),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("15 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min15),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("20 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min20),
-				new NamedItemContainer<ArcticFoxConfiguration.ScreenProtectionTime>("30 Min", ArcticFoxConfiguration.ScreenProtectionTime.Min30)
-			});
-
-			var clickItems = new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("None", ArcticFoxConfiguration.ClickAction.None),
-
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Edit", ArcticFoxConfiguration.ClickAction.Edit),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Main Menu", ArcticFoxConfiguration.ClickAction.MainMenu),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Preheat Menu", ArcticFoxConfiguration.ClickAction.Preheat),
-
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Select Profile", ArcticFoxConfiguration.ClickAction.ProfileSelector),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Edit Profile", ArcticFoxConfiguration.ClickAction.ProfileEdit),
-
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("TDom", ArcticFoxConfiguration.ClickAction.TemperatureDominant),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Show Clock", ArcticFoxConfiguration.ClickAction.MainScreenClock),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Info Screen", ArcticFoxConfiguration.ClickAction.InfoScreen),
-
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("Smart On / Off", ArcticFoxConfiguration.ClickAction.SmartOnOff),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("LSL On / Off", ArcticFoxConfiguration.ClickAction.LslOnOff),
-				new NamedItemContainer<ArcticFoxConfiguration.ClickAction>("On / Off", ArcticFoxConfiguration.ClickAction.OnOff)
-			};
-
-			var clickComboBoxes = new[] { Clicks2ComboBox, Clicks3ComboBox, Clicks4ComboBox };
-			foreach (var clickComboBox in clickComboBoxes)
-			{
-				clickComboBox.Items.Clear();
-				clickComboBox.Items.AddRange(clickItems);
+				clickComboBox.Fill(PredefinedData.ArcticFox.ClickActions);
 			}
 
-			BatteryModelComboBox.Items.Clear();
-			BatteryModelComboBox.Items.AddRange(new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Generic Battery", ArcticFoxConfiguration.BatteryModel.Generic),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Samsung 25R", ArcticFoxConfiguration.BatteryModel.Samsung25R),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Samsung 30Q", ArcticFoxConfiguration.BatteryModel.Samsung30Q),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("LG HG2", ArcticFoxConfiguration.BatteryModel.LGHG2),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("LG HE4", ArcticFoxConfiguration.BatteryModel.LGHE4),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Sony VTC4", ArcticFoxConfiguration.BatteryModel.SonyVTC4),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Sony VTC5", ArcticFoxConfiguration.BatteryModel.SonyVTC5),
-				new NamedItemContainer<ArcticFoxConfiguration.BatteryModel>("Custom", ArcticFoxConfiguration.BatteryModel.Custom)
-			});
+			PuffsTimeFormatComboBox.Fill(PredefinedData.ArcticFox.PuffTimeFormats);
+			BatteryModelComboBox.Fill(PredefinedData.ArcticFox.BatteryModels);
 			BatteryModelComboBox.SelectedValueChanged += (s, e) =>
 			{
 				var batteryModel = BatteryModelComboBox.GetSelectedItem<ArcticFoxConfiguration.BatteryModel>();
 				BatteryEditButton.Visible = batteryModel == ArcticFoxConfiguration.BatteryModel.Custom;
+			};
+
+			SelectedProfleComboBox.SelectedValueChanged += (s, e) =>
+			{
+				var profileIndex = SelectedProfleComboBox.GetSelectedItem<byte>();
+				if (profileIndex >= ProfilesTabControl.TabCount) return;
+
+				for (var i = 0; i < ProfilesTabControl.TabCount; i++)
+				{
+					var tabPage = ProfilesTabControl.TabPages[i];
+					var tabContent = tabPage.Controls[0] as ProfileTabContent;
+					if (tabContent == null) return;
+
+					if (i == profileIndex)
+					{
+						tabContent.CanDeactive = false;
+						tabContent.IsProfileActivated = true;
+					}
+					else
+					{
+						tabContent.CanDeactive = true;
+					}
+				}
 			};
 		}
 
@@ -341,15 +203,15 @@ namespace NToolbox.Windows
 
 			try
 			{
-				var data = configurationProvider(m_worker);
+				var data = configurationProvider(useWorker ? m_worker : null);
 				if (data == null) return new ConfigurationReadResult(null, ReadResult.UnableToRead);
 
 				var info = BinaryStructure.Read<ArcticFoxConfiguration.DeviceInfo>(data);
-				if (info.FirmwareBuild < MinimumSupportedBuildNumber || info.SettingsVersion == 'E' || info.SettingsVersion == 'M' || info.SettingsVersion == 'W')
+				if (info.FirmwareBuild < MinimumSupportedBuildNumber || info.SettingsVersion < SupportedSettingsVersion)
 				{
 					return new ConfigurationReadResult(null, ReadResult.OutdatedFirmware);
 				}
-				if (info.SettingsVersion > MaximumSupportedSettingsVersion)
+				if (info.SettingsVersion > SupportedSettingsVersion)
 				{
 					return new ConfigurationReadResult(null, ReadResult.OutdatedToolbox);
 				}
@@ -398,12 +260,12 @@ namespace NToolbox.Windows
 
 					if (ProfilesTabControl.TabPages.Count <= i)
 					{
-						SelectedProfleComboBox.Items.Add(new NamedItemContainer<byte>(tabName, (byte)i));
-
 						var tabPage = new TabPage(tabName);
 						tabContent = new ProfileTabContent(this) { Dock = DockStyle.Fill };
 						tabPage.Controls.Add(tabContent);
 						ProfilesTabControl.TabPages.Add(tabPage);
+
+						SelectedProfleComboBox.Items.Add(new NamedItemContainer<byte>(tabName, (byte)i));
 					}
 					else
 					{
@@ -427,12 +289,13 @@ namespace NToolbox.Windows
 				PuffScreenDelayUpDown.SetValue(ui.PuffScreenDelay / 10m);
 				StealthModeCheckBox.Checked = ui.IsStealthMode;
 				FlippedModeCheckBox.Checked = ui.IsFlipped;
-				ChargeScreenComboBox.SelectItem(ui.ChargeScreenType);
+				MainScreenSkinComboBox.SelectItem(ui.MainScreenSkin);
 				UseClassicMenuCheckBox.Checked = ui.IsClassicMenu;
 				ShowLogoCheckBox.Checked = ui.IsLogoEnabled;
 				ShowClockCheckBox.Checked = ui.IsClockOnMainScreen;
 				ClockTypeComboBox.SelectItem(ui.ClockType);
 				ScreensaverTimeComboBox.SelectItem(ui.ScreensaveDuration);
+				ChargeScreenComboBox.SelectItem(ui.ChargeScreenType);
 
 				// Classic Screen
 				InitializeLineContentEditor(ui.ClassicSkinVWLines.Line1, ClassicVWLine1ComboBox, ClassicVWLine1FireCheckBox);
@@ -471,8 +334,9 @@ namespace NToolbox.Windows
 
 			var stats = m_configuration.Counters;
 			{
-				PuffsUpDown.Value = Math.Max(0, Math.Min(stats.PuffsCount, 99999));
-				PuffsTimeUpDown.Value = Math.Max(0, Math.Min(stats.PuffsTime / 10m, 99999));
+				PuffsUpDown.SetValue(stats.PuffsCount);
+				PuffsTimeUpDown.SetValue(stats.PuffsTime / 10m);
+				PuffsTimeFormatComboBox.SelectItem(ui.PuffsTimeFormat);
 			}
 
 			var advanced = m_configuration.Advanced;
@@ -482,15 +346,34 @@ namespace NToolbox.Windows
 				BatteryModelComboBox.SelectItem(advanced.BatteryModel);
 				X32CheckBox.Checked = advanced.IsX32;
 				LightSleepCheckBox.Checked = advanced.IsLightSleepMode;
-				UsbChargeCheckBox.Checked = advanced.IsUsbCharge;
 				ResetCountersCheckBox.Checked = advanced.ResetCountersOnStartup;
-
-				UpdatePowerCurveLabels(advanced.PowerCurves);
-				UpdateTFRLables(advanced.TFRTables);
+				CheckTCRCheckBox.Checked = advanced.CheckTCR;
+				UsbChargeCheckBox.Checked = advanced.IsUsbCharge;
+				UsbNoSleepCheckBox.Checked = advanced.UsbNoSleep;
 
 				Battery1OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[0] / 100m);
 				Battery2OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[1] / 100m);
 				Battery3OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[2] / 100m);
+
+				PowerCurvesListView.Items.Clear();
+				PowerCurvesListView.LargeImageList.Images.Clear();
+				for (var i = 0; i < m_configuration.Advanced.PowerCurves.Length; i++)
+				{
+					var powerCurve = m_configuration.Advanced.PowerCurves[i];
+					var bitmap = ChartPreviewService.CreatePowerCurvePreview(powerCurve, PowerCurvesListView.LargeImageList.ImageSize);
+					PowerCurvesListView.LargeImageList.Images.Add(bitmap);
+					PowerCurvesListView.Items.Add(new ListViewItem(powerCurve.Name, i) { Tag = i });
+				}
+
+				MaterialsListView.Items.Clear();
+				MaterialsListView.LargeImageList.Images.Clear();
+				for (var i = 0; i < m_configuration.Advanced.TFRTables.Length; i++)
+				{
+					var tfrTable = m_configuration.Advanced.TFRTables[i];
+					var bitmap = ChartPreviewService.CreateTFRCurvePreview(tfrTable, PowerCurvesListView.LargeImageList.ImageSize);
+					MaterialsListView.LargeImageList.Images.Add(bitmap);
+					MaterialsListView.Items.Add(new ListViewItem("[TFR] " + tfrTable.Name, i) { Tag = i });
+				}
 			}
 		}
 
@@ -528,12 +411,13 @@ namespace NToolbox.Windows
 				ui.PuffScreenDelay = (byte)(PuffScreenDelayUpDown.Value * 10);
 				ui.IsStealthMode = StealthModeCheckBox.Checked;
 				ui.IsFlipped = FlippedModeCheckBox.Checked;
-				ui.ChargeScreenType = ChargeScreenComboBox.GetSelectedItem<ArcticFoxConfiguration.ChargeScreenType>();
+				ui.MainScreenSkin = MainScreenSkinComboBox.GetSelectedItem<ArcticFoxConfiguration.Skin>();
 				ui.IsClassicMenu = UseClassicMenuCheckBox.Checked;
 				ui.IsLogoEnabled = ShowLogoCheckBox.Checked;
 				ui.IsClockOnMainScreen = ShowClockCheckBox.Checked;
 				ui.ClockType = ClockTypeComboBox.GetSelectedItem<ArcticFoxConfiguration.ClockType>();
 				ui.ScreensaveDuration = ScreensaverTimeComboBox.GetSelectedItem<ArcticFoxConfiguration.ScreenProtectionTime>();
+				ui.ChargeScreenType = ChargeScreenComboBox.GetSelectedItem<ArcticFoxConfiguration.ChargeScreenType>();
 
 				// General -> Layout Tab -> Classic Screen
 				ui.ClassicSkinVWLines.Line1 = SaveLineContent(ClassicVWLine1ComboBox, ClassicVWLine1FireCheckBox);
@@ -575,8 +459,8 @@ namespace NToolbox.Windows
 				var now = DateTime.Now;
 
 				// General -> Stats Tab
-				stats.PuffsCount = (ushort)PuffsUpDown.Value;
-				stats.PuffsTime = (ushort)(PuffsTimeUpDown.Value * 10);
+				stats.PuffsCount = (uint)PuffsUpDown.Value;
+				stats.PuffsTime = (uint)(PuffsTimeUpDown.Value * 10);
 
 				// Time sync
 				stats.DateTime.Year = (ushort)now.Year;
@@ -585,6 +469,8 @@ namespace NToolbox.Windows
 				stats.DateTime.Hour = (byte)now.Hour;
 				stats.DateTime.Minute = (byte)now.Minute;
 				stats.DateTime.Second = (byte)now.Second;
+
+				ui.PuffsTimeFormat = PuffsTimeFormatComboBox.GetSelectedItem<ArcticFoxConfiguration.PuffsTimeFormat>();
 			}
 
 			var advanced = m_configuration.Advanced;
@@ -594,8 +480,11 @@ namespace NToolbox.Windows
 				advanced.BatteryModel = BatteryModelComboBox.GetSelectedItem<ArcticFoxConfiguration.BatteryModel>();
 				advanced.IsX32 = X32CheckBox.Checked;
 				advanced.IsLightSleepMode = LightSleepCheckBox.Checked;
-				advanced.IsUsbCharge = UsbChargeCheckBox.Checked;
 				advanced.ResetCountersOnStartup = ResetCountersCheckBox.Checked;
+				advanced.CheckTCR = CheckTCRCheckBox.Checked;
+				advanced.IsUsbCharge = UsbChargeCheckBox.Checked;
+				advanced.UsbNoSleep = UsbNoSleepCheckBox.Checked;
+				
 				advanced.BatteryVoltageOffsets[0] = (sbyte)(Battery1OffsetUpDown.Value * 100);
 				advanced.BatteryVoltageOffsets[1] = (sbyte)(Battery2OffsetUpDown.Value * 100);
 				advanced.BatteryVoltageOffsets[2] = (sbyte)(Battery3OffsetUpDown.Value * 100);
@@ -619,17 +508,17 @@ namespace NToolbox.Windows
 
 		private void UpdatePowerCurveLabels(ArcticFoxConfiguration.PowerCurve[] curves)
 		{
-			for (var i = 0; i < m_tfrLabels.Length; i++)
+			for (var i = 0; i < curves.Length; i++)
 			{
-				m_powerCurveLabels[i].Text = curves[i].Name + @":";
+				PowerCurvesListView.Items[i].Text = curves[i].Name;
 			}
 		}
 
 		private void UpdateTFRLables(ArcticFoxConfiguration.TFRTable[] tfrTables)
 		{
-			for (var i = 0; i < m_tfrLabels.Length; i++)
+			for (var i = 0; i < tfrTables.Length; i++)
 			{
-				m_tfrLabels[i].Text = @"[TFR] " + tfrTables[i].Name + @":";
+				MaterialsListView.Items[i].Text = @"[TFR] " + tfrTables[i].Name;
 			}
 		}
 
@@ -670,6 +559,12 @@ namespace NToolbox.Windows
 			}
 		}
 
+		internal void UpdatePowerCurvePreview(int powerCurveIndex)
+		{
+			var powerCurve = m_configuration.Advanced.PowerCurves[powerCurveIndex];
+			UpdateListViewPreview(PowerCurvesListView, powerCurveIndex, ChartPreviewService.CreatePowerCurvePreview(powerCurve, PowerCurvesListView.LargeImageList.ImageSize));
+		}
+
 		internal void UpdateTFRCurveNames()
 		{
 			UpdateTFRLables(m_configuration.Advanced.TFRTables);
@@ -682,9 +577,15 @@ namespace NToolbox.Windows
 			}
 		}
 
+		internal void UpdateTFRCurvePreview(int tfrTableIndex)
+		{
+			var tfrTable = m_configuration.Advanced.TFRTables[tfrTableIndex];
+			UpdateListViewPreview(MaterialsListView, tfrTableIndex, ChartPreviewService.CreateTFRCurvePreview(tfrTable, MaterialsListView.LargeImageList.ImageSize));
+		}
+
 		private byte[] PrepairConfiguration(byte[] source, ArcticFoxConfiguration existedConfiguration = null)
 		{
-			var result = BinaryStructure.Read<ArcticFoxConfiguration>(source);
+			var result = BinaryStructure.Read<ArcticFoxConfiguration>(m_encryption.Decode(source));
 			if (existedConfiguration == null)
 			{
 				result.Info.MaxPower = MaxPower;
@@ -706,7 +607,7 @@ namespace NToolbox.Windows
 				fileName = op.FileName;
 			}
 
-			var result = ReadConfiguration(w => File.ReadAllBytes(fileName));
+			var result = ReadConfiguration(w => m_encryption.Decode(File.ReadAllBytes(fileName)));
 			if (result.Result == ReadResult.Success)
 			{
 				if (existedConfiguration == null)
@@ -745,35 +646,53 @@ namespace NToolbox.Windows
 			}
 		}
 
-		private void PowerCurveEditButton_Click(object sender, EventArgs e)
+		private void PowerCurvesListView_Click(object sender, EventArgs e)
 		{
-			var button = sender as Button;
-			if (button == null) return;
+			var curveIndex = PowerCurvesListView.SelectedItems.Count == 0
+				? null
+				: PowerCurvesListView.SelectedItems[0].Tag as int?;
+			if (!curveIndex.HasValue) return;
 
-			var curveIndex = (int)button.Tag;
-			var curve = m_configuration.Advanced.PowerCurves[curveIndex];
+			var curve = m_configuration.Advanced.PowerCurves[curveIndex.Value];
 
+			PowerCurvesListView.SelectedItems.Clear();
 			using (var editor = new PowerCurveProfileWindow(curve))
 			{
 				if (editor.ShowDialog() != DialogResult.OK) return;
 
 				UpdatePowerCurveNames();
+				UpdatePowerCurvePreview(curveIndex.Value);
 			}
 		}
 
-		private void TFREditButton_Click(object sender, EventArgs e)
+		private void MaterialsListView_Click(object sender, EventArgs e)
 		{
-			var button = sender as Button;
-			if (button == null) return;
+			var tfrTableIndex = MaterialsListView.SelectedItems.Count == 0
+				? null
+				: MaterialsListView.SelectedItems[0].Tag as int?;
+			if (!tfrTableIndex.HasValue) return;
 
-			var tfrIndex = (int)button.Tag;
-			var tfrTable = m_configuration.Advanced.TFRTables[tfrIndex];
+			var tfrTable = m_configuration.Advanced.TFRTables[tfrTableIndex.Value];
+
+			MaterialsListView.SelectedItems.Clear();
 			using (var editor = new TFRProfileWindow(tfrTable))
 			{
 				if (editor.ShowDialog() != DialogResult.OK) return;
 
 				UpdateTFRCurveNames();
+				UpdateTFRCurvePreview(tfrTableIndex.Value);
 			}
+		}
+
+		private void UpdateListViewPreview(ListView listview, int imageIndex, Image newPreview)
+		{
+			if (listview.LargeImageList == null) return;
+			if (listview.LargeImageList.Images.Count < imageIndex) return;
+
+			var prevImage = listview.LargeImageList.Images[imageIndex];
+			listview.LargeImageList.Images[imageIndex] = newPreview;
+
+			prevImage.Dispose();
 		}
 
 		private void NewMenuItem_Click(object sender, EventArgs e)
@@ -806,7 +725,7 @@ namespace NToolbox.Windows
 						cfgCopy.Info.ProductId = string.Empty;
 					}
 					var bytes = BinaryStructure.Write(cfgCopy);
-					File.WriteAllBytes(sf.FileName, bytes);
+					File.WriteAllBytes(sf.FileName, m_encryption.Encode(bytes));
 				}
 				catch (Exception ex)
 				{
@@ -937,6 +856,8 @@ namespace NToolbox.Windows
 
 		private void ShowWelcomeScreen(string message)
 		{
+			if (m_isWorkspaceOpen) return;
+
 			UpdateUI(() =>
 			{
 				WelcomeLabel.Text = message;

@@ -26,6 +26,18 @@ namespace NToolbox.Windows
 			InitializeControls();
 		}
 
+		public bool IsProfileActivated
+		{
+			get { return ProfileEnabledCheckBox.Checked; }
+			set { ProfileEnabledCheckBox.Checked = value; }
+		}
+
+		public bool CanDeactive
+		{
+			get { return ProfileEnabledCheckBox.Enabled; }
+			set { ProfileEnabledCheckBox.Enabled = value; }
+		}
+
 		public void Initialize([NotNull] ArcticFoxConfiguration configuration, int profileIndex)
 		{
 			if (configuration == null) throw new ArgumentNullException("configuration");
@@ -33,6 +45,7 @@ namespace NToolbox.Windows
 			m_configuration = configuration;
 			m_profile = configuration.General.Profiles[profileIndex];
 
+			ProfileEnabledCheckBox.Checked = m_profile.Flags.IsEnabled;
 			ProfileNameTextBox.Text = m_profile.Name;
 			PowerUpDown.Maximum = configuration.Info.MaxPower / 10m;
 			PowerUpDown.SetValue(m_profile.Power / 10m);
@@ -99,6 +112,7 @@ namespace NToolbox.Windows
 
 		public void Save(ArcticFoxConfiguration.Profile profile)
 		{
+			profile.Flags.IsEnabled = ProfileEnabledCheckBox.Checked;
 			profile.Name = ProfileNameTextBox.Text;
 			profile.Power = (ushort)(PowerUpDown.Value * 10);
 			profile.PreheatType = PreheatTypeComboBox.GetSelectedItem<ArcticFoxConfiguration.PreheatType>();
@@ -150,13 +164,7 @@ namespace NToolbox.Windows
 			PowerUpDown.Minimum = MinimumWatts;
 			PowerUpDown.Maximum = 60;
 
-			PreheatTypeComboBox.Items.Clear();
-			PreheatTypeComboBox.Items.AddRange(new object[]
-			{
-				new NamedItemContainer<ArcticFoxConfiguration.PreheatType>("Absolute (W)", ArcticFoxConfiguration.PreheatType.Watts),
-				new NamedItemContainer<ArcticFoxConfiguration.PreheatType>("Relative (%)", ArcticFoxConfiguration.PreheatType.Percents),
-				new NamedItemContainer<ArcticFoxConfiguration.PreheatType>("Curve", ArcticFoxConfiguration.PreheatType.Curve)
-			});
+			PreheatTypeComboBox.Fill(PredefinedData.ArcticFox.Profile.PreheatTypes);
 			PreheatTypeComboBox.SelectedValueChanged += (s, e) =>
 			{
 				var type = PreheatTypeComboBox.GetSelectedItem<ArcticFoxConfiguration.PreheatType>();
@@ -200,25 +208,8 @@ namespace NToolbox.Windows
 				}
 			};
 
-			PowerCurveComboBox.Items.Clear();
-			PowerCurveComboBox.Items.AddRange(new object[]
-			{
-			    new NamedItemContainer<byte>("Curve 1", 0),
-			    new NamedItemContainer<byte>("Curve 2", 1),
-			    new NamedItemContainer<byte>("Curve 3", 2),
-			    new NamedItemContainer<byte>("Curve 4", 3),
-			    new NamedItemContainer<byte>("Curve 5", 4),
-			    new NamedItemContainer<byte>("Curve 6", 5),
-			    new NamedItemContainer<byte>("Curve 7", 6),
-			    new NamedItemContainer<byte>("Curve 8", 7),
-			});
-
-			TemperatureTypeComboBox.Items.Clear();
-			TemperatureTypeComboBox.Items.AddRange(new object[]
-			{
-			    new NamedItemContainer<bool>("°F", false),
-			    new NamedItemContainer<bool>("°C", true)
-			});
+			PowerCurveComboBox.Fill(PredefinedData.ArcticFox.Profile.PowerCurves);
+			TemperatureTypeComboBox.Fill(PredefinedData.ArcticFox.Profile.TemperatureTypes);
 			TemperatureTypeComboBox.SelectedValueChanged += (s, e) =>
 			{
 				var isCelcius = TemperatureTypeComboBox.GetSelectedItem<bool>();
@@ -244,6 +235,8 @@ namespace NToolbox.Windows
 			{
 				var isTemperatureSensing = ModeComboBox.GetSelectedItem<Mode>() == Mode.TemperatureControl;
 
+				SetupTempControlButton.Visible = isTemperatureSensing;
+
 				MaterialComboBox.Visible = isTemperatureSensing;
 				MaterialLabel.Visible = isTemperatureSensing;
 
@@ -264,23 +257,7 @@ namespace NToolbox.Windows
 				                             (int)selectedMaterial <= (int)ArcticFoxConfiguration.Material.TFR8;
 			};
 
-			MaterialComboBox.Items.Clear();
-			MaterialComboBox.Items.AddRange(new object[]
-			{
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("Nickel 200", ArcticFoxConfiguration.Material.Nickel),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("Titanium 1", ArcticFoxConfiguration.Material.Titanium),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("SS 316", ArcticFoxConfiguration.Material.StainlessSteel),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TCR", ArcticFoxConfiguration.Material.TCR),
-
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR1", ArcticFoxConfiguration.Material.TFR1),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR2", ArcticFoxConfiguration.Material.TFR2),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR3", ArcticFoxConfiguration.Material.TFR3),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR4", ArcticFoxConfiguration.Material.TFR4),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR5", ArcticFoxConfiguration.Material.TFR5),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR6", ArcticFoxConfiguration.Material.TFR6),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR7", ArcticFoxConfiguration.Material.TFR7),
-			    new NamedItemContainer<ArcticFoxConfiguration.Material>("TFR8", ArcticFoxConfiguration.Material.TFR8)
-			});
+			MaterialComboBox.Fill(PredefinedData.ArcticFox.Profile.Materials);
 			MaterialComboBox.SelectedValueChanged += (s, e) =>
 			{
 				if (MaterialComboBox.SelectedItem == null) return;
@@ -293,6 +270,7 @@ namespace NToolbox.Windows
 
 			PowerCurveEditButton.Click += PowerCurveEditButton_Click;
 			TFRCurveEditButton.Click += TFRCurveEditButton_Click;
+			SetupTempControlButton.Click += SetupTempControlButton_Click;
 		}
 
 		private void PowerCurveEditButton_Click(object sender, EventArgs e)
@@ -303,7 +281,9 @@ namespace NToolbox.Windows
 			using (var editor = new PowerCurveProfileWindow(curve))
 			{
 				if (editor.ShowDialog() != DialogResult.OK) return;
+
 				m_host.UpdatePowerCurveNames();
+				m_host.UpdatePowerCurvePreview(curveIndex);
 			}
 		}
 
@@ -315,7 +295,18 @@ namespace NToolbox.Windows
 			using (var editor = new TFRProfileWindow(tfrTable))
 			{
 				if (editor.ShowDialog() != DialogResult.OK) return;
+
 				m_host.UpdateTFRCurveNames();
+				m_host.UpdateTFRCurvePreview(curveIndex);
+			}
+		}
+
+		private void SetupTempControlButton_Click(object sender, EventArgs e)
+		{
+			using (var editor = new TempControlSetupWindow(m_profile.PIRegulator))
+			{
+				if (editor.ShowDialog() != DialogResult.OK) return;
+				m_profile.PIRegulator = editor.SaveWorkspace();
 			}
 		}
 

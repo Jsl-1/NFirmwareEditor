@@ -57,9 +57,11 @@
   <ItemGroup>
     <Compile Include="Models\ArcticFoxConfiguration.cs" />
     <Compile Include="Models\BatteryPresets.cs" />
+    <Compile Include="Models\PredefinedData.cs" />
     <Compile Include="Models\ToolboxConfiguration.cs" />
     <Compile Include="Models\MonitoringData.cs" />
     <Compile Include="Models\StartupMode.cs" />
+    <Compile Include="Services\ChartPreviewService.cs" />
     <Compile Include="Storages\ConfigurationStorage.cs" />
     <Compile Include="Windows\AboutWindow.cs">
       <SubType>Form</SubType>
@@ -123,6 +125,12 @@
     <Compile Include="Windows\ScreenshooterWindow.Designer.cs">
       <DependentUpon>ScreenshooterWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Windows\TempControlSetupWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TempControlSetupWindow.Designer.cs">
+      <DependentUpon>TempControlSetupWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Windows\TFRProfileWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\ScreenshooterWindow.resx">
       <DependentUpon>ScreenshooterWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\TempControlSetupWindow.resx">
+      <DependentUpon>TempControlSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\TFRProfileWindow.resx">
       <DependentUpon>TFRProfileWindow.cs</DependentUpon>
