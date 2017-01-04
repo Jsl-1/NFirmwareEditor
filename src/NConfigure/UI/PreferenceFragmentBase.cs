@@ -75,24 +75,34 @@ namespace NToolbox.UI
 
         private void _UpdatePrefSummary(Preference p)
         {
-            if (p is ListPreference) {
-                ListPreference listPref = (ListPreference)p;
-                p.Summary = listPref.Entry;
-            }
-            if (p is EditTextPreference) {
-                EditTextPreference editTextPref = (EditTextPreference)p;
-                if (p.Title.ToLower().Contains("password"))
+            try
+            {
+                if (p is ListPreference)
                 {
-                    p.Summary = "******";
+                    ListPreference listPref = (ListPreference)p;
+                    p.Summary = listPref.Entry;
                 }
-                else
+                if (p is EditTextPreference)
                 {
+                    EditTextPreference editTextPref = (EditTextPreference)p;
+                    if (p.Title.ToLower().Contains("password"))
+                    {
+                        p.Summary = "******";
+                    }
+                    else
+                    {
+                        p.Summary = editTextPref.Text;
+                    }
+                }
+                if (p is MultiSelectListPreference)
+                {
+                    EditTextPreference editTextPref = (EditTextPreference)p;
                     p.Summary = editTextPref.Text;
                 }
             }
-            if (p is MultiSelectListPreference) {
-                EditTextPreference editTextPref = (EditTextPreference)p;
-                p.Summary = editTextPref.Text;
+            catch(Exception ex)
+            {
+                Toast.MakeText(Context, "Error while reading some values",ToastLength.Long);
             }
         }
 

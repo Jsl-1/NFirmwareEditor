@@ -32,6 +32,14 @@ namespace NToolbox.ViewModels
 
         private ArcticFoxConfiguration Configuration { get; set; }
 
+        private ISharedPreferences Preference
+        {
+            get
+            {
+                return Application.Context.GetSharedPreferences("General", FileCreationMode.Private);
+            }
+        }
+
         public ArcticFoxConfigurationViewModel()
         {
             //Configuration = new ArcticFoxConfiguration();
@@ -43,8 +51,29 @@ namespace NToolbox.ViewModels
             var data = HidConnector.Instance.ReadConfiguration();
             Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
 
-            m_ProfileViewModels.Clear();
+            for(var i = 0; i < Configuration.General.Profiles.Length; i++)
+            {
+                var profile = Configuration.General.Profiles[i];
+
+                using (var preferences = Application.Context.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private))
+                using(var editor = preferences.Edit())
+                {
+                    editor.PutString("pref_profiledetail_name", profile.Name);
+                    editor.PutString("pref_profiledetail_material", Convert.ToInt32(profile.Flags.Material).ToString());
+                    editor.PutString("pref_profiledetail_iscelcius", Convert.ToInt32(profile.Flags.IsCelcius).ToString());
+                    editor.PutBoolean("pref_profiledetail_isresistancelocked", profile.Flags.IsResistanceLocked);
+                    editor.PutBoolean("pref_profiledetail_istemperaturedominant", profile.Flags.IsTemperatureDominant);
+                    editor.PutString("pref_profiledetail_power", (Convert.ToSingle(profile.Power) / 10).ToString());
+                    editor.PutString("pref_profiledetail_preheatdelay", Convert.ToInt32(profile.PreheatDelay).ToString());
+                    editor.PutString("pref_profiledetail_preheatpower", (Convert.ToSingle(profile.PreheatPower) / 10).ToString());
+                    editor.PutString("pref_profiledetail_preheattime", (Convert.ToInt32(profile.PreheatTime).ToString());
+
+
+                    editor.Commit();
+                }
+            }           
         }
+
 
         public void WriteConfigurationToDevice()
         {
@@ -56,7 +85,7 @@ namespace NToolbox.ViewModels
         {
             get
             {
-                return HidDeviceInfo.Get(Configuration.Info.ProductId).Name;
+                return Preference.GetString(nameof(Resource.String.pref_device_name), String.Empty);              
             }
         }
 
@@ -91,15 +120,6 @@ namespace NToolbox.ViewModels
                 return Configuration.Info.FirmwareBuild.ToString();
             }
         }
-
-        public ProfileSelection SelectedProfile
-        {
-            get
-            {
-                return (ProfileSelection)Configuration.General.SelectedProfile;
-            }
-        }
-
 
         private Dictionary<ProfileSelection, ProfileViewModel> m_ProfileViewModels = new Dictionary<ProfileSelection, ProfileViewModel>();
 

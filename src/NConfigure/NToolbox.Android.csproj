@@ -203,9 +203,6 @@
     </XamarinComponentReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\xml\preferences_profile_detail.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\drawable\side_nav_bar.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +238,16 @@
   <ItemGroup>
     <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\layout\nav_header_main.xml">
       <Link>Resources\layout\nav_header_main.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\xml\preferences_profile_detail.xml">
+      <Link>Resources\xml\preferences_profile_detail.xml</Link>
+    </AndroidResource>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="..\Android\Android Studio\NToolbox\app\src\main\res\values\prefs.xml">
+      <Link>Resources\values\prefs.xml</Link>
     </AndroidResource>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

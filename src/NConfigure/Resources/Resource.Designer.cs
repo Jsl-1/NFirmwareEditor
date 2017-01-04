@@ -182,29 +182,41 @@ namespace NToolbox
 		public partial class Array
 		{
 			
+			// aapt resource value: 0x7f11000a
+			public const int list_preference_entries = 2131820554;
+			
+			// aapt resource value: 0x7f11000b
+			public const int list_preference_entry_values = 2131820555;
+			
 			// aapt resource value: 0x7f110006
-			public const int list_preference_entries = 2131820550;
+			public const int pref_profiledetail_material_titles = 2131820550;
 			
 			// aapt resource value: 0x7f110007
-			public const int list_preference_entry_values = 2131820551;
+			public const int pref_profiledetail_material_values = 2131820551;
+			
+			// aapt resource value: 0x7f110008
+			public const int pref_profiledetail_powermode_titles = 2131820552;
+			
+			// aapt resource value: 0x7f110009
+			public const int pref_profiledetail_powermode_values = 2131820553;
 			
 			// aapt resource value: 0x7f110004
-			public const int pref_profiledetail_powermode_titles = 2131820548;
+			public const int pref_profiledetail_preheatcurves_titles = 2131820548;
 			
 			// aapt resource value: 0x7f110005
-			public const int pref_profiledetail_powermode_values = 2131820549;
-			
-			// aapt resource value: 0x7f110002
-			public const int pref_profiledetail_preheatcurves_titles = 2131820546;
-			
-			// aapt resource value: 0x7f110003
-			public const int pref_profiledetail_preheatcurves_values = 2131820547;
+			public const int pref_profiledetail_preheatcurves_values = 2131820549;
 			
 			// aapt resource value: 0x7f110000
 			public const int pref_profiledetail_preheattypes_titles = 2131820544;
 			
 			// aapt resource value: 0x7f110001
 			public const int pref_profiledetail_preheattypes_values = 2131820545;
+			
+			// aapt resource value: 0x7f110002
+			public const int pref_profiledetail_tempunit_titles = 2131820546;
+			
+			// aapt resource value: 0x7f110003
+			public const int pref_profiledetail_tempunit_values = 2131820547;
 			
 			static Array()
 			{
@@ -5132,8 +5144,8 @@ namespace NToolbox
 			// aapt resource value: 0x7f0c0014
 			public const int abc_toolbar_collapse_description = 2131492884;
 			
-			// aapt resource value: 0x7f0c0051
-			public const int action_settings = 2131492945;
+			// aapt resource value: 0x7f0c0055
+			public const int action_settings = 2131492949;
 			
 			// aapt resource value: 0x7f0c004a
 			public const int app_name = 2131492938;
@@ -5147,17 +5159,17 @@ namespace NToolbox
 			// aapt resource value: 0x7f0c0045
 			public const int character_counter_pattern = 2131492933;
 			
-			// aapt resource value: 0x7f0c004e
-			public const int drawer_close = 2131492942;
+			// aapt resource value: 0x7f0c0052
+			public const int drawer_close = 2131492946;
 			
-			// aapt resource value: 0x7f0c004d
-			public const int drawer_open = 2131492941;
+			// aapt resource value: 0x7f0c0051
+			public const int drawer_open = 2131492945;
 			
-			// aapt resource value: 0x7f0c0055
-			public const int format_device_name = 2131492949;
+			// aapt resource value: 0x7f0c0059
+			public const int format_device_name = 2131492953;
 			
-			// aapt resource value: 0x7f0c0056
-			public const int format_firmware_version = 2131492950;
+			// aapt resource value: 0x7f0c005a
+			public const int format_firmware_version = 2131492954;
 			
 			// aapt resource value: 0x7f0c004b
 			public const int intro_message = 2131492939;
@@ -5294,11 +5306,11 @@ namespace NToolbox
 			// aapt resource value: 0x7f0c0037
 			public const int lb_time_separator = 2131492919;
 			
-			// aapt resource value: 0x7f0c0050
-			public const int navigation_drawer_close = 2131492944;
+			// aapt resource value: 0x7f0c0054
+			public const int navigation_drawer_close = 2131492948;
 			
-			// aapt resource value: 0x7f0c004f
-			public const int navigation_drawer_open = 2131492943;
+			// aapt resource value: 0x7f0c0053
+			public const int navigation_drawer_open = 2131492947;
 			
 			// aapt resource value: 0x7f0c0049
 			public const int navigationdraweractivity_description = 2131492937;
@@ -5309,20 +5321,32 @@ namespace NToolbox
 			// aapt resource value: 0x7f0c0038
 			public const int orb_search_action = 2131492920;
 			
+			// aapt resource value: 0x7f0c004f
+			public const int pref_build = 2131492943;
+			
+			// aapt resource value: 0x7f0c004c
+			public const int pref_device_name = 2131492940;
+			
+			// aapt resource value: 0x7f0c004e
+			public const int pref_fwver = 2131492942;
+			
+			// aapt resource value: 0x7f0c004d
+			public const int pref_hwver = 2131492941;
+			
 			// aapt resource value: 0x7f0c0015
 			public const int status_bar_notification_info_overflow = 2131492885;
 			
-			// aapt resource value: 0x7f0c0053
-			public const int text_connected = 2131492947;
+			// aapt resource value: 0x7f0c0057
+			public const int text_connected = 2131492951;
 			
-			// aapt resource value: 0x7f0c0052
-			public const int text_disconnected = 2131492946;
+			// aapt resource value: 0x7f0c0056
+			public const int text_disconnected = 2131492950;
 			
-			// aapt resource value: 0x7f0c0054
-			public const int text_restart_device = 2131492948;
+			// aapt resource value: 0x7f0c0058
+			public const int text_restart_device = 2131492952;
 			
-			// aapt resource value: 0x7f0c004c
-			public const int title_activity_main = 2131492940;
+			// aapt resource value: 0x7f0c0050
+			public const int title_activity_main = 2131492944;
 			
 			// aapt resource value: 0x7f0c0000
 			public const int v7_preference_off = 2131492864;

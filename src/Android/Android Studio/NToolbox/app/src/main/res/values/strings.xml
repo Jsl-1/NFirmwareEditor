@@ -31,7 +31,16 @@
         <item>Curve</item>
     </string-array>
 
-    <string-array name="pref_profiledetail_preheatcurves_titles">
+    <string-array name="pref_profiledetail_tempunit_titles">
+      <item>C°</item>
+      <item>F</item>
+    </string-array>
+    <string-array name="pref_profiledetail_tempunit_values">
+      <item>1</item>
+      <item>0</item>
+    </string-array>
+
+  <string-array name="pref_profiledetail_preheatcurves_titles">
         <item>Curve 1</item>
         <item>Curve 2</item>
         <item>Curve 3</item>
@@ -42,8 +51,38 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="pref_profiledetail_material_titles">
+      <item>VariWatt</item>
+      <item>Nickel</item>
+      <item>Titanium</item>
+      <item>Stainless Steel</item>
+      <item>TCR</item>
+      <item>TFR1</item>
+      <item>TFR2</item>
+      <item>TFR3</item>
+      <item>TFR4</item>
+      <item>TFR5</item>
+      <item>TFR6</item>
+      <item>TFR7</item>
+      <item>TFR8</item>
+    </string-array>
+    <string-array name="pref_profiledetail_material_values">
+      <item>0</item>
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+      <item>4</item>
+      <item>5</item>
+      <item>6</item>
+      <item>7</item>
+      <item>8</item>
+      <item>9</item>
+      <item>10</item>
+      <item>11</item>
+      <item>12</item>
+    </string-array>
 
-    <string-array name="pref_profiledetail_powermode_titles">
+  <string-array name="pref_profiledetail_powermode_titles">
         <item>Power</item>
         <item>Temp. Control</item>
     </string-array>

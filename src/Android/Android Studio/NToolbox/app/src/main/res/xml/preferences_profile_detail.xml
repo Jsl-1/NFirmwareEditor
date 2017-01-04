@@ -34,10 +34,10 @@
   </PreferenceCategory>
   <PreferenceCategory android:title="Temperature Control">
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="0"
         android:title="Coil Material"
-        android:entries="@array/list_preference_entries"
-        android:entryValues="@array/list_preference_entry_values"
+        android:entries="@array/pref_profiledetail_material_titles"
+        android:entryValues="@array/pref_profiledetail_material_values"
         android:key="pref_profiledetail_material" />
     <EditTextPreference
         android:defaultValue="0"
@@ -56,7 +56,7 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Resistance locked"
-        android:key="pref_profiledetail_resistance_locked" />
+        android:key="pref_profiledetail_isresistancelocked" />
     <EditTextPreference
         android:defaultValue="0"
         android:selectAllOnFocus="true"
@@ -67,13 +67,13 @@
     <ListPreference
         android:defaultValue="1"
         android:title="Temperature Unit"
-        android:entries="@array/list_preference_entries"
-        android:entryValues="@array/list_preference_entry_values"
-        android:key="pref_profiledetail_material" />
+        android:entries="@array/pref_profiledetail_tempunit_titles"
+        android:entryValues="@array/pref_profiledetail_tempunit_values"
+        android:key="pref_profiledetail_iscelcius" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Temperature Dominant"
-        android:key="pref_profiledetail_tdom" />
+        android:key="pref_profiledetail_istemperaturedominant" />
   </PreferenceCategory>
   <PreferenceCategory android:title="Preheat">
     <ListPreference
@@ -88,8 +88,16 @@
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Power (W)"
-        android:inputType="number"
-        android:key="pref_profiledetail_prehitpower" />
+        android:inputType="numberDecimal"
+        android:key="pref_profiledetail_preheatpower" />
+
+    <EditTextPreference
+      android:defaultValue="0"
+      android:selectAllOnFocus="true"
+      android:singleLine="true"
+      android:title="Preheat Time (s)"
+      android:inputType="number"
+      android:key="pref_profiledetail_preheattime" />
 
     <ListPreference
         android:defaultValue="0"

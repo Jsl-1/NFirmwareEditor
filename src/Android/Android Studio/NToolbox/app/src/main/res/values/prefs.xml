@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_device_name">device_name</string>
+    <string name="pref_hwver">hwver</string>
+    <string name="pref_fwver">fwver</string>
+    <string name="pref_build">build</string> 
+</resources>
