@@ -1,10 +1,67 @@
-﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
 <#@ assembly name="System.Core" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
+<#@ import namespace="System.Text.RegularExpressions" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ parameter type="System.String" name="ProjectFolder" #>
+<#@ parameter type="System.String" name="SolutionFolder" #>
 <#@ output extension=".xml" #>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 <#
-	
+	if(!String.IsNullOrWhiteSpace(SolutionFolder))
+	{
+		var filePath = System.IO.Path.Combine(SolutionFolder, "NToolbox\\Models\\PredefinedData.cs");
+		var code = System.IO.File.ReadAllText(filePath);
+
+		var lines = code.Split(new String[]{ Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+		string currentblocktitles = String.Empty;
+		string currentblockvalues = String.Empty;
+		string currentblockname = String.Empty;
+
+		
+		var variableTitleRegex = new Regex("public static readonly object\\[\\] (.*) =");
+		var titelValueRegex = new System.Text.RegularExpressions.Regex("new NamedItemContainer<(.*)>\\(\\\"(.*)\\\",(.*)\\)");
+		var itemRegex = new Regex("public static readonly object\\[\\] (.*) =");
+    
+		foreach(var line in lines)
+		{
+			var match = variableTitleRegex.Match(line);
+			if(match.Success)
+			{
+				if(currentblockname != String.Empty){
 #>
-<#= System.DateTime.Now.Millisecond#>
+
+      <string-array name="pref_profiledetail_<#=currentblockname.ToLower()#>_titles">
+<#=currentblocktitles#>    </string-array>
+    <string-array name="pref_profiledetail_<#=currentblockname.ToLower()#>_values">
+<#=currentblockvalues#>    </string-array>
+<#
+			}
+
+			currentblockname = match.Groups[1].Value;
+			currentblockvalues = String.Empty;
+			currentblocktitles = String.Empty;
+		}
+		else 
+		{
+			var matchTitles = titelValueRegex.Match(line);
+			if(matchTitles.Success)
+			{
+				currentblocktitles					 
+					+= String.Format("        <item>{1}</item>{0}", System.Environment.NewLine , matchTitles.Groups[2].Value);
+currentblockvalues
++= String.Format("        <item>{1}</item>{0}", System.Environment.NewLine , matchTitles.Groups[3].Value.Replace(matchTitles.Groups[1].Value + ".", "").Trim());
+			}
+		}
+	}
+}
+#>
+</resources>
+
+
+
+
+
+

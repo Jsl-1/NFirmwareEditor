@@ -1,11 +1,12 @@
-﻿<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
   <SwitchPreference
       android:defaultValue="false"
       android:key="prefs_profiledetail_isactive"
       android:summary="Activate this option to set as active profile"
       android:title="Set as active profile" />
-
+  
   <!-- NOTE: EditTextPreference accepts EditText attributes. -->
   <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
   <EditTextPreference
@@ -16,7 +17,10 @@
       android:selectAllOnFocus="true"
       android:singleLine="true"
       android:title="Profile Name" />
-
+  <CheckBoxPreference
+         android:defaultValue="true"
+         android:title="Resistance locked"
+         android:key="pref_profiledetail_isenabled" />
   <PreferenceCategory android:title="Power">
     <ListPreference
         android:defaultValue="0"
@@ -34,10 +38,10 @@
   </PreferenceCategory>
   <PreferenceCategory android:title="Temperature Control">
     <ListPreference
-        android:defaultValue="0"
+        android:defaultValue="TCR"
         android:title="Coil Material"
-        android:entries="@array/pref_profiledetail_material_titles"
-        android:entryValues="@array/pref_profiledetail_material_values"
+        android:entries="@array/pref_profiledetail_materials_titles"
+        android:entryValues="@array/pref_profiledetail_materials_values"
         android:key="pref_profiledetail_material" />
     <EditTextPreference
         android:defaultValue="0"
@@ -65,10 +69,10 @@
         android:inputType="number"
         android:key="pref_profiledetail_temperature" />
     <ListPreference
-        android:defaultValue="1"
+        android:defaultValue="false"
         android:title="Temperature Unit"
-        android:entries="@array/pref_profiledetail_tempunit_titles"
-        android:entryValues="@array/pref_profiledetail_tempunit_values"
+        android:entries="@array/pref_profiledetail_temperaturetypes_titles"
+        android:entryValues="@array/pref_profiledetail_temperaturetypes_values"
         android:key="pref_profiledetail_iscelcius" />
     <CheckBoxPreference
         android:defaultValue="false"
@@ -81,7 +85,7 @@
         android:title="Preheat Type"
         android:entries="@array/pref_profiledetail_preheattypes_titles"
         android:entryValues="@array/pref_profiledetail_preheattypes_values"
-        android:key="list_preference_1" />
+        android:key="pref_profiledetail_preheattype" />
 
     <EditTextPreference
         android:defaultValue="0"
@@ -102,8 +106,8 @@
     <ListPreference
         android:defaultValue="0"
         android:title="Preheat Curve"
-        android:entries="@array/pref_profiledetail_preheatcurves_titles"
-        android:entryValues="@array/pref_profiledetail_preheatcurves_values"
-        android:key="pref_profiledetail_prehitcurve" />
+        android:entries="@array/pref_profiledetail_powercurves_titles"
+        android:entryValues="@array/pref_profiledetail_powercurves_values"
+        android:key="pref_profiledetail_selectedcurve" />
   </PreferenceCategory>
 </PreferenceScreen>

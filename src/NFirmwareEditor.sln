@@ -20,6 +20,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDataflashEditor", "NDataflashEditor\NDataflashEditor.csproj", "{FAC63434-9A35-469C-9C3E-44B46653ED6E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NToolbox.Android", "NConfigure\NToolbox.Android.csproj", "{BFA07770-5102-489E-A458-5A14C73315B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BD5B78B6-85A6-4D3E-9FFE-9F6DA93FA817} = {BD5B78B6-85A6-4D3E-9FFE-9F6DA93FA817}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Android", "Android", "{354168A4-C250-4862-B4DC-551CDACE26BF}"
 EndProject

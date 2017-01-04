@@ -182,41 +182,95 @@ namespace NToolbox
 		public partial class Array
 		{
 			
+			// aapt resource value: 0x7f110014
+			public const int pref_profiledetail_chargescreentypes_titles = 2131820564;
+			
+			// aapt resource value: 0x7f110015
+			public const int pref_profiledetail_chargescreentypes_values = 2131820565;
+			
+			// aapt resource value: 0x7f11000e
+			public const int pref_profiledetail_circleskin3rdlinecontentitems_titles = 2131820558;
+			
+			// aapt resource value: 0x7f11000f
+			public const int pref_profiledetail_circleskin3rdlinecontentitems_values = 2131820559;
+			
+			// aapt resource value: 0x7f11000c
+			public const int pref_profiledetail_circleskinlinecontentitems_titles = 2131820556;
+			
+			// aapt resource value: 0x7f11000d
+			public const int pref_profiledetail_circleskinlinecontentitems_values = 2131820557;
+			
 			// aapt resource value: 0x7f11000a
-			public const int list_preference_entries = 2131820554;
+			public const int pref_profiledetail_classicskinlinecontentitems_titles = 2131820554;
 			
 			// aapt resource value: 0x7f11000b
-			public const int list_preference_entry_values = 2131820555;
+			public const int pref_profiledetail_classicskinlinecontentitems_values = 2131820555;
 			
-			// aapt resource value: 0x7f110006
-			public const int pref_profiledetail_material_titles = 2131820550;
+			// aapt resource value: 0x7f11001a
+			public const int pref_profiledetail_clickactions_titles = 2131820570;
 			
-			// aapt resource value: 0x7f110007
-			public const int pref_profiledetail_material_values = 2131820551;
+			// aapt resource value: 0x7f11001b
+			public const int pref_profiledetail_clickactions_values = 2131820571;
+			
+			// aapt resource value: 0x7f110016
+			public const int pref_profiledetail_clocktypes_titles = 2131820566;
+			
+			// aapt resource value: 0x7f110017
+			public const int pref_profiledetail_clocktypes_values = 2131820567;
+			
+			// aapt resource value: 0x7f110012
+			public const int pref_profiledetail_mainscreenskins_titles = 2131820562;
+			
+			// aapt resource value: 0x7f110013
+			public const int pref_profiledetail_mainscreenskins_values = 2131820563;
 			
 			// aapt resource value: 0x7f110008
-			public const int pref_profiledetail_powermode_titles = 2131820552;
+			public const int pref_profiledetail_materials_titles = 2131820552;
 			
 			// aapt resource value: 0x7f110009
-			public const int pref_profiledetail_powermode_values = 2131820553;
+			public const int pref_profiledetail_materials_values = 2131820553;
 			
 			// aapt resource value: 0x7f110004
-			public const int pref_profiledetail_preheatcurves_titles = 2131820548;
+			public const int pref_profiledetail_powercurves_titles = 2131820548;
 			
 			// aapt resource value: 0x7f110005
-			public const int pref_profiledetail_preheatcurves_values = 2131820549;
+			public const int pref_profiledetail_powercurves_values = 2131820549;
 			
 			// aapt resource value: 0x7f110000
-			public const int pref_profiledetail_preheattypes_titles = 2131820544;
+			public const int pref_profiledetail_powermode_titles = 2131820544;
 			
 			// aapt resource value: 0x7f110001
-			public const int pref_profiledetail_preheattypes_values = 2131820545;
+			public const int pref_profiledetail_powermode_values = 2131820545;
 			
 			// aapt resource value: 0x7f110002
-			public const int pref_profiledetail_tempunit_titles = 2131820546;
+			public const int pref_profiledetail_preheattypes_titles = 2131820546;
 			
 			// aapt resource value: 0x7f110003
-			public const int pref_profiledetail_tempunit_values = 2131820547;
+			public const int pref_profiledetail_preheattypes_values = 2131820547;
+			
+			// aapt resource value: 0x7f11001c
+			public const int pref_profiledetail_pufftimeformats_titles = 2131820572;
+			
+			// aapt resource value: 0x7f11001d
+			public const int pref_profiledetail_pufftimeformats_values = 2131820573;
+			
+			// aapt resource value: 0x7f110018
+			public const int pref_profiledetail_screensavertimes_titles = 2131820568;
+			
+			// aapt resource value: 0x7f110019
+			public const int pref_profiledetail_screensavertimes_values = 2131820569;
+			
+			// aapt resource value: 0x7f110010
+			public const int pref_profiledetail_smallscreenlinecontentitems_titles = 2131820560;
+			
+			// aapt resource value: 0x7f110011
+			public const int pref_profiledetail_smallscreenlinecontentitems_values = 2131820561;
+			
+			// aapt resource value: 0x7f110006
+			public const int pref_profiledetail_temperaturetypes_titles = 2131820550;
+			
+			// aapt resource value: 0x7f110007
+			public const int pref_profiledetail_temperaturetypes_values = 2131820551;
 			
 			static Array()
 			{
