@@ -25,8 +25,8 @@ namespace NToolbox.ViewModels
     {   
         private const ushort MaxPower = 2500;
         private const byte MaxBatteries = 3;
-        private const int MinimumSupportedBuildNumber = 161223;
-        private const int MaximumSupportedSettingsVersion = 5;
+        private const int MinimumSupportedBuildNumber = 170103;
+        private const int MaximumSupportedSettingsVersion = 6;
 
         public static ArcticFoxConfigurationViewModel Instance { get; } = new ArcticFoxConfigurationViewModel();
 
@@ -66,7 +66,7 @@ namespace NToolbox.ViewModels
                     editor.PutString("pref_profiledetail_power", (Convert.ToSingle(profile.Power) / 10).ToString());
                     editor.PutString("pref_profiledetail_preheatdelay", Convert.ToInt32(profile.PreheatDelay).ToString());
                     editor.PutString("pref_profiledetail_preheatpower", (Convert.ToSingle(profile.PreheatPower) / 10).ToString());
-                    editor.PutString("pref_profiledetail_preheattime", (Convert.ToInt32(profile.PreheatTime).ToString());
+                    editor.PutString("pref_profiledetail_preheattime", Convert.ToInt32(profile.PreheatTime).ToString());
 
 
                     editor.Commit();

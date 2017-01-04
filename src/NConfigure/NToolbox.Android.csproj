@@ -106,6 +106,9 @@
     <Compile Include="..\NToolbox\Models\MonitoringData.cs">
       <Link>Models\MonitoringData.cs</Link>
     </Compile>
+    <Compile Include="..\NToolbox\Models\PredefinedData.cs">
+      <Link>Models\PredefinedData.cs</Link>
+    </Compile>
     <Compile Include="..\NToolbox\Models\StartupMode.cs">
       <Link>Models\StartupMode.cs</Link>
     </Compile>
