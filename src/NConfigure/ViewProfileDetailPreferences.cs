@@ -37,7 +37,44 @@ namespace NToolbox
 
         }
 
+        public override void RefreshUi()
+        {
+            base.RefreshUi();
 
+            var pref = PreferenceScreen.FindPreference("prefs_profiledetail_isactive");
+            pref.Enabled = !this.PreferenceManager.SharedPreferences.GetBoolean("prefs_profiledetail_isactive", false);
+            
+        }
+
+        public override void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        {
+            if(key == "prefs_profiledetail_isactive")
+            {
+                var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
+                using (var editor = generalPreferences.Edit())
+                {
+                    editor.PutString("pref_general_selectedprofile", Tag);
+                    editor.Commit();
+                }
+                for(var i=1; i<=8; i++)
+                {
+                    var profileName = String.Format("Profile{0}", i);
+                    var profilePreferences = Application.Context.GetSharedPreferences(profileName, FileCreationMode.Private);
+                    if (profileName != Tag)
+                    {
+                        using (var editor = profilePreferences.Edit())
+                        {
+                            editor.PutBoolean("prefs_profiledetail_isactive", false);
+                            editor.Commit();
+                        }
+                    }
+                }
+
+                PreferenceScreen.FindPreference("prefs_profiledetail_isactive").Enabled = false;
+
+            }
+            base.OnSharedPreferenceChanged(sharedPreferences, key);
+        }
 
     }
 }

@@ -52,12 +52,21 @@ namespace NToolbox.ViewModels
             var data = HidConnector.Instance.ReadConfiguration();
             Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
 
+            var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
+            using (var editor = generalPreferences.Edit())
+            {
+                editor.PutString("pref_general_selectedprofile", String.Format("Profile{0}", Convert.ToInt32(Configuration.General.SelectedProfile) + 1));
+
+                editor.Commit();
+            }
+
             for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];
                 var preferences = m_Activity.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private);
                 using (var editor = preferences.Edit())
                 {
+                    editor.PutBoolean("prefs_profiledetail_isactive", Configuration.General.SelectedProfile == Convert.ToByte(i));
                     editor.PutString("pref_profiledetail_name", profile.Name);
 
                     editor.PutString("pref_profiledetail_material", profile.Flags.Material.ToString());
@@ -81,7 +90,6 @@ namespace NToolbox.ViewModels
 
 
                     editor.Commit();
-                    editor.Apply();
                 }
             }
 
@@ -92,6 +100,10 @@ namespace NToolbox.ViewModels
 
         public void WriteConfigurationToDevice()
         {
+            var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
+
+            Configuration.General.SelectedProfile = Convert.ToByte(Int32.Parse(generalPreferences.GetString("pref_general_selectedprofile", "0").LastOrDefault().ToString()) -1);
+
             for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];

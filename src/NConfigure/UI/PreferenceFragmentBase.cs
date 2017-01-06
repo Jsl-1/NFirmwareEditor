@@ -33,7 +33,7 @@ namespace NToolbox.UI
         {
             base.OnCreate(savedInstanceState);
 
-            Refresh();
+            RefreshUi();
 
            
         }
@@ -47,7 +47,7 @@ namespace NToolbox.UI
 
         private void ViewModel_OnReload(object sender, EventArgs e)
         {
-            Refresh();           
+            RefreshUi();           
         }
 
         public override void OnPause()
@@ -58,7 +58,7 @@ namespace NToolbox.UI
         }
 
 
-        public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
+        public virtual void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
             var preference = FindPreference(key);
             if (preference != null)
@@ -67,7 +67,7 @@ namespace NToolbox.UI
             }
         }
 
-        public virtual void Refresh()
+        public virtual void RefreshUi()
         {
             if(PreferenceScreen != null)
                 PreferenceScreen.RemoveAll();
