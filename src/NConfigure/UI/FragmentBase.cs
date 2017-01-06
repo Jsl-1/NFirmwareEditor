@@ -24,7 +24,7 @@ namespace NToolbox.UI
         {
             get
             {
-                return ArcticFoxConfigurationViewModel.Instance;
+                return ((MainActivity)this.Activity).ViewModel;
             }
         }
 
@@ -78,5 +78,7 @@ namespace NToolbox.UI
                 SetValuesToControls();
             }
         }
+
+        
     }
 }

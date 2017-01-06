@@ -19,14 +19,14 @@ using NCore.UI;
 
 namespace NToolbox.ViewModels
 {
-    public class ArcticFoxConfigurationViewModel
+    public class ArcticFoxConfigurationViewModel 
     {   
         private const ushort MaxPower = 2500;
         private const byte MaxBatteries = 3;
         private const int MinimumSupportedBuildNumber = 170103;
         private const int MaximumSupportedSettingsVersion = 6;
 
-        public static ArcticFoxConfigurationViewModel Instance { get; } = new ArcticFoxConfigurationViewModel();
+        private Activity m_Activity;
 
         private ArcticFoxConfiguration Configuration { get; set; }
 
@@ -38,8 +38,11 @@ namespace NToolbox.ViewModels
             }
         }
 
-        public ArcticFoxConfigurationViewModel()
+        public event EventHandler OnReload;
+
+        public ArcticFoxConfigurationViewModel(Activity activity)
         {
+            m_Activity = activity;
             //Configuration = new ArcticFoxConfiguration();
             Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(Properties.Resources.new_configuration);
         }
@@ -49,12 +52,11 @@ namespace NToolbox.ViewModels
             var data = HidConnector.Instance.ReadConfiguration();
             Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
 
-            for(var i = 0; i < Configuration.General.Profiles.Length; i++)
+            for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];
-
-                using (var preferences = Application.Context.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private))
-                using(var editor = preferences.Edit())
+                var preferences = m_Activity.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private);
+                using (var editor = preferences.Edit())
                 {
                     editor.PutString("pref_profiledetail_name", profile.Name);
 
@@ -62,14 +64,14 @@ namespace NToolbox.ViewModels
                     editor.PutString("pref_profiledetail_powermode", profile.Flags.Material == Material.VariWatt ? "0" : "1");
 
                     editor.PutBoolean("pref_profiledetail_istemperaturedominant", profile.Flags.IsTemperatureDominant);
-                    editor.PutString("pref_profiledetail_iscelcius",profile.Flags.IsCelcius.ToString().ToLower());
+                    editor.PutString("pref_profiledetail_iscelcius", profile.Flags.IsCelcius.ToString().ToLower());
                     editor.PutBoolean("pref_profiledetail_isresistancelocked", profile.Flags.IsResistanceLocked);
                     editor.PutBoolean("pref_profiledetail_isenabled", profile.Flags.IsEnabled);
 
                     editor.PutString("pref_profiledetail_preheattype", profile.PreheatType.ToString());
                     editor.PutString("pref_profiledetail_selectedcurve", ((byte)profile.SelectedCurve).ToString());
                     editor.PutString("pref_profiledetail_preheattime", (profile.PreheatTime / 100f).ToString());
-                    editor.PutString("pref_profiledetail_preheatdelay",(profile.PreheatDelay / 10f).ToString());
+                    editor.PutString("pref_profiledetail_preheatdelay", (profile.PreheatDelay / 10f).ToString());
                     editor.PutString("pref_profiledetail_preheatpower", (profile.PreheatPower / 10f).ToString());
 
                     editor.PutString("pref_profiledetail_power", (profile.Power / 10f).ToString());
@@ -77,10 +79,14 @@ namespace NToolbox.ViewModels
                     editor.PutString("pref_profiledetail_resistance", (profile.Resistance / 1000f).ToString());
                     editor.PutString("pref_profiledetail_tcr", profile.TCR.ToString());
 
-                   
+
                     editor.Commit();
+                    editor.Apply();
                 }
-            }           
+            }
+
+            if (OnReload != null)
+                OnReload(this, EventArgs.Empty);
         }
 
 
@@ -221,6 +227,14 @@ namespace NToolbox.ViewModels
             get
             {
                 return Configuration.Info.FirmwareBuild.ToString();
+            }
+        }
+
+        public IntPtr Handle
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
 

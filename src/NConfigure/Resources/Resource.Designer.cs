@@ -182,6 +182,21 @@ namespace NToolbox
 		public partial class Array
 		{
 			
+			// aapt resource value: 0x7f110022
+			public const int list_preference_entries = 2131820578;
+			
+			// aapt resource value: 0x7f110023
+			public const int list_preference_entry_values = 2131820579;
+			
+			// aapt resource value: 0x7f110024
+			public const int multi_select_list_preference_default_value = 2131820580;
+			
+			// aapt resource value: 0x7f11001e
+			public const int pref_example_list_titles = 2131820574;
+			
+			// aapt resource value: 0x7f11001f
+			public const int pref_example_list_values = 2131820575;
+			
 			// aapt resource value: 0x7f110014
 			public const int pref_profiledetail_chargescreentypes_titles = 2131820564;
 			
@@ -271,6 +286,12 @@ namespace NToolbox
 			
 			// aapt resource value: 0x7f110007
 			public const int pref_profiledetail_temperaturetypes_values = 2131820551;
+			
+			// aapt resource value: 0x7f110020
+			public const int pref_sync_frequency_titles = 2131820576;
+			
+			// aapt resource value: 0x7f110021
+			public const int pref_sync_frequency_values = 2131820577;
 			
 			static Array()
 			{
@@ -5378,14 +5399,56 @@ namespace NToolbox
 			// aapt resource value: 0x7f0c004f
 			public const int pref_build = 2131492943;
 			
+			// aapt resource value: 0x7f0c0060
+			public const int pref_default_display_name = 2131492960;
+			
+			// aapt resource value: 0x7f0c005e
+			public const int pref_description_social_recommendations = 2131492958;
+			
 			// aapt resource value: 0x7f0c004c
 			public const int pref_device_name = 2131492940;
 			
 			// aapt resource value: 0x7f0c004e
 			public const int pref_fwver = 2131492942;
 			
+			// aapt resource value: 0x7f0c0062
+			public const int pref_header_data_sync = 2131492962;
+			
+			// aapt resource value: 0x7f0c005c
+			public const int pref_header_general = 2131492956;
+			
+			// aapt resource value: 0x7f0c0065
+			public const int pref_header_notifications = 2131492965;
+			
 			// aapt resource value: 0x7f0c004d
 			public const int pref_hwver = 2131492941;
+			
+			// aapt resource value: 0x7f0c0068
+			public const int pref_ringtone_silent = 2131492968;
+			
+			// aapt resource value: 0x7f0c0061
+			public const int pref_title_add_friends_to_messages = 2131492961;
+			
+			// aapt resource value: 0x7f0c005f
+			public const int pref_title_display_name = 2131492959;
+			
+			// aapt resource value: 0x7f0c0066
+			public const int pref_title_new_message_notifications = 2131492966;
+			
+			// aapt resource value: 0x7f0c0067
+			public const int pref_title_ringtone = 2131492967;
+			
+			// aapt resource value: 0x7f0c005d
+			public const int pref_title_social_recommendations = 2131492957;
+			
+			// aapt resource value: 0x7f0c0063
+			public const int pref_title_sync_frequency = 2131492963;
+			
+			// aapt resource value: 0x7f0c0064
+			public const int pref_title_system_sync_settings = 2131492964;
+			
+			// aapt resource value: 0x7f0c0069
+			public const int pref_title_vibrate = 2131492969;
 			
 			// aapt resource value: 0x7f0c0015
 			public const int status_bar_notification_info_overflow = 2131492885;
@@ -5398,6 +5461,9 @@ namespace NToolbox
 			
 			// aapt resource value: 0x7f0c0058
 			public const int text_restart_device = 2131492952;
+			
+			// aapt resource value: 0x7f0c005b
+			public const int title_activity_device_settings = 2131492955;
 			
 			// aapt resource value: 0x7f0c0050
 			public const int title_activity_main = 2131492944;

@@ -48,6 +48,18 @@ namespace NToolbox
        
         private HidUsbReceiver m_HidUsbReceiver;
 
+        private ArcticFoxConfigurationViewModel m_ViewModel;
+
+        public ArcticFoxConfigurationViewModel ViewModel
+        {
+            get { return m_ViewModel; }
+        }
+
+        public MainActivity()
+        {
+            m_ViewModel = new ArcticFoxConfigurationViewModel(this);
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
@@ -161,10 +173,6 @@ namespace NToolbox
 
             HidConnector.Instance.DeviceConnected += HidConnector_DeviceConnected;
             HidConnector.Instance.RefreshState();
-
-            //HidConnectorInstance.HidConnector.DeviceConnected += HidConnector_DeviceConnected;
-            //HidConnectorInstance.HidConnector.RefreshState();
-
         }
 
     
@@ -207,15 +215,6 @@ namespace NToolbox
                 case Resource.Id.nav_profile8:
                     _SetFrame<ViewProfileDetailPreferences>(ViewProfileDetailPreferences.XmlPreferenceId, ProfileSelection.Profile8.ToString());
                     break;
-                //case Resource.Id.nav_control:
-                //    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, "Profile1");
-                //    break;
-                //case Resource.Id.nav_monitor:
-                //    _SetFrame<ViewProfileDetail>(ViewProfileDetail.LayoutResourceId, "Profile1");
-                //    break;
-                //case Resource.Id.nav_debug:
-                //    fragment = new DebugViewFragment();
-                //    break;
                 default:
                     Toast.MakeText(ApplicationContext, "Invalid Menu Item", 0).Show();
                     return false;
@@ -262,18 +261,17 @@ namespace NToolbox
 
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
-            MenuInflater.Inflate(Resource.Menu.action_menu, menu);
-            
+            MenuInflater.Inflate(Resource.Menu.action_menu, menu);            
             return true;
         }
 
         public override bool OnPrepareOptionsMenu(IMenu menu)
         {
-
             menu.FindItem(Resource.Id.nav_action_download_settings).SetEnabled(m_IsConnected);
             menu.FindItem(Resource.Id.nav_action_reset_device).SetEnabled(m_IsConnected);
             menu.FindItem(Resource.Id.nav_action_upload_device).SetEnabled(m_IsConnected);
             menu.FindItem(Resource.Id.nav_action_restart_device).SetEnabled(m_IsConnected);
+
             return base.OnPrepareOptionsMenu(menu);
         }
 
@@ -302,46 +300,21 @@ namespace NToolbox
             _restoreSelectedFrame();
         }
 
-        //private void _SetDataFromArticFoxConfiguration()
-        //{
-        //    m_GeneralViewFragment.DeviceName = m_ViewModel.DeviceName;
-        //    m_GeneralViewFragment.Build = m_ViewModel.Build;
-        //    m_GeneralViewFragment.FwVer = m_ViewModel.FwVer;
-        //    m_GeneralViewFragment.HwVer = m_ViewModel.HwVer;
-        //}
-
-        private void _SetDataToArticFoxConfiguration()
-        {
-            
-        }
-
         private void RefreshFromDevice()
         {
-            ArcticFoxConfigurationViewModel.Instance.ReadConfigurationFromDevice();
+            m_ViewModel.ReadConfigurationFromDevice();
 
-
-
-            m_txtDeviceName.Text = ArcticFoxConfigurationViewModel.Instance.DeviceName;
-            m_txtFwVer.Text = ArcticFoxConfigurationViewModel.Instance.FwVer;
-            m_txtBuild.Text = ArcticFoxConfigurationViewModel.Instance.Build;
-            m_txtHwVer.Text = ArcticFoxConfigurationViewModel.Instance.HwVer;
-
-
-            //var preference = this.ApplicationContext.GetSharedPreferences("")
-
-
-            //_SetDataFromArticFoxConfiguration();
-
-
-
+            m_txtDeviceName.Text = m_ViewModel.DeviceName;
+            m_txtFwVer.Text = m_ViewModel.FwVer;
+            m_txtBuild.Text = m_ViewModel.Build;
+            m_txtHwVer.Text = m_ViewModel.HwVer;
         }
 
         private void UploadToDevice()
         {  
             try
             {
-                _SetDataToArticFoxConfiguration();
-                ArcticFoxConfigurationViewModel.Instance.WriteConfigurationToDevice();
+                m_ViewModel.WriteConfigurationToDevice();
             }
             catch (TimeoutException)
             {

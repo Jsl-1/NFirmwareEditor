@@ -50,6 +50,7 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
   </PropertyGroup>
   <ItemGroup>
     <T4ReferencePath Include="$(VsIdePath)PublicAssemblies\" />
+	<T4ReferencePath Include="$(SolutionDir)out\" />
     <!-- Add more T4ReferencePath items here -->
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +91,21 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Content>
+    <Content Include="prefs_keys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>prefs_keys.xml</LastGenOutput>
+    </Content>
+    <Content Include="prefs_keys.xml">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>prefs_keys.tt</DependentUpon>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\NToolbox\NToolbox.csproj">
+      <Project>{ccf4da99-e644-4e9e-a4cc-6f30623fa2af}</Project>
+      <Name>NToolbox</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />

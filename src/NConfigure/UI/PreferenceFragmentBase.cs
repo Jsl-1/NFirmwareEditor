@@ -25,7 +25,7 @@ namespace NToolbox.UI
         {
             get
             {
-                return ArcticFoxConfigurationViewModel.Instance;
+                return ((MainActivity)this.Activity).ViewModel;
             }
         }
 
@@ -33,31 +33,51 @@ namespace NToolbox.UI
         {
             base.OnCreate(savedInstanceState);
 
-            if(Tag != null)
-                PreferenceManager.SharedPreferencesName = String.Format("{0}", Tag);
+            Refresh();
 
-            this.AddPreferencesFromResource(PreferenceId);
-
-            _InitSumary(PreferenceScreen);
+           
         }
 
         public override void OnResume()
         {
             base.OnResume();
             PreferenceScreen.SharedPreferences.RegisterOnSharedPreferenceChangeListener(this);
+            ViewModel.OnReload += ViewModel_OnReload;
+        }
+
+        private void ViewModel_OnReload(object sender, EventArgs e)
+        {
+            Refresh();           
         }
 
         public override void OnPause()
         {
             base.OnPause();
             PreferenceScreen.SharedPreferences.UnregisterOnSharedPreferenceChangeListener(this);
+            ViewModel.OnReload -= ViewModel_OnReload;
         }
+
 
         public void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
         {
-            _UpdatePrefSummary(FindPreference(key));
+            var preference = FindPreference(key);
+            if (preference != null)
+            {
+                _UpdatePrefSummary(FindPreference(key));
+            }
         }
 
+        public virtual void Refresh()
+        {
+            PreferenceScreen.RemoveAll();
+
+            if (Tag != null)
+                PreferenceManager.SharedPreferencesName = String.Format("{0}", Tag);
+
+            this.AddPreferencesFromResource(PreferenceId);
+
+            _InitSumary(PreferenceScreen);
+        }
 
 
         private void _InitSumary(Preference p)
