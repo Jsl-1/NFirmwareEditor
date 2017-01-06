@@ -69,7 +69,8 @@ namespace NToolbox.UI
 
         public virtual void Refresh()
         {
-            PreferenceScreen.RemoveAll();
+            if(PreferenceScreen != null)
+                PreferenceScreen.RemoveAll();
 
             if (Tag != null)
                 PreferenceManager.SharedPreferencesName = String.Format("{0}", Tag);
