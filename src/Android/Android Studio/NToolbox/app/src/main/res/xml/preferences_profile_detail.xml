@@ -30,14 +30,14 @@
         android:entries="@array/pref_profiledetail_powermode_titles"
         android:entryValues="@array/pref_profiledetail_powermode_values"
         android:key="@string/pref_profiledetail_powermode" />
-    <NToolbox.Controls.Preferences.EditFloatPreference
-         nctrl:max="200"
-         nctrl:min="0"
-         nctrl:multiplier="0"
-         android:defaultValue="75"
+    <NToolbox.Controls.Preferences.EditIntPreference
+         nctrl:max="2000"
+         nctrl:min="10"
+         nctrl:valuedivider="10"
+         android:defaultValue="1"
+         android:singleLine="true"
          android:inputType="numberDecimal"
          android:selectAllOnFocus="true"
-         android:singleLine="true"
          android:title="Power (W)"
          android:key="@string/prefs_general_profiles_power" />
   </PreferenceCategory>
@@ -48,30 +48,36 @@
         android:entries="@array/pref_profiledetail_materials_titles"
         android:entryValues="@array/pref_profiledetail_materials_values"
         android:key="@string/prefs_general_profiles_flags_material" />
-    <EditTextPreference
+    <NToolbox.Controls.Preferences.EditIntPreference
+        nctrl:max="2000"
+        nctrl:min="10"
         android:defaultValue="0"
+        android:singleLine="true"
         android:inputType="number"
         android:selectAllOnFocus="true"
-        android:singleLine="true"
         android:title="TCR"
         android:key="@string/prefs_general_profiles_tcr" />
-    <EditTextPreference
-        android:defaultValue="0"
-        android:selectAllOnFocus="true"
+    <NToolbox.Controls.Preferences.EditIntPreference
+        nctrl:max="2000"
+        nctrl:min="10"
+        nctrl:valuedivider="1000"
         android:singleLine="true"
-        android:title="Resistance"
         android:inputType="numberDecimal"
+        android:selectAllOnFocus="true"
+        android:title="Resistance"        
         android:key="@string/prefs_general_profiles_resistance" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Resistance locked"
         android:key="@string/prefs_general_profiles_flags_isresistancelocked" />
-    <EditTextPreference
+    <NToolbox.Controls.Preferences.EditIntPreference
+        nctrl:max="315"
+        nctrl:min="100"
         android:defaultValue="0"
-        android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Temperature"
         android:inputType="number"
+        android:selectAllOnFocus="true"
+        android:title="Temperature"
         android:key="@string/prefs_general_profiles_temperature" />
     <ListPreference
         android:defaultValue="false"
@@ -92,12 +98,14 @@
         android:entryValues="@array/pref_profiledetail_preheattypes_values"
         android:key="@string/prefs_general_profiles_preheattype" />
 
-    <EditTextPreference
-        android:defaultValue="0"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
+    <NToolbox.Controls.Preferences.EditIntPreference
+         nctrl:max="100"
+         nctrl:min="250"
+         nctrl:valuedivider="10"
+         android:defaultValue="0"
+         android:singleLine="true"
+         android:inputType="numberDecimal"
         android:title="Power (W)"
-        android:inputType="numberDecimal"
         android:key="@string/prefs_general_profiles_preheatpower" />
 
     <EditTextPreference

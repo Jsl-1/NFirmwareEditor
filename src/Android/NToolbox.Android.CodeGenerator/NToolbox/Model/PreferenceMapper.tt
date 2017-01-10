@@ -1,0 +1,89 @@
+﻿<#@ template debug="false" hostspecific="true" language="C#" #>
+<#@ assembly name="mscorlib" #>
+<#@ assembly name="System" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="EnvDTE" #>
+<#@ import namespace="EnvDTE" #>
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.CodeDom.Compiler" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="Microsoft.CSharp" #>
+<#@ output extension=".cs" #>
+<#@ parameter type="System.String" name="ProjectFolder" #>
+<#@ parameter type="System.String" name="SolutionFolder" #>
+namespace NToolbox
+{
+    public partial class PreferenceMapper
+    {
+
+        public static void MapTo()
+        {
+
+        }
+<#
+		var solutionFolder = SolutionFolder;
+		if(solutionFolder == null)
+		{
+			solutionFolder = Host.ResolveAssemblyReference("$(SolutionDir)");
+		}		
+
+        Dictionary<String, Assembly> assemblies = new Dictionary<String, Assembly>();
+
+        var nToolboxBuildPath = Path.Combine(solutionFolder, "out");
+        foreach(var file in Directory.GetFiles(nToolboxBuildPath)){
+            if(file.EndsWith(".exe") || file.EndsWith(".dll")){
+                
+                var a = Assembly.LoadFile(file);
+                assemblies.Add(file, a);
+            }
+        }
+
+		var nToolboxAssemblyPath= Path.Combine(solutionFolder, "out\\NToolbox.exe");
+		var nToolboxAssembly= assemblies[nToolboxAssemblyPath];
+
+		var articFoxConfigurationType = nToolboxAssembly.GetType("NToolbox.Models.ArcticFoxConfiguration");
+
+
+        var propertykeys = new List<String>();
+        Generator.FillFieldKeys(articFoxConfigurationType, propertykeys, "prefs_");
+
+		foreach (var fieldKey in propertykeys){
+		#>
+
+		<#=            String.Format("public const string {0} = nameof(Resource.String.{0});",fieldKey.ToLower())#>
+		<#			
+		}
+#>
+
+    }
+}
+
+<#+
+	public class Generator
+    {
+        public static void FillFieldKeys(Type t, List<String> output, string prefix)
+        {
+            foreach (var field in t.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
+                if(field.FieldType.IsArray && field.FieldType != typeof(string)){
+                    var newPrefix =  prefix +  field.Name + "_";
+                    FillFieldKeys(field.FieldType.GetElementType(), output, newPrefix);
+                }
+                else if(field.FieldType.IsValueType || field.FieldType == typeof(string)){     
+                    output.Add(prefix + field.Name);
+                }              
+                else {
+                   
+                    var newPrefix =  prefix +  field.Name + "_";
+                    FillFieldKeys(field.FieldType, output, newPrefix);
+                }
+		    }
+        }
+	}
+#>
+

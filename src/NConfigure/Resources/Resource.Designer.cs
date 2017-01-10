@@ -1254,9 +1254,6 @@ namespace NToolbox
 			// aapt resource value: 0x7f010059
 			public const int multiChoiceItemLayout = 2130772057;
 			
-			// aapt resource value: 0x7f01021b
-			public const int multiplier = 2130772507;
-			
 			// aapt resource value: 0x7f01010e
 			public const int navigationContentDescription = 2130772238;
 			
@@ -1889,6 +1886,9 @@ namespace NToolbox
 			
 			// aapt resource value: 0x7f0101ef
 			public const int useCompatPadding = 2130772463;
+			
+			// aapt resource value: 0x7f01021b
+			public const int valuedivider = 2130772507;
 			
 			// aapt resource value: 0x7f0101a5
 			public const int verticalMargin = 2130772389;
@@ -8946,19 +8946,19 @@ namespace NToolbox
 			// aapt resource value: 7
 			public const int DrawerArrowToggle_thickness = 7;
 			
-			public static int[] EditFloatPreference = new int[] {
+			public static int[] EditIntPreference = new int[] {
 					2130772505,
 					2130772506,
 					2130772507};
 			
 			// aapt resource value: 1
-			public const int EditFloatPreference_max = 1;
+			public const int EditIntPreference_max = 1;
 			
 			// aapt resource value: 0
-			public const int EditFloatPreference_min = 0;
+			public const int EditIntPreference_min = 0;
 			
 			// aapt resource value: 2
-			public const int EditFloatPreference_multiplier = 2;
+			public const int EditIntPreference_valuedivider = 2;
 			
 			public static int[] FloatingActionButton = new int[] {
 					2130772050,

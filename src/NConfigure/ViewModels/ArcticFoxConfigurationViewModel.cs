@@ -87,12 +87,12 @@ namespace NToolbox.ViewModels
                     editor.PutString(PreferenceKeys.prefs_general_profiles_selectedcurve, ((byte)profile.SelectedCurve).ToString());
                     editor.PutString(PreferenceKeys.prefs_general_profiles_preheattime, (profile.PreheatTime / 100f).ToString());
                     editor.PutString(PreferenceKeys.prefs_general_profiles_preheatdelay, (profile.PreheatDelay / 10f).ToString());
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheatpower, (profile.PreheatPower / 10f).ToString());
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_preheatpower, profile.PreheatPower);
 
-                    editor.PutFloat(PreferenceKeys.prefs_general_profiles_power, profile.Power / 10f);
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_temperature, profile.Temperature.ToString());
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_resistance, (profile.Resistance / 1000f).ToString());
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_tcr, profile.TCR.ToString());
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_power, profile.Power);
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_temperature, profile.Temperature);
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_resistance, profile.Resistance);
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_tcr, profile.TCR);
 
                     editor.Commit();
                 }
@@ -164,38 +164,21 @@ namespace NToolbox.ViewModels
                         profile.PreheatDelay = Convert.ToByte(Convert.ToInt32(preHeatDelay * 10f));
                     }
 
-                    var preHeatpowerString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheatpower, "");
-                    Single preHeatpower;
-                    if (Single.TryParse(preHeatpowerString, out preHeatpower))
-                    {
-                        profile.PreheatPower = Convert.ToUInt16(Convert.ToInt32(preHeatpower * 10f));
-                    }
+                    var preHeatpower= preferences.GetInt(PreferenceKeys.prefs_general_profiles_preheatpower, 0);
+                    profile.PreheatPower = Convert.ToUInt16(preHeatpower);
 
-                    var power = preferences.GetFloat(PreferenceKeys.prefs_general_profiles_power, 0);
-                    profile.Power = Convert.ToUInt16(power * 10f);
+                    var power = preferences.GetInt(PreferenceKeys.prefs_general_profiles_power, 0);
+                    profile.Power = Convert.ToUInt16(power);
 
-                    var temperatureString = preferences.GetString(PreferenceKeys.prefs_general_profiles_temperature, "");
-                    UInt16 temperature;
-                    if (UInt16.TryParse(temperatureString, out temperature))
-                    {
-                        profile.Temperature = temperature;
-                    }
-
-                    var resistanceString = preferences.GetString(PreferenceKeys.prefs_general_profiles_resistance, "");
-                    Single resistance;
-                    if (Single.TryParse(resistanceString, out resistance))
-                    {
-                        profile.Resistance = Convert.ToUInt16(resistance * 1000f);
-                    }
-
-                    var tcrString = preferences.GetString(PreferenceKeys.prefs_general_profiles_tcr, "");
-                    UInt16 tcr;
-                    if (UInt16.TryParse(tcrString, out tcr))
-                    {
-                        profile.TCR = tcr;
-                    }
+                    var temperature = preferences.GetInt(PreferenceKeys.prefs_general_profiles_temperature, 0);
+                    profile.Temperature = Convert.ToUInt16(temperature);
 
 
+                    var resistance = preferences.GetInt(PreferenceKeys.prefs_general_profiles_resistance, 0);
+                    profile.Resistance = Convert.ToUInt16(resistance);
+
+                    var tcr = preferences.GetInt(PreferenceKeys.prefs_general_profiles_tcr, 0);
+                    profile.TCR = Convert.ToUInt16(tcr);
                 }
             }
 

@@ -135,7 +135,7 @@
     <Compile Include="..\NToolbox\Models\StartupMode.cs">
       <Link>Models\StartupMode.cs</Link>
     </Compile>
-    <Compile Include="Controls\Preferences\EditFloatPreference.cs" />
+    <Compile Include="Controls\Preferences\EditIntPreference.cs" />
     <Compile Include="GeneralViewFragment.cs" />
     <Compile Include="InitialViewFragment.cs" />
     <Compile Include="MainActivity.cs" />
@@ -214,7 +214,9 @@
     <AndroidResource Include="Resources\menu\action_menu.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\values\attrs.xml" />
+    <AndroidResource Include="Resources\values\attrs.xml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="xamandroidsupportdesign">
