@@ -26,8 +26,6 @@ namespace NToolbox.ViewModels
         private const int MinimumSupportedBuildNumber = 170103;
         private const int MaximumSupportedSettingsVersion = 6;
 
-        private Activity m_Activity;
-
         private ArcticFoxConfiguration Configuration { get; set; }
 
         private ISharedPreferences Preference
@@ -40,22 +38,30 @@ namespace NToolbox.ViewModels
 
         public event EventHandler OnReload;
 
-        public ArcticFoxConfigurationViewModel(Activity activity)
+        public ArcticFoxConfigurationViewModel()
         {
-            m_Activity = activity;
-            //Configuration = new ArcticFoxConfiguration();
             Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(Properties.Resources.new_configuration);
+            ReadConfiguration(false);
+
         }
 
         public void ReadConfigurationFromDevice()
         {
-            var data = HidConnector.Instance.ReadConfiguration();
-            Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
+            ReadConfiguration(true);
+        }
+
+        public void ReadConfiguration(Boolean refreshFromDevice = false)
+        {
+            if (refreshFromDevice)
+            {
+                var data = HidConnector.Instance.ReadConfiguration();
+                Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
+            }
 
             var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
             using (var editor = generalPreferences.Edit())
             {
-                editor.PutString("pref_general_selectedprofile", String.Format("Profile{0}", Convert.ToInt32(Configuration.General.SelectedProfile) + 1));
+                editor.PutString(PreferenceKeys.prefs_general_selectedprofile, String.Format("Profile{0}", Convert.ToInt32(Configuration.General.SelectedProfile) + 1));
 
                 editor.Commit();
             }
@@ -63,31 +69,30 @@ namespace NToolbox.ViewModels
             for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];
-                var preferences = m_Activity.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private);
+                var preferences = Application.Context.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private);
                 using (var editor = preferences.Edit())
                 {
                     editor.PutBoolean("prefs_profiledetail_isactive", Configuration.General.SelectedProfile == Convert.ToByte(i));
-                    editor.PutString("pref_profiledetail_name", profile.Name);
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_name, profile.Name);
 
-                    editor.PutString("pref_profiledetail_material", profile.Flags.Material.ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_flags_material, profile.Flags.Material.ToString());
                     editor.PutString("pref_profiledetail_powermode", profile.Flags.Material == Material.VariWatt ? "0" : "1");
 
-                    editor.PutBoolean("pref_profiledetail_istemperaturedominant", profile.Flags.IsTemperatureDominant);
-                    editor.PutString("pref_profiledetail_iscelcius", profile.Flags.IsCelcius.ToString().ToLower());
-                    editor.PutBoolean("pref_profiledetail_isresistancelocked", profile.Flags.IsResistanceLocked);
-                    editor.PutBoolean("pref_profiledetail_isenabled", profile.Flags.IsEnabled);
+                    editor.PutBoolean(PreferenceKeys.prefs_general_profiles_flags_istemperaturedominant, profile.Flags.IsTemperatureDominant);
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_flags_iscelcius, profile.Flags.IsCelcius.ToString().ToLower());
+                    editor.PutBoolean(PreferenceKeys.prefs_general_profiles_flags_isresistancelocked, profile.Flags.IsResistanceLocked);
+                    editor.PutBoolean(PreferenceKeys.prefs_general_profiles_flags_isenabled, profile.Flags.IsEnabled);
 
-                    editor.PutString("pref_profiledetail_preheattype", profile.PreheatType.ToString());
-                    editor.PutString("pref_profiledetail_selectedcurve", ((byte)profile.SelectedCurve).ToString());
-                    editor.PutString("pref_profiledetail_preheattime", (profile.PreheatTime / 100f).ToString());
-                    editor.PutString("pref_profiledetail_preheatdelay", (profile.PreheatDelay / 10f).ToString());
-                    editor.PutString("pref_profiledetail_preheatpower", (profile.PreheatPower / 10f).ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheattype, profile.PreheatType.ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_selectedcurve, ((byte)profile.SelectedCurve).ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheattime, (profile.PreheatTime / 100f).ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheatdelay, (profile.PreheatDelay / 10f).ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheatpower, (profile.PreheatPower / 10f).ToString());
 
-                    editor.PutString("pref_profiledetail_power", (profile.Power / 10f).ToString());
-                    editor.PutString("pref_profiledetail_temperature", profile.Temperature.ToString());
-                    editor.PutString("pref_profiledetail_resistance", (profile.Resistance / 1000f).ToString());
-                    editor.PutString("pref_profiledetail_tcr", profile.TCR.ToString());
-
+                    editor.PutFloat(PreferenceKeys.prefs_general_profiles_power, profile.Power / 10f);
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_temperature, profile.Temperature.ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_resistance, (profile.Resistance / 1000f).ToString());
+                    editor.PutString(PreferenceKeys.prefs_general_profiles_tcr, profile.TCR.ToString());
 
                     editor.Commit();
                 }
@@ -102,14 +107,14 @@ namespace NToolbox.ViewModels
         {
             var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
 
-            Configuration.General.SelectedProfile = Convert.ToByte(Int32.Parse(generalPreferences.GetString("pref_general_selectedprofile", "0").LastOrDefault().ToString()) -1);
+            Configuration.General.SelectedProfile = Convert.ToByte(Int32.Parse(generalPreferences.GetString(PreferenceKeys.prefs_general_selectedprofile, "0").LastOrDefault().ToString()) -1);
 
             for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];
                 using (var preferences = Application.Context.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private))
                 {
-                    profile.Name = preferences.GetString("pref_profiledetail_name", String.Format("Profile{0}", (i + 1)));
+                    profile.Name = preferences.GetString(PreferenceKeys.prefs_general_profiles_name, String.Format("Profile{0}", (i + 1)));
 
                     var powerMode = preferences.GetString("pref_profiledetail_powermode", "0");
                     if(powerMode == "0")
@@ -118,7 +123,7 @@ namespace NToolbox.ViewModels
                     }
                     else
                     {
-                        var materialString = preferences.GetString("pref_profiledetail_name", "");
+                        var materialString = preferences.GetString(PreferenceKeys.prefs_general_profiles_flags_material, "");
                         Material material;
                         if (Enum.TryParse<Material>(materialString, out material))
                         {
@@ -126,68 +131,64 @@ namespace NToolbox.ViewModels
                         }
                     }
 
-                    profile.Flags.IsTemperatureDominant = preferences.GetBoolean("pref_profiledetail_istemperaturedominant", false);
-                    profile.Flags.IsCelcius = preferences.GetString("pref_profiledetail_iscelcius", "false").ToString() == true.ToString().ToLower();
-                    profile.Flags.IsResistanceLocked = preferences.GetBoolean("ref_profiledetail_isresistancelocked", false);
-                    profile.Flags.IsEnabled = preferences.GetBoolean("pref_profiledetail_isenabled", true);
+                    profile.Flags.IsTemperatureDominant = preferences.GetBoolean(PreferenceKeys.prefs_general_profiles_flags_istemperaturedominant, false);
+                    profile.Flags.IsCelcius = preferences.GetString(PreferenceKeys.prefs_general_profiles_flags_iscelcius, "false").ToString() == true.ToString().ToLower();
+                    profile.Flags.IsResistanceLocked = preferences.GetBoolean(PreferenceKeys.prefs_general_profiles_flags_isresistancelocked, false);
+                    profile.Flags.IsEnabled = preferences.GetBoolean(PreferenceKeys.prefs_general_profiles_flags_isenabled, true);
 
-                    var preheatTypeString = preferences.GetString("pref_profiledetail_preheattype", "");
+                    var preheatTypeString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheattype, "");
                     PreheatType preheatType;
                     if (Enum.TryParse<PreheatType>(preheatTypeString, out preheatType))
                     {
                         profile.PreheatType = preheatType;
                     }
 
-                    var selectedCurveString = preferences.GetString("pref_profiledetail_selectedcurve", "");
+                    var selectedCurveString = preferences.GetString(PreferenceKeys.prefs_general_profiles_selectedcurve, "");
                     Byte selectedCurve;
                     if (Byte.TryParse(selectedCurveString, out selectedCurve))
                     {
                         profile.SelectedCurve = selectedCurve;
                     }
 
-                    var preHeatTimeString = preferences.GetString("pref_profiledetail_preheattime", "");
+                    var preHeatTimeString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheattime, "");
                     Single preHeatTime;
                     if (Single.TryParse(preHeatTimeString, out preHeatTime))
                     {
                         profile.PreheatTime = Convert.ToByte(Convert.ToInt32(preHeatTime * 100f) );
                     }
 
-                    var preHeatDelayString = preferences.GetString("pref_profiledetail_preheatdelay", "");
+                    var preHeatDelayString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheatdelay, "");
                     Single preHeatDelay;
                     if (Single.TryParse(preHeatDelayString, out preHeatDelay))
                     {
                         profile.PreheatDelay = Convert.ToByte(Convert.ToInt32(preHeatDelay * 10f));
                     }
 
-                    var preHeatpowerString = preferences.GetString("pref_profiledetail_preheatpower", "");
+                    var preHeatpowerString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheatpower, "");
                     Single preHeatpower;
                     if (Single.TryParse(preHeatpowerString, out preHeatpower))
                     {
                         profile.PreheatPower = Convert.ToUInt16(Convert.ToInt32(preHeatpower * 10f));
                     }
 
-                    var powerString = preferences.GetString("pref_profiledetail_power", "");
-                    Single power;
-                    if (Single.TryParse(powerString, out power))
-                    {
-                        profile.Power = Convert.ToUInt16(Convert.ToInt32(power * 10f));
-                    }
+                    var power = preferences.GetFloat(PreferenceKeys.prefs_general_profiles_power, 0);
+                    profile.Power = Convert.ToUInt16(power * 10f);
 
-                    var temperatureString = preferences.GetString("pref_profiledetail_temperature", "");
+                    var temperatureString = preferences.GetString(PreferenceKeys.prefs_general_profiles_temperature, "");
                     UInt16 temperature;
                     if (UInt16.TryParse(temperatureString, out temperature))
                     {
                         profile.Temperature = temperature;
                     }
 
-                    var resistanceString = preferences.GetString("pref_profiledetail_resistance", "");
+                    var resistanceString = preferences.GetString(PreferenceKeys.prefs_general_profiles_resistance, "");
                     Single resistance;
                     if (Single.TryParse(resistanceString, out resistance))
                     {
                         profile.Resistance = Convert.ToUInt16(resistance * 1000f);
                     }
 
-                    var tcrString = preferences.GetString("pref_profiledetail_tcr", "");
+                    var tcrString = preferences.GetString(PreferenceKeys.prefs_general_profiles_tcr, "");
                     UInt16 tcr;
                     if (UInt16.TryParse(tcrString, out tcr))
                     {

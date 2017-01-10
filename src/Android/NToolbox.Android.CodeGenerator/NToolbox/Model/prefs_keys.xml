@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+		<string name="prefs_info_settingsversion">prefs_info_settingsversion</string>
+		
+		<string name="prefs_info_productid">prefs_info_productid</string>
+		
+		<string name="prefs_info_hardwareversion">prefs_info_hardwareversion</string>
+		
+		<string name="prefs_info_maxpower">prefs_info_maxpower</string>
+		
+		<string name="prefs_info_numberofbatteries">prefs_info_numberofbatteries</string>
+		
+		<string name="prefs_info_firmwareversion">prefs_info_firmwareversion</string>
+		
+		<string name="prefs_info_firmwarebuild">prefs_info_firmwarebuild</string>
+		
+		<string name="prefs_general_profiles_name">prefs_general_profiles_name</string>
+		
+		<string name="prefs_general_profiles_flags_material">prefs_general_profiles_flags_material</string>
+		
+		<string name="prefs_general_profiles_flags_istemperaturedominant">prefs_general_profiles_flags_istemperaturedominant</string>
+		
+		<string name="prefs_general_profiles_flags_iscelcius">prefs_general_profiles_flags_iscelcius</string>
+		
+		<string name="prefs_general_profiles_flags_isresistancelocked">prefs_general_profiles_flags_isresistancelocked</string>
+		
+		<string name="prefs_general_profiles_flags_isenabled">prefs_general_profiles_flags_isenabled</string>
+		
+		<string name="prefs_general_profiles_preheattype">prefs_general_profiles_preheattype</string>
+		
+		<string name="prefs_general_profiles_selectedcurve">prefs_general_profiles_selectedcurve</string>
+		
+		<string name="prefs_general_profiles_preheattime">prefs_general_profiles_preheattime</string>
+		
+		<string name="prefs_general_profiles_preheatdelay">prefs_general_profiles_preheatdelay</string>
+		
+		<string name="prefs_general_profiles_preheatpower">prefs_general_profiles_preheatpower</string>
+		
+		<string name="prefs_general_profiles_power">prefs_general_profiles_power</string>
+		
+		<string name="prefs_general_profiles_temperature">prefs_general_profiles_temperature</string>
+		
+		<string name="prefs_general_profiles_resistance">prefs_general_profiles_resistance</string>
+		
+		<string name="prefs_general_profiles_tcr">prefs_general_profiles_tcr</string>
+		
+		<string name="prefs_general_profiles_piregulator_isenabled">prefs_general_profiles_piregulator_isenabled</string>
+		
+		<string name="prefs_general_profiles_piregulator_range">prefs_general_profiles_piregulator_range</string>
+		
+		<string name="prefs_general_profiles_piregulator_pvalue">prefs_general_profiles_piregulator_pvalue</string>
+		
+		<string name="prefs_general_profiles_piregulator_ivalue">prefs_general_profiles_piregulator_ivalue</string>
+		
+		<string name="prefs_general_selectedprofile">prefs_general_selectedprofile</string>
+		
+		<string name="prefs_general_issmartenabled">prefs_general_issmartenabled</string>
+		
+		<string name="prefs_general_smartrange">prefs_general_smartrange</string>
+		
+		<string name="prefs_interface_clicks_value__">prefs_interface_clicks_value__</string>
+		
+		<string name="prefs_interface_classicskinvwlines_line1">prefs_interface_classicskinvwlines_line1</string>
+		
+		<string name="prefs_interface_classicskinvwlines_line2">prefs_interface_classicskinvwlines_line2</string>
+		
+		<string name="prefs_interface_classicskinvwlines_line3">prefs_interface_classicskinvwlines_line3</string>
+		
+		<string name="prefs_interface_classicskinvwlines_line4">prefs_interface_classicskinvwlines_line4</string>
+		
+		<string name="prefs_interface_classicskintclines_line1">prefs_interface_classicskintclines_line1</string>
+		
+		<string name="prefs_interface_classicskintclines_line2">prefs_interface_classicskintclines_line2</string>
+		
+		<string name="prefs_interface_classicskintclines_line3">prefs_interface_classicskintclines_line3</string>
+		
+		<string name="prefs_interface_classicskintclines_line4">prefs_interface_classicskintclines_line4</string>
+		
+		<string name="prefs_interface_circleskinvwlines_line1">prefs_interface_circleskinvwlines_line1</string>
+		
+		<string name="prefs_interface_circleskinvwlines_line2">prefs_interface_circleskinvwlines_line2</string>
+		
+		<string name="prefs_interface_circleskinvwlines_line3">prefs_interface_circleskinvwlines_line3</string>
+		
+		<string name="prefs_interface_circleskintclines_line1">prefs_interface_circleskintclines_line1</string>
+		
+		<string name="prefs_interface_circleskintclines_line2">prefs_interface_circleskintclines_line2</string>
+		
+		<string name="prefs_interface_circleskintclines_line3">prefs_interface_circleskintclines_line3</string>
+		
+		<string name="prefs_interface_smallskinvwlines_line1">prefs_interface_smallskinvwlines_line1</string>
+		
+		<string name="prefs_interface_smallskinvwlines_line2">prefs_interface_smallskinvwlines_line2</string>
+		
+		<string name="prefs_interface_smallskintclines_line1">prefs_interface_smallskintclines_line1</string>
+		
+		<string name="prefs_interface_smallskintclines_line2">prefs_interface_smallskintclines_line2</string>
+		
+		<string name="prefs_interface_brightness">prefs_interface_brightness</string>
+		
+		<string name="prefs_interface_dimtimeout">prefs_interface_dimtimeout</string>
+		
+		<string name="prefs_interface_isflipped">prefs_interface_isflipped</string>
+		
+		<string name="prefs_interface_isstealthmode">prefs_interface_isstealthmode</string>
+		
+		<string name="prefs_interface_wakeupbyplusminus">prefs_interface_wakeupbyplusminus</string>
+		
+		<string name="prefs_interface_ispowerstep1w">prefs_interface_ispowerstep1w</string>
+		
+		<string name="prefs_interface_chargescreentype">prefs_interface_chargescreentype</string>
+		
+		<string name="prefs_interface_islogoenabled">prefs_interface_islogoenabled</string>
+		
+		<string name="prefs_interface_isclassicmenu">prefs_interface_isclassicmenu</string>
+		
+		<string name="prefs_interface_clocktype">prefs_interface_clocktype</string>
+		
+		<string name="prefs_interface_isclockonmainscreen">prefs_interface_isclockonmainscreen</string>
+		
+		<string name="prefs_interface_screensaveduration">prefs_interface_screensaveduration</string>
+		
+		<string name="prefs_interface_puffscreendelay">prefs_interface_puffscreendelay</string>
+		
+		<string name="prefs_interface_puffstimeformat">prefs_interface_puffstimeformat</string>
+		
+		<string name="prefs_interface_mainscreenskin">prefs_interface_mainscreenskin</string>
+		
+		<string name="prefs_counters_puffscount">prefs_counters_puffscount</string>
+		
+		<string name="prefs_counters_puffstime">prefs_counters_puffstime</string>
+		
+		<string name="prefs_counters_datetime_year">prefs_counters_datetime_year</string>
+		
+		<string name="prefs_counters_datetime_month">prefs_counters_datetime_month</string>
+		
+		<string name="prefs_counters_datetime_day">prefs_counters_datetime_day</string>
+		
+		<string name="prefs_counters_datetime_hour">prefs_counters_datetime_hour</string>
+		
+		<string name="prefs_counters_datetime_minute">prefs_counters_datetime_minute</string>
+		
+		<string name="prefs_counters_datetime_second">prefs_counters_datetime_second</string>
+		
+		<string name="prefs_advanced_shuntcorrection">prefs_advanced_shuntcorrection</string>
+		
+		<string name="prefs_advanced_batterymodel">prefs_advanced_batterymodel</string>
+		
+		<string name="prefs_advanced_custombatteryprofile_data_percents">prefs_advanced_custombatteryprofile_data_percents</string>
+		
+		<string name="prefs_advanced_custombatteryprofile_data_voltage">prefs_advanced_custombatteryprofile_data_voltage</string>
+		
+		<string name="prefs_advanced_custombatteryprofile_cutoff">prefs_advanced_custombatteryprofile_cutoff</string>
+		
+		<string name="prefs_advanced_isx32">prefs_advanced_isx32</string>
+		
+		<string name="prefs_advanced_islightsleepmode">prefs_advanced_islightsleepmode</string>
+		
+		<string name="prefs_advanced_isusbcharge">prefs_advanced_isusbcharge</string>
+		
+		<string name="prefs_advanced_resetcountersonstartup">prefs_advanced_resetcountersonstartup</string>
+		
+		<string name="prefs_advanced_tfrtables_name">prefs_advanced_tfrtables_name</string>
+		
+		<string name="prefs_advanced_tfrtables_points_temperature">prefs_advanced_tfrtables_points_temperature</string>
+		
+		<string name="prefs_advanced_tfrtables_points_factor">prefs_advanced_tfrtables_points_factor</string>
+		
+		<string name="prefs_advanced_puffcutoff">prefs_advanced_puffcutoff</string>
+		
+		<string name="prefs_advanced_powercurves_name">prefs_advanced_powercurves_name</string>
+		
+		<string name="prefs_advanced_powercurves_points_time">prefs_advanced_powercurves_points_time</string>
+		
+		<string name="prefs_advanced_powercurves_points_percent">prefs_advanced_powercurves_points_percent</string>
+		
+		<string name="prefs_advanced_batteryvoltageoffsets_m_value">prefs_advanced_batteryvoltageoffsets_m_value</string>
+		
+		<string name="prefs_advanced_checktcr">prefs_advanced_checktcr</string>
+		
+		<string name="prefs_advanced_usbnosleep">prefs_advanced_usbnosleep</string>
+		
+</resources>

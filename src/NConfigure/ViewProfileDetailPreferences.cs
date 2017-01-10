@@ -11,6 +11,7 @@ using Android.Views;
 using Android.Widget;
 using NToolbox.UI;
 using Android.Preferences;
+using NToolbox;
 
 namespace NToolbox
 {
@@ -41,9 +42,17 @@ namespace NToolbox
         {
             base.RefreshUi();
 
-            var pref = PreferenceScreen.FindPreference("prefs_profiledetail_isactive");
-            pref.Enabled = !this.PreferenceManager.SharedPreferences.GetBoolean("prefs_profiledetail_isactive", false);
+            var mainActictivity = (MainActivity)this.Activity;
+            var viewModel = mainActictivity.ViewModel;
+
+            var profileIsActivePreference = PreferenceScreen.FindPreference(PreferenceKeys.prefs_profiledetail_isactive);
+            profileIsActivePreference.Enabled = !this.PreferenceManager.SharedPreferences.GetBoolean(PreferenceKeys.prefs_profiledetail_isactive, false);
             
+            var profilePowerPreference = PreferenceScreen.FindPreference(PreferenceKeys.prefs_general_profiles_power);
+            var test = profilePowerPreference.GetType();
+
+            
+
         }
 
         public override void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)
@@ -53,7 +62,7 @@ namespace NToolbox
                 var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
                 using (var editor = generalPreferences.Edit())
                 {
-                    editor.PutString("pref_general_selectedprofile", Tag);
+                    editor.PutString(PreferenceKeys.prefs_general_selectedprofile, Tag);
                     editor.Commit();
                 }
                 for(var i=1; i<=8; i++)

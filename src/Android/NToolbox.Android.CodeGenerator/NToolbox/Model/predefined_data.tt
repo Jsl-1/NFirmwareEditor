@@ -10,9 +10,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 <#
-	if(!String.IsNullOrWhiteSpace(SolutionFolder))
+	var solutionFolder = SolutionFolder;
+	if(solutionFolder == null)
 	{
-		var filePath = System.IO.Path.Combine(SolutionFolder, "NToolbox\\Models\\PredefinedData.cs");
+		solutionFolder = Host.ResolveAssemblyReference("$(SolutionDir)");
+	}
+
+	if(!String.IsNullOrWhiteSpace(solutionFolder))
+	{
+		var filePath = System.IO.Path.Combine(solutionFolder, "NToolbox\\Models\\PredefinedData.cs");
 		var code = System.IO.File.ReadAllText(filePath);
 
 		var lines = code.Split(new String[]{ Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
@@ -50,7 +56,7 @@
 			if(matchTitles.Success)
 			{
 				currentblocktitles					 
-					+= String.Format("        <item>{1}</item>{0}", System.Environment.NewLine , matchTitles.Groups[2].Value);
+					+= String.Format("        <item>{1}</item>{0}", System.Environment.NewLine , matchTitles.Groups[2].Value).Replace("%","&#65130;");
 currentblockvalues
 += String.Format("        <item>{1}</item>{0}", System.Environment.NewLine , matchTitles.Groups[3].Value.Replace(matchTitles.Groups[1].Value + ".", "").Trim());
 			}

@@ -1,9 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:nctrl="clr-namespace:NToolbox.Controls.Preferences;assembly=NToolbox">
 
   <SwitchPreference
       android:defaultValue="false"
-      android:key="prefs_profiledetail_isactive"
+      android:key="@string/prefs_profiledetail_isactive"
       android:summary="Activate this option to set as active profile"
       android:title="Set as active profile" />
   
@@ -12,7 +14,7 @@
   <EditTextPreference
       android:defaultValue="[Profile Name]"
       android:inputType="text"
-      android:key="pref_profiledetail_name"
+      android:key="@string/prefs_general_profiles_name"
       android:maxLines="1"
       android:selectAllOnFocus="true"
       android:singleLine="true"
@@ -20,21 +22,24 @@
   <CheckBoxPreference
          android:defaultValue="true"
          android:title="Resistance locked"
-         android:key="pref_profiledetail_isenabled" />
+         android:key="@string/prefs_general_profiles_flags_isenabled" />
   <PreferenceCategory android:title="Power">
     <ListPreference
         android:defaultValue="0"
         android:title="Power Mode"
         android:entries="@array/pref_profiledetail_powermode_titles"
         android:entryValues="@array/pref_profiledetail_powermode_values"
-        android:key="pref_profiledetail_powermode" />
-    <EditTextPreference
-        android:defaultValue="0"
-        android:inputType="numberDecimal"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="Power (W)"
-        android:key="pref_profiledetail_power" />
+        android:key="@string/pref_profiledetail_powermode" />
+    <NToolbox.Controls.Preferences.EditFloatPreference
+         nctrl:max="200"
+         nctrl:min="0"
+         nctrl:multiplier="0"
+         android:defaultValue="75"
+         android:inputType="numberDecimal"
+         android:selectAllOnFocus="true"
+         android:singleLine="true"
+         android:title="Power (W)"
+         android:key="@string/prefs_general_profiles_power" />
   </PreferenceCategory>
   <PreferenceCategory android:title="Temperature Control">
     <ListPreference
@@ -42,42 +47,42 @@
         android:title="Coil Material"
         android:entries="@array/pref_profiledetail_materials_titles"
         android:entryValues="@array/pref_profiledetail_materials_values"
-        android:key="pref_profiledetail_material" />
+        android:key="@string/prefs_general_profiles_flags_material" />
     <EditTextPreference
         android:defaultValue="0"
         android:inputType="number"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="TCR"
-        android:key="pref_profiledetail_tcr" />
+        android:key="@string/prefs_general_profiles_tcr" />
     <EditTextPreference
         android:defaultValue="0"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Resistance"
         android:inputType="numberDecimal"
-        android:key="pref_profiledetail_resistance" />
+        android:key="@string/prefs_general_profiles_resistance" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Resistance locked"
-        android:key="pref_profiledetail_isresistancelocked" />
+        android:key="@string/prefs_general_profiles_flags_isresistancelocked" />
     <EditTextPreference
         android:defaultValue="0"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:title="Temperature"
         android:inputType="number"
-        android:key="pref_profiledetail_temperature" />
+        android:key="@string/prefs_general_profiles_temperature" />
     <ListPreference
         android:defaultValue="false"
         android:title="Temperature Unit"
         android:entries="@array/pref_profiledetail_temperaturetypes_titles"
         android:entryValues="@array/pref_profiledetail_temperaturetypes_values"
-        android:key="pref_profiledetail_iscelcius" />
+        android:key="@string/prefs_general_profiles_flags_iscelcius" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:title="Temperature Dominant"
-        android:key="pref_profiledetail_istemperaturedominant" />
+        android:key="@string/prefs_general_profiles_flags_istemperaturedominant" />
   </PreferenceCategory>
   <PreferenceCategory android:title="Preheat">
     <ListPreference
@@ -85,7 +90,7 @@
         android:title="Preheat Type"
         android:entries="@array/pref_profiledetail_preheattypes_titles"
         android:entryValues="@array/pref_profiledetail_preheattypes_values"
-        android:key="pref_profiledetail_preheattype" />
+        android:key="@string/prefs_general_profiles_preheattype" />
 
     <EditTextPreference
         android:defaultValue="0"
@@ -93,7 +98,7 @@
         android:singleLine="true"
         android:title="Power (W)"
         android:inputType="numberDecimal"
-        android:key="pref_profiledetail_preheatpower" />
+        android:key="@string/prefs_general_profiles_preheatpower" />
 
     <EditTextPreference
       android:defaultValue="0"
@@ -101,13 +106,13 @@
       android:singleLine="true"
       android:title="Preheat Time (s)"
       android:inputType="number"
-      android:key="pref_profiledetail_preheattime" />
+      android:key="@string/prefs_general_profiles_preheattime" />
 
     <ListPreference
         android:defaultValue="0"
         android:title="Preheat Curve"
         android:entries="@array/pref_profiledetail_powercurves_titles"
         android:entryValues="@array/pref_profiledetail_powercurves_values"
-        android:key="pref_profiledetail_selectedcurve" />
+        android:key="@string/prefs_general_profiles_selectedcurve" />
   </PreferenceCategory>
 </PreferenceScreen>

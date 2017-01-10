@@ -50,7 +50,7 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
   </PropertyGroup>
   <ItemGroup>
     <T4ReferencePath Include="$(VsIdePath)PublicAssemblies\" />
-	<T4ReferencePath Include="$(SolutionDir)out\" />
+    <T4ReferencePath Include="$(SolutionDir)out\" />
     <!-- Add more T4ReferencePath items here -->
   </ItemGroup>
   <ItemGroup>
@@ -76,30 +76,49 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
     <None Include="..\..\NToolbox\Models\PredefinedData.cs">
       <Link>Code\PredefinedData.cs</Link>
     </None>
+    <None Include="NToolbox\Model\ArctifoxConfiguration.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ArctifoxConfiguration.tt</DependentUpon>
+    </None>
+    <None Include="NToolbox\Model\PreferenceKeys.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PreferenceKeys.tt</DependentUpon>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="predefined_data.tt">
+    <Content Include="NToolbox\Model\ArctifoxConfiguration.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ArctifoxConfiguration.cs</LastGenOutput>
+    </Content>
+    <Content Include="NToolbox\Model\predefined_data.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>predefined_data.xml</LastGenOutput>
     </Content>
-    <Content Include="predefined_data.xml">
+    <None Include="NToolbox\Model\predefined_data.xml">
       <DependentUpon>predefined_data.tt</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+    </None>
+    <Content Include="NToolbox\Model\PreferenceKeys.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PreferenceKeys.cs</LastGenOutput>
     </Content>
-    <Content Include="prefs_keys.tt">
+    <Content Include="NToolbox\Model\prefs_keys.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>prefs_keys.xml</LastGenOutput>
     </Content>
-    <Content Include="prefs_keys.xml">
+    <None Include="NToolbox\Model\prefs_keys.xml">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>prefs_keys.tt</DependentUpon>
-    </Content>
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\NToolbox\NToolbox.csproj">

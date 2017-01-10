@@ -57,7 +57,7 @@ namespace NToolbox
 
         public MainActivity()
         {
-            m_ViewModel = new ArcticFoxConfigurationViewModel(this);
+            m_ViewModel = new ArcticFoxConfigurationViewModel();
         }
 
         protected override void OnCreate(Bundle bundle)
