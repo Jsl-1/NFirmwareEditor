@@ -103,23 +103,16 @@ namespace NToolbox.UI
                     ListPreference listPref = (ListPreference)p;
                     p.Summary = listPref.Entry;
                 }
-                if (p is EditTextPreference)
-                {
-                    EditTextPreference editTextPref = (EditTextPreference)p;
-                    if (p.Title.ToLower().Contains("password"))
-                    {
-                        p.Summary = "******";
-                    }
-                    else
-                    {
-                        p.Summary = editTextPref.Text;
-                    }
-                }
-                if (p is MultiSelectListPreference)
+                else if (p is MultiSelectListPreference)
                 {
                     EditTextPreference editTextPref = (EditTextPreference)p;
                     p.Summary = editTextPref.Text;
                 }
+                else if(p is Controls.Preferences.SeekBarPreference)
+                {
+                    p.Summary = ((Controls.Preferences.SeekBarPreference)p).GetValueText();
+                }
+
             }
             catch(Exception ex)
             {

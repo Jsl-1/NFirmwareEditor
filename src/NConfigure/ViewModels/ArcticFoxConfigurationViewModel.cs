@@ -58,11 +58,13 @@ namespace NToolbox.ViewModels
                 Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
             }
 
+          
+
             var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
             using (var editor = generalPreferences.Edit())
             {
+                editor.PutInt(PreferenceKeys.prefs_info_maxpower, Configuration.Info.MaxPower);
                 editor.PutString(PreferenceKeys.prefs_general_selectedprofile, String.Format("Profile{0}", Convert.ToInt32(Configuration.General.SelectedProfile) + 1));
-
                 editor.Commit();
             }
 
@@ -85,8 +87,8 @@ namespace NToolbox.ViewModels
 
                     editor.PutString(PreferenceKeys.prefs_general_profiles_preheattype, profile.PreheatType.ToString());
                     editor.PutString(PreferenceKeys.prefs_general_profiles_selectedcurve, ((byte)profile.SelectedCurve).ToString());
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheattime, (profile.PreheatTime / 100f).ToString());
-                    editor.PutString(PreferenceKeys.prefs_general_profiles_preheatdelay, (profile.PreheatDelay / 10f).ToString());
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_preheattime, profile.PreheatTime);
+                    editor.PutInt(PreferenceKeys.prefs_general_profiles_preheatdelay, profile.PreheatDelay);
                     editor.PutInt(PreferenceKeys.prefs_general_profiles_preheatpower, profile.PreheatPower);
 
                     editor.PutInt(PreferenceKeys.prefs_general_profiles_power, profile.Power);
@@ -150,19 +152,11 @@ namespace NToolbox.ViewModels
                         profile.SelectedCurve = selectedCurve;
                     }
 
-                    var preHeatTimeString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheattime, "");
-                    Single preHeatTime;
-                    if (Single.TryParse(preHeatTimeString, out preHeatTime))
-                    {
-                        profile.PreheatTime = Convert.ToByte(Convert.ToInt32(preHeatTime * 100f) );
-                    }
+                    var preHeatTime = preferences.GetInt(PreferenceKeys.prefs_general_profiles_preheattime, 0);
+                    profile.PreheatTime = Convert.ToByte(preHeatTime );
 
-                    var preHeatDelayString = preferences.GetString(PreferenceKeys.prefs_general_profiles_preheatdelay, "");
-                    Single preHeatDelay;
-                    if (Single.TryParse(preHeatDelayString, out preHeatDelay))
-                    {
-                        profile.PreheatDelay = Convert.ToByte(Convert.ToInt32(preHeatDelay * 10f));
-                    }
+                    var preHeatDelay= preferences.GetInt(PreferenceKeys.prefs_general_profiles_preheatdelay, 0);
+                    profile.PreheatDelay = Convert.ToByte(preHeatDelay);
 
                     var preHeatpower= preferences.GetInt(PreferenceKeys.prefs_general_profiles_preheatpower, 0);
                     profile.PreheatPower = Convert.ToUInt16(preHeatpower);
@@ -172,7 +166,6 @@ namespace NToolbox.ViewModels
 
                     var temperature = preferences.GetInt(PreferenceKeys.prefs_general_profiles_temperature, 0);
                     profile.Temperature = Convert.ToUInt16(temperature);
-
 
                     var resistance = preferences.GetInt(PreferenceKeys.prefs_general_profiles_resistance, 0);
                     profile.Resistance = Convert.ToUInt16(resistance);

@@ -136,6 +136,7 @@
       <Link>Models\StartupMode.cs</Link>
     </Compile>
     <Compile Include="Controls\Preferences\EditIntPreference.cs" />
+    <Compile Include="Controls\Preferences\SeekBarPreference.cs" />
     <Compile Include="GeneralViewFragment.cs" />
     <Compile Include="InitialViewFragment.cs" />
     <Compile Include="MainActivity.cs" />
@@ -164,6 +165,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\view_general.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\seekbar_preference.xml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen 
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:nctrl="clr-namespace:NToolbox.Controls.Preferences;assembly=NToolbox">
 
   <SwitchPreference
@@ -23,6 +24,7 @@
          android:defaultValue="true"
          android:title="Resistance locked"
          android:key="@string/prefs_general_profiles_flags_isenabled" />
+  
   <PreferenceCategory android:title="Power">
     <ListPreference
         android:defaultValue="0"
@@ -30,10 +32,11 @@
         android:entries="@array/pref_profiledetail_powermode_titles"
         android:entryValues="@array/pref_profiledetail_powermode_values"
         android:key="@string/pref_profiledetail_powermode" />
-    <NToolbox.Controls.Preferences.EditIntPreference
-         nctrl:max="2000"
-         nctrl:min="10"
-         nctrl:valuedivider="10"
+    <NToolbox.Controls.Preferences.SeekBarPreference
+         custom:max="2000"
+         custom:min="10"
+         custom:valuedivider="10"
+         android:summary="test"
          android:defaultValue="1"
          android:singleLine="true"
          android:inputType="numberDecimal"
@@ -41,6 +44,7 @@
          android:title="Power (W)"
          android:key="@string/prefs_general_profiles_power" />
   </PreferenceCategory>
+  
   <PreferenceCategory android:title="Temperature Control">
     <ListPreference
         android:defaultValue="TCR"
@@ -58,9 +62,9 @@
         android:title="TCR"
         android:key="@string/prefs_general_profiles_tcr" />
     <NToolbox.Controls.Preferences.EditIntPreference
-        nctrl:max="2000"
-        nctrl:min="10"
-        nctrl:valuedivider="1000"
+        custom:max="2000"
+        custom:min="10"
+        custom:valuedivider="1000"
         android:singleLine="true"
         android:inputType="numberDecimal"
         android:selectAllOnFocus="true"
@@ -71,8 +75,8 @@
         android:title="Resistance locked"
         android:key="@string/prefs_general_profiles_flags_isresistancelocked" />
     <NToolbox.Controls.Preferences.EditIntPreference
-        nctrl:max="315"
-        nctrl:min="100"
+        custom:max="315"
+        custom:min="100"
         android:defaultValue="0"
         android:singleLine="true"
         android:inputType="number"
@@ -90,6 +94,7 @@
         android:title="Temperature Dominant"
         android:key="@string/prefs_general_profiles_flags_istemperaturedominant" />
   </PreferenceCategory>
+  
   <PreferenceCategory android:title="Preheat">
     <ListPreference
         android:defaultValue="Watts"
@@ -97,25 +102,35 @@
         android:entries="@array/pref_profiledetail_preheattypes_titles"
         android:entryValues="@array/pref_profiledetail_preheattypes_values"
         android:key="@string/prefs_general_profiles_preheattype" />
-
     <NToolbox.Controls.Preferences.EditIntPreference
-         nctrl:max="100"
-         nctrl:min="250"
-         nctrl:valuedivider="10"
+         custom:max="100"
+         custom:min="250"
+         custom:valuedivider="10"
          android:defaultValue="0"
          android:singleLine="true"
          android:inputType="numberDecimal"
         android:title="Power (W)"
         android:key="@string/prefs_general_profiles_preheatpower" />
-
-    <EditTextPreference
+    <NToolbox.Controls.Preferences.EditIntPreference
+      custom:max="100"
+      custom:min="250"
+      custom:valuedivider="100"
       android:defaultValue="0"
       android:selectAllOnFocus="true"
       android:singleLine="true"
       android:title="Preheat Time (s)"
       android:inputType="number"
-      android:key="@string/prefs_general_profiles_preheattime" />
-
+      android:key="@string/prefs_general_profiles_preheattime" />    
+    <NToolbox.Controls.Preferences.EditIntPreference
+     nctrl:max="100"
+     nctrl:min="250"
+     nctrl:valuedivider="10"
+     android:defaultValue="0"
+     android:selectAllOnFocus="true"
+     android:singleLine="true"
+     android:title="Preheat Time (s)"
+     android:inputType="number"
+     android:key="@string/prefs_general_profiles_preheatdelay" />    
     <ListPreference
         android:defaultValue="0"
         android:title="Preheat Curve"

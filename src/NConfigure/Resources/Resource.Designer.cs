@@ -4095,23 +4095,23 @@ namespace NToolbox
 			// aapt resource value: 0x7f0a0102
 			public const int background = 2131362050;
 			
-			// aapt resource value: 0x7f0a013f
-			public const int background_color = 2131362111;
+			// aapt resource value: 0x7f0a0141
+			public const int background_color = 2131362113;
 			
 			// aapt resource value: 0x7f0a00e5
 			public const int background_container = 2131362021;
 			
-			// aapt resource value: 0x7f0a0142
-			public const int background_dim = 2131362114;
+			// aapt resource value: 0x7f0a0144
+			public const int background_dim = 2131362116;
 			
-			// aapt resource value: 0x7f0a0141
-			public const int background_imagein = 2131362113;
+			// aapt resource value: 0x7f0a0143
+			public const int background_imagein = 2131362115;
+			
+			// aapt resource value: 0x7f0a0142
+			public const int background_imageout = 2131362114;
 			
 			// aapt resource value: 0x7f0a0140
-			public const int background_imageout = 2131362112;
-			
-			// aapt resource value: 0x7f0a013e
-			public const int background_theme = 2131362110;
+			public const int background_theme = 2131362112;
 			
 			// aapt resource value: 0x7f0a00fd
 			public const int bar1 = 2131362045;
@@ -4695,47 +4695,47 @@ namespace NToolbox
 			// aapt resource value: 0x7f0a0028
 			public const int multiply = 2131361832;
 			
-			// aapt resource value: 0x7f0a0143
-			public const int nav_action_download_settings = 2131362115;
-			
 			// aapt resource value: 0x7f0a0145
-			public const int nav_action_reset_device = 2131362117;
-			
-			// aapt resource value: 0x7f0a0146
-			public const int nav_action_restart_device = 2131362118;
-			
-			// aapt resource value: 0x7f0a0144
-			public const int nav_action_upload_device = 2131362116;
-			
-			// aapt resource value: 0x7f0a0148
-			public const int nav_configure = 2131362120;
+			public const int nav_action_download_settings = 2131362117;
 			
 			// aapt resource value: 0x7f0a0147
-			public const int nav_general = 2131362119;
+			public const int nav_action_reset_device = 2131362119;
 			
-			// aapt resource value: 0x7f0a0149
-			public const int nav_profile1 = 2131362121;
+			// aapt resource value: 0x7f0a0148
+			public const int nav_action_restart_device = 2131362120;
+			
+			// aapt resource value: 0x7f0a0146
+			public const int nav_action_upload_device = 2131362118;
 			
 			// aapt resource value: 0x7f0a014a
-			public const int nav_profile2 = 2131362122;
+			public const int nav_configure = 2131362122;
+			
+			// aapt resource value: 0x7f0a0149
+			public const int nav_general = 2131362121;
 			
 			// aapt resource value: 0x7f0a014b
-			public const int nav_profile3 = 2131362123;
+			public const int nav_profile1 = 2131362123;
 			
 			// aapt resource value: 0x7f0a014c
-			public const int nav_profile4 = 2131362124;
+			public const int nav_profile2 = 2131362124;
 			
 			// aapt resource value: 0x7f0a014d
-			public const int nav_profile5 = 2131362125;
+			public const int nav_profile3 = 2131362125;
 			
 			// aapt resource value: 0x7f0a014e
-			public const int nav_profile6 = 2131362126;
+			public const int nav_profile4 = 2131362126;
 			
 			// aapt resource value: 0x7f0a014f
-			public const int nav_profile7 = 2131362127;
+			public const int nav_profile5 = 2131362127;
 			
 			// aapt resource value: 0x7f0a0150
-			public const int nav_profile8 = 2131362128;
+			public const int nav_profile6 = 2131362128;
+			
+			// aapt resource value: 0x7f0a0151
+			public const int nav_profile7 = 2131362129;
+			
+			// aapt resource value: 0x7f0a0152
+			public const int nav_profile8 = 2131362130;
 			
 			// aapt resource value: 0x7f0a0090
 			public const int nav_view = 2131361936;
@@ -4860,6 +4860,12 @@ namespace NToolbox
 			// aapt resource value: 0x7f0a00fb
 			public const int secondary_controls_dock = 2131362043;
 			
+			// aapt resource value: 0x7f0a013a
+			public const int seekbarpreference_seekbar = 2131362106;
+			
+			// aapt resource value: 0x7f0a0139
+			public const int seekbarpreference_widget_frame = 2131362105;
+			
 			// aapt resource value: 0x7f0a008d
 			public const int select_dialog_listview = 2131361933;
 			
@@ -4980,20 +4986,20 @@ namespace NToolbox
 			// aapt resource value: 0x7f0a001b
 			public const int transitionPosition = 2131361819;
 			
-			// aapt resource value: 0x7f0a013b
-			public const int txt_welcome_arcticfox = 2131362107;
-			
-			// aapt resource value: 0x7f0a013a
-			public const int txt_welcome_connectWith = 2131362106;
-			
 			// aapt resource value: 0x7f0a013d
-			public const int txt_welcome_fw = 2131362109;
-			
-			// aapt resource value: 0x7f0a0139
-			public const int txt_welcome_logo = 2131362105;
+			public const int txt_welcome_arcticfox = 2131362109;
 			
 			// aapt resource value: 0x7f0a013c
-			public const int txt_welcome_version = 2131362108;
+			public const int txt_welcome_connectWith = 2131362108;
+			
+			// aapt resource value: 0x7f0a013f
+			public const int txt_welcome_fw = 2131362111;
+			
+			// aapt resource value: 0x7f0a013b
+			public const int txt_welcome_logo = 2131362107;
+			
+			// aapt resource value: 0x7f0a013e
+			public const int txt_welcome_version = 2131362110;
 			
 			// aapt resource value: 0x7f0a0009
 			public const int up = 2131361801;
@@ -5538,22 +5544,25 @@ namespace NToolbox
 			public const int preference_widget_switch_compat = 2130903167;
 			
 			// aapt resource value: 0x7f030080
-			public const int select_dialog_item_material = 2130903168;
+			public const int seekbar_preference = 2130903168;
 			
 			// aapt resource value: 0x7f030081
-			public const int select_dialog_multichoice_material = 2130903169;
+			public const int select_dialog_item_material = 2130903169;
 			
 			// aapt resource value: 0x7f030082
-			public const int select_dialog_singlechoice_material = 2130903170;
+			public const int select_dialog_multichoice_material = 2130903170;
 			
 			// aapt resource value: 0x7f030083
-			public const int support_simple_spinner_dropdown_item = 2130903171;
+			public const int select_dialog_singlechoice_material = 2130903171;
 			
 			// aapt resource value: 0x7f030084
-			public const int view_general = 2130903172;
+			public const int support_simple_spinner_dropdown_item = 2130903172;
 			
 			// aapt resource value: 0x7f030085
-			public const int view_welcome = 2130903173;
+			public const int view_general = 2130903173;
+			
+			// aapt resource value: 0x7f030086
+			public const int view_welcome = 2130903174;
 			
 			static Layout()
 			{

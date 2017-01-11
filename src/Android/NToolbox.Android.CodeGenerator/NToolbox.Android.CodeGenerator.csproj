@@ -86,11 +86,6 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
       <DesignTime>True</DesignTime>
       <DependentUpon>PreferenceKeys.tt</DependentUpon>
     </None>
-    <None Include="NToolbox\Model\PreferenceMapper.cs">
-      <DependentUpon>PreferenceMapper.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -110,10 +105,6 @@ $(IncludeFolders);$(MSBuildProjectDirectory)\Include;AnotherFolder;And\Another</
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </None>
-    <Content Include="NToolbox\Model\PreferenceMapper.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PreferenceMapper.cs</LastGenOutput>
-    </Content>
     <Content Include="NToolbox\Model\PreferenceKeys.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>PreferenceKeys.cs</LastGenOutput>
