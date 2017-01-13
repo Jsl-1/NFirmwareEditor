@@ -58,20 +58,20 @@ namespace NToolbox.ViewModels
                 Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
             }
 
-          
-
             var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
             using (var editor = generalPreferences.Edit())
             {
-                editor.PutInt(PreferenceKeys.prefs_info_maxpower, Configuration.Info.MaxPower);
+                editor.PutInt(PreferenceKeys.prefs_info_maxpower, Configuration.Info.MaxPower > MaxPower ? MaxPower : Configuration.Info.MaxPower);
                 editor.PutString(PreferenceKeys.prefs_general_selectedprofile, String.Format("Profile{0}", Convert.ToInt32(Configuration.General.SelectedProfile) + 1));
                 editor.Commit();
             }
-
+            
             for (var i = 0; i < Configuration.General.Profiles.Length; i++)
             {
                 var profile = Configuration.General.Profiles[i];
+                
                 var preferences = Application.Context.GetSharedPreferences(String.Format("Profile{0}", (i + 1)), FileCreationMode.Private);
+
                 using (var editor = preferences.Edit())
                 {
                     editor.PutBoolean("prefs_profiledetail_isactive", Configuration.General.SelectedProfile == Convert.ToByte(i));

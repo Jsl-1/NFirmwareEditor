@@ -31,7 +31,7 @@ namespace NToolbox.Controls.Preferences
 
         public SeekBarPreference(Context context) : base(context)
         {
-          
+
         }
 
         public SeekBarPreference(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle)

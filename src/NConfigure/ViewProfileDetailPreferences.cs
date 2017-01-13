@@ -31,12 +31,7 @@ namespace NToolbox
 
         public override void OnCreate(Bundle savedInstanceState)
         {
-           
-
             base.OnCreate(savedInstanceState);
-
-           
-
         }
 
         public override void RefreshUi()
@@ -53,9 +48,6 @@ namespace NToolbox
             
             var profilePowerPreference = (SeekBarPreference)PreferenceScreen.FindPreference(PreferenceKeys.prefs_general_profiles_power);
             profilePowerPreference.SetMax(generalPrefs.GetInt(PreferenceKeys.prefs_info_maxpower, 0));
-
-            
-
         }
 
         public override void OnSharedPreferenceChanged(ISharedPreferences sharedPreferences, string key)

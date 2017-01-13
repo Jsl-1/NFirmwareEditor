@@ -35,28 +35,6 @@ namespace NToolbox.Controls.Preferences
 
         private void _FillAttributes(Context context, IAttributeSet attrs)
         {
-            //for (int i = 0; i < attrs.AttributeCount; i++)
-            //{
-            //    var attr = attrs.GetAttributeName(i);
-            //    if(attr == "max")
-            //    {
-            //        var val = attrs.GetAttributeIntValue(i, -1);
-            //        if (val != -1)
-            //            MaxValue = val;
-            //    }
-            //    else if (attr == "min")
-            //    {
-            //        var val = attrs.GetAttributeIntValue(i, -1);
-            //        if (val != -1)
-            //            MinValue = val;
-            //    }
-            //    else if (attr == "valuedivider")
-            //    {
-            //        var val = attrs.GetAttributeIntValue(i, -1);
-            //        if (val != -1)
-            //            Divider = val;
-            //    }
-            //}
             var attributes = context.ObtainStyledAttributes(attrs, Resource.Styleable.EditIntPreference, 0, 0);
             try
             {
@@ -75,8 +53,6 @@ namespace NToolbox.Controls.Preferences
             }
         }
 
-
-
         public int? MaxValue { get; set; }
 
         public int? MinValue { get; set; }
@@ -92,7 +68,6 @@ namespace NToolbox.Controls.Preferences
                     val = val / Divider.Value;
                 return val.ToString();
             }
-
             set
             {
                 float val;

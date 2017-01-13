@@ -74,6 +74,7 @@ namespace NToolbox.UI
 
             if (Tag != null)
                 PreferenceManager.SharedPreferencesName = String.Format("{0}", Tag);
+       
 
             this.AddPreferencesFromResource(PreferenceId);
 

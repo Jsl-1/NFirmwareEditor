@@ -304,6 +304,7 @@ namespace NToolbox
         {
             m_ViewModel.ReadConfigurationFromDevice();
 
+
             m_txtDeviceName.Text = m_ViewModel.DeviceName;
             m_txtFwVer.Text = m_ViewModel.FwVer;
             m_txtBuild.Text = m_ViewModel.Build;
