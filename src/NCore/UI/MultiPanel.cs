@@ -10,7 +10,9 @@ using System.Windows.Forms.Design;
 // ReSharper disable LocalizableElement
 namespace NCore.UI
 {
+    #if !MONO
 	[Designer(typeof(MultiPanelDesigner))]
+    #endif
 	public sealed class MultiPanel : Panel
 	{
 		public event EventHandler SelectedPageChanged;
@@ -82,8 +84,9 @@ namespace NCore.UI
 			return new MultiPanelPagesCollection(this);
 		}
 	}
-
+#if !MONO
 	[Designer(typeof(MultiPanelPageDesigner)), ToolboxItem(false)]
+#endif
 	public class MultiPanelPage : ContainerControl
 	{
 		public MultiPanelPage()
@@ -156,7 +159,7 @@ namespace NCore.UI
 			return GetChildIndex(ctrl);
 		}
 	}
-
+#if !MONO
 	[System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
 	public class MultiPanelDesigner : ParentControlDesigner
 	{
@@ -331,7 +334,8 @@ namespace NCore.UI
 		}
 	}
 
-	public class MultiPanelPageDesigner : ScrollableControlDesigner
+
+    public class MultiPanelPageDesigner : ScrollableControlDesigner
 	{
 		private readonly Font m_font = new Font("Courier New", 8F, FontStyle.Bold);
 		private readonly StringFormat m_rightfmt = new StringFormat(StringFormatFlags.NoWrap | StringFormatFlags.DirectionRightToLeft);
@@ -389,4 +393,5 @@ namespace NCore.UI
 			properties["Text"] = TypeDescriptor.CreateProperty(typeof(MultiPanelPageDesigner), (PropertyDescriptor)properties["Text"]);
 		}
 	}
+#endif
 }

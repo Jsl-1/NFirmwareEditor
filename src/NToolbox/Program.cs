@@ -28,19 +28,20 @@ namespace NToolbox
 			{
 				remainingArgs = args.Skip(1).ToArray();
 			}
-			using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.NToolbox))
-			{
-				if (!sync.IsLockObtained)
-				{
-					sync.ShowFirstInstance();
-					return;
-				}
+			//using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.NToolbox))
+			//{
+			//	if (!sync.IsLockObtained)
+			//	{
+			//		sync.ShowFirstInstance();
+			//		return;
+			//	}
 
-				HidConnector.Instance.StartUSBConnectionMonitoring();
+				//HidConnector.Instance.StartUSBConnectionMonitoring();
 				ApplicationService.ApplicationName = "NFE Toolbox";
-				Application.Run(new MainWindow(startupMode, remainingArgs));
+				Application.Run(new AboutWindow());
+				//Application.Run(new MainWindow(startupMode, remainingArgs));
 				HidConnector.Instance.StopUSBConnectionMonitoring();
-			}
+			//}
 		}
 	}
 }

@@ -31,8 +31,7 @@ namespace NToolbox.Windows
 			InitializeComponent();
 			Initialize();
 			InitializeControls();
-			InitializeTray();
-		}
+			InitializeTray();		}
 
 		private void Initialize()
 		{
