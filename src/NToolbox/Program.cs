@@ -28,6 +28,7 @@ namespace NToolbox
 			{
 				remainingArgs = args.Skip(1).ToArray();
 			}
+
             //using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.NToolbox))
             //{
             //	if (!sync.IsLockObtained)
@@ -37,9 +38,8 @@ namespace NToolbox
             //	}
 
 
-            //HidConnector.Instance.StartUSBConnectionMonitoring();
+            HidConnector.Instance.StartUSBConnectionMonitoring();
             ApplicationService.ApplicationName = "NFE Toolbox";
-				//Application.Run(new AboutWindow());
 				Application.Run(new MainWindow(startupMode, remainingArgs));
 				HidConnector.Instance.StopUSBConnectionMonitoring();
 			//}
