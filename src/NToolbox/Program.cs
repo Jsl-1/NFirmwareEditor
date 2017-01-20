@@ -36,20 +36,6 @@ namespace NToolbox
             //		return;
             //	}
 
-            var encryption = new ArcticFoxEncryption();
-            var result = BinaryStructure.ReadBinary<ArcticFoxConfiguration>(encryption.Decode(source));
-            if (existedConfiguration == null)
-            {
-                result.Info.MaxPower = MaxPower;
-                result.Info.NumberOfBatteries = MaxBatteries;
-                result.Info.DisplaySize = ArcticFoxConfiguration.DisplaySize.W64H128;
-            }
-            else
-            {
-                result.Info = existedConfiguration.Info;
-            }
-
-
 
             //HidConnector.Instance.StartUSBConnectionMonitoring();
             ApplicationService.ApplicationName = "NFE Toolbox";
