@@ -12,9 +12,9 @@ namespace NCore.UI
 		public WindowBase()
 		{
 			InitializeComponent();
-			if (ApplicationService.IsIconAvailable) Icon = ApplicationService.ApplicationIcon;
+			//if (ApplicationService.IsIconAvailable) Icon = ApplicationService.ApplicationIcon;
 
-			Load += WindowBase_Load;
+			//Load += WindowBase_Load;
 		}
 
 		private void WindowBase_Load(object sender, EventArgs e)
@@ -31,20 +31,20 @@ namespace NCore.UI
 
 		protected void ShowFromTray()
 		{
-			if (Opacity <= 0) Opacity = 1;
+			//if (Opacity <= 0) Opacity = 1;
 
-			Visible = true;
-			ShowInTaskbar = true;
-			Show();
-			WindowState = FormWindowState.Normal;
-			NativeMethods.SetForegroundWindow(Handle);
+			//Visible = true;
+			//ShowInTaskbar = true;
+			//Show();
+			//WindowState = FormWindowState.Normal;
+			//NativeMethods.SetForegroundWindow(Handle);
 		}
 
 		protected void HideToTray()
 		{
-			Visible = false;
-			ShowInTaskbar = false;
-			Hide();
+			//Visible = false;
+			//ShowInTaskbar = false;
+			//Hide();
 		}
 
 		protected void UpdateUI(Action action, bool supressExceptions = true)
@@ -68,10 +68,10 @@ namespace NCore.UI
 
 		protected override void WndProc(ref Message m)
 		{
-			if (!IgnoreFirstInstanceMessages && m.Msg == CrossApplicationSynchronizer.ShowFirstInstanceMessage)
-			{
-				ShowFromTray();
-			}
+			//if (!IgnoreFirstInstanceMessages && m.Msg == CrossApplicationSynchronizer.ShowFirstInstanceMessage)
+			//{
+			//	ShowFromTray();
+			//}
 			base.WndProc(ref m);
 		}
 
