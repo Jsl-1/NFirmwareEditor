@@ -241,6 +241,7 @@
 			this.DeviceMonitorTrayMenuItem.Name = "DeviceMonitorTrayMenuItem";
 			this.DeviceMonitorTrayMenuItem.Size = new System.Drawing.Size(371, 22);
 			this.DeviceMonitorTrayMenuItem.Text = "Device Monitor";
+			this.DeviceMonitorTrayMenuItem.Enabled = false;
 			// 
 			// ScreenshooterTrayMenuItem
 			// 

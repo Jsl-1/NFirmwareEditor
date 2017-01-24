@@ -60,6 +60,8 @@ namespace NCore.USB
 			m_monitoringTimer = new Timer(state =>
 			{
 				var previousState = m_isDeviceConnected;
+				
+
 				var device = s_loader.GetDeviceOrDefault(VendorId, ProductId);
 
 				if (previousState.HasValue)

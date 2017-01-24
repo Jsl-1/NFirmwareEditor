@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,9 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NToolbox</RootNamespace>
     <AssemblyName>NToolbox</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,12 +38,10 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'debug-mono|AnyCPU'">
     <OutputPath>bin\debug-mono\</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
@@ -52,10 +49,12 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="JetBrains.Annotations, Version=10.2.1.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325">
+      <HintPath>..\packages\JetBrains.Annotations.10.2.1\lib\net\JetBrains.Annotations.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ArcticFoxConfiguration.cs" />
@@ -137,12 +136,6 @@
     <Compile Include="Windows\TempControlSetupWindow.Designer.cs">
       <DependentUpon>TempControlSetupWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="Windows\TFRProfileWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Windows\TFRProfileWindow.Designer.cs">
-      <DependentUpon>TFRProfileWindow.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Windows\AboutWindow.resx">
       <DependentUpon>AboutWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,9 +174,6 @@
     <EmbeddedResource Include="Windows\TempControlSetupWindow.resx">
       <DependentUpon>TempControlSetupWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Windows\TFRProfileWindow.resx">
-      <DependentUpon>TFRProfileWindow.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -200,14 +190,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Windows\TfrProfileWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\TfrProfileWindow.Designer.cs">
+      <DependentUpon>TfrProfileWindow.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Windows\TfrProfileWindow.resx">
+      <DependentUpon>TfrProfileWindow.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NCore\NCore.csproj">
-      <Project>{b256f46a-bfd9-4a53-b3d9-a808216f074b}</Project>
+      <Project>{B256F46A-BFD9-4A53-B3D9-A808216F074B}</Project>
       <Name>NCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\NFirmware\NFirmware.csproj">
-      <Project>{557a7598-73fa-42e5-bf8f-a2d1c4767953}</Project>
+      <Project>{557A7598-73FA-42E5-BF8F-A2D1C4767953}</Project>
       <Name>NFirmware</Name>
     </ProjectReference>
   </ItemGroup>
