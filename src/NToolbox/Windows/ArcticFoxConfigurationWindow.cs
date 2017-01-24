@@ -424,6 +424,10 @@ namespace NToolbox.Windows
 					MaterialsListView.Items.Add(new ListViewItem("[TFR] " + tfrTable.Name, i) { Tag = i });
 				}
 			}
+
+			#if(MONO)
+			FixControls();
+			#endif
 		}
 
 		private void InitializeLineContentEditor(ArcticFoxConfiguration.LineContent content, ComboBox comboBox, CheckBox checkBox = null)

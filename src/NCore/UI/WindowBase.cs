@@ -15,6 +15,40 @@ namespace NCore.UI
 			if (ApplicationService.IsIconAvailable) Icon = ApplicationService.ApplicationIcon;
 
 			Load += WindowBase_Load;
+
+
+		}
+
+		protected void FixControls()
+		{
+
+			_FixControl(this);
+
+		}
+
+		private void _FixControl(Control control)
+		{
+			foreach(Control childControl in control.Controls){
+				_FixControl (childControl);
+			}
+			if (control is LinkLabel) 
+			{
+				((LinkLabel)control).AutoSize = true;
+			}
+			if (control is NumericUpDown) 
+			{
+				var ctrl = (NumericUpDown)control;
+				ctrl.TextAlign = HorizontalAlignment.Left;
+				//ctrl.UpDownAlign = LeftRightAlignment.Left;
+			}
+			if (control is TabControl) 
+			{
+				var ctrl = (TabControl)control;
+				foreach (TabPage page in ctrl.TabPages) {
+					foreach(Control childControl in page.Controls)
+						_FixControl(childControl);
+				}
+			}
 		}
 
 		protected void LocalizeSelf()
@@ -47,6 +81,9 @@ namespace NCore.UI
 		private void WindowBase_Load(object sender, EventArgs e)
 		{
 			LocalizeSelf();
+			#if(MONO)
+			FixControls();
+			#endif
 		}
 
 		protected bool IgnoreFirstInstanceMessages { get; set; }
