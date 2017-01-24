@@ -29,17 +29,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'debug-mono|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'debug-mono|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\debug-mono\</OutputPath>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <DefineConstants>DEBUG;TRACE;MONO</DefineConstants>
-    <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
-  </PropertyGroup>
+    <OutputPath>bin\debug-mono\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;MONO</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup> 
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -147,7 +145,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-<<<<<<< HEAD
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -213,6 +210,4 @@
     </MonoDevelop>
   </ProjectExtensions>
 </Project>
-=======
-</Project>
->>>>>>> dda6b3a84eb942322e0d31ee4d9e1ec4895973b8
+

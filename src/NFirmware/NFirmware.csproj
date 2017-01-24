@@ -71,12 +71,6 @@
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCore\NCore.csproj">
-      <Project>{B256F46A-BFD9-4A53-B3D9-A808216F074B}</Project>
-      <Name>NCore</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

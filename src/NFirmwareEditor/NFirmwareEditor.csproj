@@ -1379,10 +1379,6 @@
     <None Include="Resources\copy.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NCore\NCore.csproj">
-      <Project>{B256F46A-BFD9-4A53-B3D9-A808216F074B}</Project>
-      <Name>NCore</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NFirmware\NFirmware.csproj">
       <Project>{557A7598-73FA-42E5-BF8F-A2D1C4767953}</Project>
       <Name>NFirmware</Name>
