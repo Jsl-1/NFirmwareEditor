@@ -142,6 +142,7 @@
 			this.DeviceMonitorButton.AdditionalText = "";
 			this.DeviceMonitorButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.DeviceMonitorButton.Image = global::NToolbox.Properties.Resources.device_monitor;
+			this.DeviceMonitorButton.Enabled = false;
 			this.MainLocalizationExtender.SetKey(this.DeviceMonitorButton, "Toolbox.MainWindow.DeviceMonitorButton");
 			this.DeviceMonitorButton.Location = new System.Drawing.Point(10, 122);
 			this.DeviceMonitorButton.Name = "DeviceMonitorButton";
