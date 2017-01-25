@@ -169,12 +169,12 @@ namespace NToolbox.Windows
 					Trace.Info("Writing dataflash...");
 					HidConnector.Instance.WriteDataflash(dataflash, worker);
 					Trace.Info("Writing dataflash... Done. Waiting 500 msec.");
-					Thread.Sleep(100);
+					Thread.Sleep(1000);
 
 					UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterRestartingDevice);
 					Trace.Info("Restarting device...");
 					HidConnector.Instance.RestartDevice();
-					Thread.Sleep(200);
+					Thread.Sleep(1000);
 					Trace.Info("Restarting device... Done.");
 
 					Trace.Info("Waiting for device after reset...");
@@ -208,7 +208,7 @@ namespace NToolbox.Windows
 					if (!deviceFoundResult)
 					{
 						Trace.Info("Waiting for device after reset... Failed.");
-						InfoBox.Show("Device is not connected. Update process interrupted.");
+						UpdateUI(() => InfoBox.Show("Device is not connected. Update process interrupted."));
 						return;
 					}
 				}
@@ -234,7 +234,7 @@ namespace NToolbox.Windows
 
 				if (!writeFirmwareResult)
 				{
-					InfoBox.Show("Firmware update failed!");
+					UpdateUI(() => InfoBox.Show("Firmware update failed!"));
 					return;
 				}
 
@@ -243,7 +243,7 @@ namespace NToolbox.Windows
 			catch (Exception ex)
 			{
 				Trace.Warn(ex);
-				InfoBox.Show("An exception occured during firmware update.\n" + ex.Message);
+				UpdateUI(() => InfoBox.Show("An exception occured during firmware update.\n" + ex.Message));
 			}
 			finally
 			{
@@ -255,7 +255,7 @@ namespace NToolbox.Windows
 
 				if (isSuccess)
 				{
-					InfoBox.Show("Firmware successfully updated.");
+					UpdateUI(() => InfoBox.Show("Firmware successfully updated."));
 				}
 			}
 		}
