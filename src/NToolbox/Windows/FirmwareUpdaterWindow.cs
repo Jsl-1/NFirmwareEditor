@@ -255,7 +255,7 @@ namespace NToolbox.Windows
 
 				if (isSuccess)
 				{
-					UpdateUI(() => InfoBox.Show("Firmware successfully updated.");
+					UpdateUI(() => InfoBox.Show("Firmware successfully updated."));
 				}
 			}
 		}
@@ -272,7 +272,7 @@ namespace NToolbox.Windows
 			catch (Exception ex)
 			{
 				Trace.Warn(ex);
-				InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message);
+				UpdateUI(() => InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message));
 			}
 		}
 
@@ -291,7 +291,7 @@ namespace NToolbox.Windows
 			catch (Exception ex)
 			{
 				Trace.Warn(ex);
-				InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message);
+				UpdateUI(() => InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message);
 			}
 		}
 
