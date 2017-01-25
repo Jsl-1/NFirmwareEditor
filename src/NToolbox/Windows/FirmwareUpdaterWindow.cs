@@ -291,7 +291,7 @@ namespace NToolbox.Windows
 			catch (Exception ex)
 			{
 				Trace.Warn(ex);
-				UpdateUI(() => InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message);
+				UpdateUI(() => InfoBox.Show("An exception occured during dataflash reading.\n" + ex.Message));
 			}
 		}
 
