@@ -1,11 +1,33 @@
+# NFE Toolbox for Mono
+
+Nightly build: [![Build status](https://ci.appveyor.com/api/projects/status/github/jsl-1/NFirmwareEditor?branch=linux&svg=true)](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
+
+#### Requirements
+
+* ArcticFox Firmware 170106 or higher
+* Mono
+
+#### Installation (Ubuntu 16.04)
+
+* apt-get install libudev1
+* apt-get install mono-complete
+* download and unzip NFirmwareEditorMono 
+* cd into NFirmwareEditorMono directory and run mono NToolbox.exe
+
+#### Limitation
+* NFirmwareEditor is not working
+* All curves (preheat/battery ...) can't be edited
+* Monitor is not working
+* Firmware Update is working, but it report flashing failed even if succeeded
+
+#### For software documentation, see the original instruction below :
+
+
 # NFirmwareEditor + NFE Toolbox
 
 Supported OS: Windows 7 and higher.  
 
 Nightly build: [![Build status](https://ci.appveyor.com/api/projects/status/github/TBXin/NFirmwareEditor?branch=master&svg=true)](https://ci.appveyor.com/project/TBXin/NFirmwareEditor/branch/master/artifacts)
-
-Mono Nightly build: [![Build status](https://ci.appveyor.com/api/projects/status/github/jsl-1/NFirmwareEditor?branch=linux&svg=true)](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
-
 ## NFirmwareEditor
 NFirmwareEditor is a firmware editor and updater for vaping devices from Joyetech, Wismec, Eleaf, Vaporflask, such as:
 
