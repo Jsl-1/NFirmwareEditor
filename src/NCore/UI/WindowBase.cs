@@ -23,6 +23,7 @@ namespace NCore.UI
 		{
 
 			_FixControl(this);
+			this.Height += 10;
 
 		}
 
