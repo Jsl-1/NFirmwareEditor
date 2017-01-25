@@ -11,7 +11,7 @@ NFE Toolbox for Mono Nightly build: [![Build status](https://ci.appveyor.com/api
 
 * apt-get install libudev1
 * apt-get install mono-complete
-* download and unzip NFirmwareEditorMono 
+* download and unzip [NFirmwareEditorMono](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
 * cd into NFirmwareEditorMono directory and run mono NToolbox.exe
 
 #### Limitation
