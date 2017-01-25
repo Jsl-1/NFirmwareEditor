@@ -15,7 +15,6 @@ NFE Toolbox for Mono Nightly build: [![Build status](https://ci.appveyor.com/api
 * cd into NFirmwareEditorMono directory and run "mono NToolbox.exe" or "mono NFirmwareEditor.exe" 
 
 #### Limitation
-* NFirmwareEditor is not working
 * All curves (preheat/battery ...) can't be edited
 * Monitor is not working
 * Firmware Update is working, but it report flashing failed even if succeeded
