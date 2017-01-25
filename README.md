@@ -1,6 +1,6 @@
 # NFE Toolbox for Mono
 
-Nightly build: [![Build status](https://ci.appveyor.com/api/projects/status/github/jsl-1/NFirmwareEditor?branch=linux&svg=true)](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
+NFE Toolbox for Mono Nightly build: [![Build status](https://ci.appveyor.com/api/projects/status/github/jsl-1/NFirmwareEditor?branch=linux&svg=true)](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
 
 #### Requirements
 
