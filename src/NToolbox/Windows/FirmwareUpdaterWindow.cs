@@ -169,12 +169,12 @@ namespace NToolbox.Windows
 					Trace.Info("Writing dataflash...");
 					HidConnector.Instance.WriteDataflash(dataflash, worker);
 					Trace.Info("Writing dataflash... Done. Waiting 500 msec.");
-					Thread.Sleep(1000);
+					Thread.Sleep(100);
 
 					UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterRestartingDevice);
 					Trace.Info("Restarting device...");
 					HidConnector.Instance.RestartDevice();
-					Thread.Sleep(1000);
+					Thread.Sleep(200);
 					Trace.Info("Restarting device... Done.");
 
 					Trace.Info("Waiting for device after reset...");
@@ -255,7 +255,7 @@ namespace NToolbox.Windows
 
 				if (isSuccess)
 				{
-					UpdateUI(() => InfoBox.Show("Firmware successfully updated."));
+					UpdateUI(() => InfoBox.Show("Firmware successfully updated.");
 				}
 			}
 		}
