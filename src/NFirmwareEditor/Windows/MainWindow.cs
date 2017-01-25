@@ -326,15 +326,14 @@ namespace NFirmwareEditor.Windows
 
 		private void MainWindow_SizeChanged(object sender, EventArgs e)
 		{
-			if (WindowState == FormWindowState.Maximized)
-			{
-				m_configuration.MainWindowMaximaged = true;
-			}
-			else if (WindowState == FormWindowState.Normal)
-			{
-				m_configuration.MainWindowMaximaged = false;
-				m_configuration.MainWindowWidth = Width;
-				m_configuration.MainWindowHeight = Height;
+			if (m_configuration != null) {
+				if (WindowState == FormWindowState.Maximized) {
+					m_configuration.MainWindowMaximaged = true;
+				} else if (WindowState == FormWindowState.Normal) {
+					m_configuration.MainWindowMaximaged = false;
+					m_configuration.MainWindowWidth = Width;
+					m_configuration.MainWindowHeight = Height;
+				}
 			}
 		}
 
