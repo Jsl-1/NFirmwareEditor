@@ -17,7 +17,7 @@ NFE Toolbox for Mono Nightly build: [![Build status](https://ci.appveyor.com/api
 #### Limitation
 * All curves (preheat/battery ...) can't be edited
 * Monitor is not working
-* Firmware Update is working, but it report flashing failed even if succeeded
+* Firmware Update is not working
 
 #### For software documentation, see the original instruction below :
 
