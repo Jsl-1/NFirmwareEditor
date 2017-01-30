@@ -93,6 +93,13 @@ namespace NToolbox.Windows
 			InitializeComboBoxes();
 			InitializeMenu();
 			InitializeTooltips();
+
+			var multiplier = ApplicationService.GetDpiMultiplier();
+			ProfilesTabControl.ItemSize = new Size
+			(
+				(int)(ProfilesTabControl.ItemSize.Width * multiplier),
+				(int)(ProfilesTabControl.ItemSize.Height * multiplier)
+			);
 		}
 
 		private void InitializeMenu()
@@ -282,6 +289,13 @@ namespace NToolbox.Windows
 				FirmwareVersionTextBox.Text = (deviceInfo.FirmwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
 				BuildTextBox.Text = deviceInfo.FirmwareBuild.ToString();
 				HardwareVersionTextBox.Text = (deviceInfo.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
+
+				if (deviceInfo.DisplaySize == ArcticFoxConfiguration.DisplaySize.W96H16)
+				{
+					MainScreenSkinLabel.Visible = MainScreenSkinComboBox.Visible = false;
+					ClockTypeLabel.Visible = ClockTypeComboBox.Visible = false;
+					UseClassicMenuLabel.Visible = UseClassicMenuCheckBox.Visible = false;
+				}
 
 				Battery2OffsetLabel.Visible = Battery2OffsetUpDown.Visible = Battery2OffsetVoltsLabel.Visible = deviceInfo.NumberOfBatteries > 1;
 				Battery3OffsetLabel.Visible = Battery3OffsetUpDown.Visible = Battery3OffsetVoltsLabel.Visible = deviceInfo.NumberOfBatteries > 2;
