@@ -63,9 +63,6 @@
     <Reference Include="HidSharp">
       <HintPath>..\lib\HidSharp.dll</HintPath>
     </Reference>
-    <Reference Include="HidSharp.DeviceHelpers">
-      <HintPath>..\lib\HidSharp.DeviceHelpers.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\ArcticFoxConfiguration.cs" />
