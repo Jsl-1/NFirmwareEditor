@@ -14,7 +14,9 @@ NFE Toolbox for Mono Nightly build: [![Build status](https://ci.appveyor.com/api
 * download and unzip [NFirmwareEditorMono](https://ci.appveyor.com/project/jsl1/nfirmwareeditor/branch/linux/artifacts)
 * cd into NFirmwareEditorMono directory and run "mono NToolbox.exe" or "mono NFirmwareEditor.exe" 
 
+
 #### Limitation
+* Only works with root privileges
 * All curves (preheat/battery ...) can't be edited
 * Monitor is not working
 * Firmware Update is not working
