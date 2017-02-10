@@ -10,6 +10,7 @@ namespace NCore
 	{
 		private static string s_applicationName;
 		private const string AutorunRegistryPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+		private const string LanguagePackDirectoryName = "Languages";
 
 		static ApplicationService()
 		{
@@ -24,11 +25,14 @@ namespace NCore
 				IsIconAvailable = false;
 			}
 			ApplicationDirectory = Directory.GetParent(ApplicationExecutableLocation).FullName;
+			LanguagePacksDirectory = Path.Combine(ApplicationDirectory, LanguagePackDirectoryName);
 		}
 
 		public static string ApplicationExecutableLocation { get; private set; }
 
 		public static string ApplicationDirectory { get; private set; }
+
+		public static string LanguagePacksDirectory { get; private set; }
 
 		public static bool IsIconAvailable { get; private set; }
 
@@ -130,6 +134,38 @@ namespace NCore
 			{
 				//Trace.ErrorException("Unable to {0} the autorun record.".FormatInvariant(enable ? "create" : "delete"), ex);
 				return false;
+			}
+		}
+
+		public static void SetProcessDPIAware()
+		{
+			if (Environment.OSVersion.Version.Major < 6) return;
+
+			try
+			{
+				NativeMethods.SetProcessDPIAware();
+			}
+			catch (Exception ex)
+			{
+				Trace.Info(ex, "Unable to set DPI aware.");
+			}
+		}
+
+		public static float GetDpiMultiplier()
+		{
+			try
+			{
+				using (var control = new Control())
+				{
+					using (var gfx = control.CreateGraphics())
+					{
+						return gfx.DpiX / 96f;
+					}
+				}
+			}
+			catch (Exception)
+			{
+				return 1;
 			}
 		}
 

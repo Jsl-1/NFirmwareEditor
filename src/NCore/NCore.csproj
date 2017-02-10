@@ -40,7 +40,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.3.11\lib\net40\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.1\lib\net40\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -59,6 +59,7 @@
     <Compile Include="AsyncProcessWrapper.cs" />
     <Compile Include="BinaryStructure.cs" />
     <Compile Include="ArcticFoxEncryption.cs" />
+    <Compile Include="CrossApplicationIndentifiers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FileFilters.cs" />
     <Compile Include="CsvManager.cs" />
@@ -77,6 +78,10 @@
     <Compile Include="UI\GroupPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UI\LocalizationExtender.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="UI\LocalizationManager.cs" />
     <Compile Include="UI\MultiPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -86,7 +91,7 @@
     </Compile>
     <Compile Include="USB\HidDeviceInfo.cs" />
     <Compile Include="USB\HidConnector.cs" />
-    <Compile Include="SingleInstanceProvider.cs" />
+    <Compile Include="CrossApplicationSynchronizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\BorderedPanel.cs">
       <SubType>Component</SubType>
@@ -98,6 +103,50 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\EditorDialogWindow.resx">
+      <DependentUpon>EditorDialogWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\WindowBase.resx">
+      <DependentUpon>WindowBase.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\EN.lpack.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Languages\RU.lpack.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\CZ.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Languages\HU.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\DE.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\PL.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\SR.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Languages\FR.lpack.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

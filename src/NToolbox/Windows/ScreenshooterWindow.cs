@@ -10,10 +10,11 @@ using NCore;
 using NCore.UI;
 using NCore.USB;
 using NToolbox.Models;
+using NToolbox.Services;
 
 namespace NToolbox.Windows
 {
-	public partial class ScreenshooterWindow : EditorDialogWindow
+	internal partial class ScreenshooterWindow : EditorDialogWindow
 	{
 		private const int ScreenshotMargin = 1;
 		private readonly ToolboxConfiguration m_configuration;
@@ -33,6 +34,7 @@ namespace NToolbox.Windows
 		{
 			TakeScreenshotBeforeSaveCheckBox.Checked = m_configuration.TakeScreenshotBeforeSave;
 			TakeScreenshotBeforeSaveCheckBox.CheckedChanged += (s, e) => m_configuration.TakeScreenshotBeforeSave = TakeScreenshotBeforeSaveCheckBox.Checked;
+			PixelSizeUpDown.ValueChanged += (s, e) => m_configuration.PixelSizeMultiplier = (int)PixelSizeUpDown.Value;
 			TakeScreenshotButton.Click += TakeScreenshotButton_Click;
 			BroadcastButton.Click += BroadcastButton_Click;
 			SaveScreenshotButton.Click += SaveScreenshotButton_Click;
@@ -55,8 +57,10 @@ namespace NToolbox.Windows
 					ScreenPictureBox.Image.Dispose();
 					ScreenPictureBox.Image = null;
 				}
+				m_configuration.SelectedScreenSize = ScreenSizeComboBox.SelectedIndex;
 			};
-			ScreenSizeComboBox.SelectedIndex = 0;
+			PixelSizeUpDown.SetValue(m_configuration.PixelSizeMultiplier);
+			ScreenSizeComboBox.SelectedIndex = Math.Max(Math.Min(m_configuration.SelectedScreenSize, ScreenSizeComboBox.Items.Count), 0);
 		}
 
 		private void ResizeScreenPictureBox()
@@ -94,7 +98,7 @@ namespace NToolbox.Windows
 			{
 				SetButtonState(false);
 				BroadcastButton.Enabled = true;
-				BroadcastButton.Text = @"Stop broadcast";
+				BroadcastButton.Text = LocalizableStrings.ScreenshooterStopBroadcast;
 				m_isBroadcasting = true;
 				new Thread(() =>
 				{
@@ -110,7 +114,7 @@ namespace NToolbox.Windows
 					UpdateUI(() =>
 					{
 						SetButtonState(true);
-						BroadcastButton.Text = @"Start broadcast";
+						BroadcastButton.Text = LocalizableStrings.ScreenshooterStartBroadcast;
 					});
 				})
 				{
@@ -170,12 +174,7 @@ namespace NToolbox.Windows
 			{
 				if (ignoreErrors) return null;
 
-				InfoBox.Show
-				(
-					"An error occurred during taking screenshot..." +
-					"\n\n" +
-					"To continue, please activate or reconnect your device."
-				);
+				InfoBox.Show(LocalizableStrings.MessageNoCompatibleUSBDevice);
 				return null;
 			}
 		}

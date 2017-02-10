@@ -13,10 +13,11 @@ using NCore;
 using NCore.UI;
 using NCore.USB;
 using NToolbox.Models;
+using NToolbox.Services;
 
 namespace NToolbox.Windows
 {
-	public partial class DeviceMonitorWindow : EditorDialogWindow
+	internal partial class DeviceMonitorWindow : EditorDialogWindow
 	{
 		private const int RequestDataIntervalInMs = 100;
 
@@ -37,6 +38,7 @@ namespace NToolbox.Windows
 			{ SensorsKeys.Battery1, 0 },
 			{ SensorsKeys.Battery2, 0 },
 			{ SensorsKeys.Battery3, 0 },
+			{ SensorsKeys.Battery4, 0 },
 			{ SensorsKeys.BatteryPack, 0 },
 
 			{ SensorsKeys.Power, 0 },
@@ -139,7 +141,7 @@ namespace NToolbox.Windows
 						break;
 					}
 
-					var data = BinaryStructure.Read<MonitoringData>(bytes);
+					var data = BinaryStructure.ReadBinary<MonitoringData>(bytes);
 					var kvp = CreateMonitoringDataCollection(data);
 
 					UpdateUI(() =>
@@ -188,6 +190,10 @@ namespace NToolbox.Windows
 				{
 					SensorsKeys.Battery3,
 					new SeriesRelatedData(Color.DarkSlateGray, Battery3CheckBox, Battery3Panel, Battery3VoltageLabel, "{0} V", batteryLimits)
+				},
+				{
+					SensorsKeys.Battery4,
+					new SeriesRelatedData(Color.DarkSlateGray, Battery4CheckBox, Battery4Panel, Battery4VoltageLabel, "{0} V", batteryLimits)
 				},
 				{
 					SensorsKeys.BatteryPack,
@@ -239,7 +245,7 @@ namespace NToolbox.Windows
 					m_prevReceiveTime = DateTime.Now.Add(-TimeSpan.FromMilliseconds(RequestDataIntervalInMs));
 				}
 				m_isChartPaused = !m_isChartPaused;
-				PauseButton.Text = m_isChartPaused ? "Resume" : "Pause";
+				PauseButton.Text = m_isChartPaused ? LocalizableStrings.DeviceMonitorPauseResumeButton : LocalizableStrings.DeviceMonitorPauseButton;
 			};
 
 			TrackingButton.Click += (s, e) => ChangeXScale(m_timeFrame);
@@ -375,12 +381,12 @@ namespace NToolbox.Windows
 		{
 			m_xScaleMenu = new ContextMenu(new[]
 			{
-				new MenuItem("5 seconds",  (s, e) => ChangeXScale(TimeSpan.FromSeconds(5))),
-				new MenuItem("10 seconds", (s, e) => ChangeXScale(TimeSpan.FromSeconds(10))),
-				new MenuItem("20 seconds", (s, e) => ChangeXScale(TimeSpan.FromSeconds(20))),
-				new MenuItem("30 seconds", (s, e) => ChangeXScale(TimeSpan.FromSeconds(30))),
-				new MenuItem("45 seconds", (s, e) => ChangeXScale(TimeSpan.FromSeconds(45))),
-				new MenuItem("60 seconds", (s, e) => ChangeXScale(TimeSpan.FromSeconds(60)))
+				new MenuItem("5 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(5))),
+				new MenuItem("10 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(10))),
+				new MenuItem("20 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(20))),
+				new MenuItem("30 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(30))),
+				new MenuItem("45 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(45))),
+				new MenuItem("60 " + LocalizableStrings.Seconds, (s, e) => ChangeXScale(TimeSpan.FromSeconds(60)))
 			});
 			SetXScaleButton.Click += (s, e) =>
 			{
@@ -405,7 +411,7 @@ namespace NToolbox.Windows
 			for (var i = 1; i <= 9; i++)
 			{
 				var seconds = i;
-				m_puffsMenu.MenuItems.Add(seconds + (seconds == 1 ? " second" : " seconds"), (s, e) => PuffMenuItem_Click(seconds));
+				m_puffsMenu.MenuItems.Add(seconds + " " + (seconds == 1 ? LocalizableStrings.Second : LocalizableStrings.Seconds), (s, e) => PuffMenuItem_Click(seconds));
 			}
 			PuffButton.Click += (s, e) =>
 			{
@@ -418,16 +424,7 @@ namespace NToolbox.Windows
 		{
 			if (HidConnector.Instance.IsDeviceConnected) return true;
 
-			var result = InfoBox.Show
-			(
-				"No compatible USB devices are connected." +
-				"\n\n" +
-				"To continue, please connect one." +
-				"\n\n" +
-				"If one already IS connected, try unplugging and plugging it back in. The cable may be loose.",
-				MessageBoxButtons.OKCancel
-			);
-
+			var result = InfoBox.Show(LocalizableStrings.MessageNoCompatibleUSBDevice, MessageBoxButtons.OKCancel);
 			if (result == DialogResult.OK)
 			{
 				return EnsureConnection();
@@ -513,14 +510,14 @@ namespace NToolbox.Windows
 			var battery1 = data.Battery1Voltage == 0 ? 0 : (data.Battery1Voltage + 275) / 100f;
 			var battery2 = data.Battery2Voltage == 0 ? 0 : (data.Battery2Voltage + 275) / 100f;
 			var battery3 = data.Battery3Voltage == 0 ? 0 : (data.Battery3Voltage + 275) / 100f;
-			var batteryPack = battery1 + battery2 + battery3;
+			var battery4 = data.Battery4Voltage == 0 ? 0 : (data.Battery4Voltage + 275) / 100f;
+			var batteryPack = battery1 + battery2 + battery3  + battery4;
 
 			var outputVoltage = data.OutputVoltage / 100f;
 			var outputCurrent = data.OutputCurrent / 100f;
 			var outputPower = outputVoltage * outputCurrent;
 
 			{
-				//m_sensorsData[SensorsKeys.Timestamp] = data.Timestamp / 100f;
 				m_sensorsData[SensorsKeys.IsFiring] = data.IsFiring ? 1 : 0;
 				m_sensorsData[SensorsKeys.IsCharging] = data.IsCharging ? 1 : 0;
 				m_sensorsData[SensorsKeys.IsCelcius] = data.IsCelcius ? 1 : 0;
@@ -528,6 +525,7 @@ namespace NToolbox.Windows
 				m_sensorsData[SensorsKeys.Battery1] = battery1;
 				m_sensorsData[SensorsKeys.Battery2] = battery2;
 				m_sensorsData[SensorsKeys.Battery3] = battery3;
+				m_sensorsData[SensorsKeys.Battery4] = battery4;
 				m_sensorsData[SensorsKeys.BatteryPack] = batteryPack;
 
 				m_sensorsData[SensorsKeys.Power] = outputPower;
@@ -735,7 +733,7 @@ namespace NToolbox.Windows
 
 			m_isRecording = true;
 			m_seriesData.ForEach(x => x.Value.CheckBox.Enabled = false);
-			RecordButton.Text = @"Stop Recording";
+			RecordButton.Text = LocalizableStrings.DeviceMonitorStopRecording;
 		}
 
 		private void StopRecording()
@@ -750,7 +748,7 @@ namespace NToolbox.Windows
 
 			m_isRecording = false;
 			m_seriesData.ForEach(x => x.Value.CheckBox.Enabled = true);
-			RecordButton.Text = @"Record...";
+			RecordButton.Text = LocalizableStrings.DeviceMonitorRecord;
 		}
 
 		private void SaveMonitoringConfiguration()
@@ -867,6 +865,7 @@ namespace NToolbox.Windows
 			internal const string Battery1 = "Battery1Voltage";
 			internal const string Battery2 = "Battery2Voltage";
 			internal const string Battery3 = "Battery3Voltage";
+			internal const string Battery4 = "Battery4Voltage";
 			internal const string BatteryPack = "BatteryPack";
 
 			internal const string Power = "Power";

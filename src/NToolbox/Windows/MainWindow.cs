@@ -6,6 +6,7 @@ using NCore;
 using NCore.UI;
 using NCore.USB;
 using NToolbox.Models;
+using NToolbox.Services;
 using NToolbox.Storages;
 
 namespace NToolbox.Windows
@@ -16,20 +17,23 @@ namespace NToolbox.Windows
 		private const string SettingsFileName = "NToolboxConfiguration.xml";
 		private readonly ConfigurationStorage m_configurationStorage = new ConfigurationStorage();
 		private readonly StartupMode m_startupMode;
+		private readonly string m_firmwareFile;
 
 		private ToolboxConfiguration m_configuration;
 		private WindowBase m_openedWindow;
 		private bool m_hideToTray;
 
-		public MainWindow(StartupMode startupMode)
+		public MainWindow(StartupMode startupMode, string[] args)
 		{
 			m_startupMode = startupMode;
+			m_firmwareFile = args != null && args.Length > 0 ? args[0] : null;
 			m_hideToTray = m_startupMode.HasFlag(StartupMode.Minimized) || GetAutorunState();
 
 			InitializeComponent();
 			Initialize();
 			InitializeControls();
 			InitializeTray();
+			InitializeLanguages();
 		}
 
 		private void Initialize()
@@ -131,6 +135,36 @@ namespace NToolbox.Windows
 			};
 		}
 
+		private void InitializeLanguages()
+		{
+			var languages = LocalizationManager.GetAvailableLanguages();
+			foreach (var itemContainer in languages)
+			{
+				LanguageComboBox.Items.Add(itemContainer);
+			}
+			LanguageComboBox.SelectedIndexChanged += (s, e) =>
+			{
+				var selectedContainer = LanguageComboBox.SelectedItem as NamedItemContainer<string>;
+				if (selectedContainer == null) return;
+
+				LocalizationManager.Instance.InitializeLanguagePack(selectedContainer.Data);
+				LocalizeSelf();
+
+				m_configuration.Language = selectedContainer.Name;
+				SaveConfiguration();
+			};
+
+			if (string.IsNullOrEmpty(m_configuration.Language) && LanguageComboBox.Items.Count > 0)
+			{
+				LanguageComboBox.SelectedIndex = 0;
+			}
+			else
+			{
+				var activeLanguage = languages.FindIndex(x => string.Equals(x.Name, m_configuration.Language, StringComparison.OrdinalIgnoreCase));
+				if (activeLanguage != -1) LanguageComboBox.SelectedIndex = activeLanguage;
+			}
+		}
+
 		private ToolboxConfiguration LoadConfiguration()
 		{
 			return m_configurationStorage.Load(Path.Combine(ApplicationService.ApplicationDirectory, SettingsFileName));
@@ -174,9 +208,18 @@ namespace NToolbox.Windows
 
 		private void StartFirmwareUpdater(object sender, EventArgs e)
 		{
-			using (var updaterWindow = new FirmwareUpdaterWindow())
+			using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.FirmwareUpdater))
 			{
-				ShowDialogWindow(updaterWindow);
+				if (!sync.IsLockObtained)
+				{
+					InfoBox.Show("\"NFirmwareEditor - Firmware Updater\" is already running.\n\nTo continue you need to close it first.");
+					return;
+				}
+
+				using (var updaterWindow = new FirmwareUpdaterWindow(m_firmwareFile))
+				{
+					ShowDialogWindow(updaterWindow);
+				}
 			}
 		}
 
@@ -226,6 +269,31 @@ namespace NToolbox.Windows
 			return ApplicationService.UpdateAutorunState(enabled, StartupArgs.Minimzed);
 		}
 
+		#region Overrides of WindowBase
+		protected override void OnLocalization()
+		{
+			ShowTrayMenuItem.Text = LocalizableStrings.TrayShowToolbox;
+			ArcticFoxConfigurationTrayMenuItem.Text = LocalizableStrings.TrayArcticFoxConfiguration;
+			MyEvicConfigurationTrayMenuItem.Text = LocalizableStrings.TrayMyEvicConfiguration;
+			DeviceMonitorTrayMenuItem.Text = LocalizableStrings.TrayDeviceMonitor;
+			ScreenshooterTrayMenuItem.Text = LocalizableStrings.TrayScreenshooter;
+			FirmwareUpdaterTrayMenuItem.Text = LocalizableStrings.TrayFirmwareUpdater;
+			OpenArcticFoxConfigurationTrayMenuItem.Text = LocalizableStrings.TrayArcticFoxConfigurationAutostart;
+			AutorunTrayMenuItem.Text = LocalizableStrings.TrayToolboxAutostart;
+			TimeSyncTrayMenuItem.Text = LocalizableStrings.TrayTimeSync;
+			ExitTrayMenuItem.Text = LocalizableStrings.TrayExit;
+		}
+		#endregion
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				WindowState = FormWindowState.Minimized;
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
+		}
+
 		private void DeviceConnected(bool isConnected)
 		{
 			try
@@ -242,7 +310,7 @@ namespace NToolbox.Windows
 						Minute = (byte)now.Minute,
 						Second = (byte)now.Second
 					};
-					var data = BinaryStructure.Write(dateTime);
+					var data = BinaryStructure.WriteBinary(dateTime);
 					HidConnector.Instance.SetDateTime(data);
 				}
 

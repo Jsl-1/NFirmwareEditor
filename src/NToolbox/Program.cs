@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using NCore;
 using NCore.USB;
@@ -22,17 +23,23 @@ namespace NToolbox
 			Application.SetCompatibleTextRenderingDefault(false);
 
 			var startupMode = StartupArgs.GetMode(args != null && args.Length > 0 ? args[0] : string.Empty);
-			using (var spi = new SingleInstanceProvider("NFE Toolbox © Reiko Kitsune"))
+			string[] remainingArgs = null;
+			if (args != null && args.Length > 1 && startupMode != StartupMode.None)
 			{
-				if (spi.IsCreated)
+				remainingArgs = args.Skip(1).ToArray();
+			}
+			using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.NToolbox))
+			{
+				if (!sync.IsLockObtained)
 				{
-					spi.ShowFirstInstance();
+					sync.ShowFirstInstance();
 					return;
 				}
 
 				HidConnector.Instance.StartUSBConnectionMonitoring();
 				ApplicationService.ApplicationName = "NFE Toolbox";
-				Application.Run(new MainWindow(startupMode));
+				ApplicationService.SetProcessDPIAware();
+				Application.Run(new MainWindow(startupMode, remainingArgs));
 				HidConnector.Instance.StopUSBConnectionMonitoring();
 			}
 		}

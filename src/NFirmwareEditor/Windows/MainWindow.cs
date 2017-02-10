@@ -369,7 +369,10 @@ namespace NFirmwareEditor.Windows
 		{
 			OpenDialogAndSaveFirmwareOnOk((filePath, firmware) =>
 			{
-				firmware.EncryptionType = EncryptionType.Joyetech;
+				if (firmware.EncryptionType == EncryptionType.None)
+				{
+					firmware.EncryptionType = EncryptionType.Joyetech;
+				}
 				m_loader.SaveEncrypted(filePath, firmware);
 			});
 		}
@@ -431,9 +434,17 @@ namespace NFirmwareEditor.Windows
 
 		private void FirmwareUpdaterMenuItem_Click(object sender, EventArgs e)
 		{
-			using (var firmwareUpdaterWindow = new FirmwareUpdaterWindow(m_firmware, m_loader))
+			using (var sync = new CrossApplicationSynchronizer(CrossApplicationIndentifiers.FirmwareUpdater))
 			{
-				firmwareUpdaterWindow.ShowDialog();
+				if (!sync.IsLockObtained)
+				{
+					InfoBox.Show("\"NFE Toolbox - Firmware Updater\" is already running.\n\nTo continue you need to close it first.");
+					return;
+				}
+				using (var firmwareUpdaterWindow = new FirmwareUpdaterWindow(m_firmware, m_loader))
+				{
+					firmwareUpdaterWindow.ShowDialog();
+				}
 			}
 		}
 

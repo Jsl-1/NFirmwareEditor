@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using NCore;
+using NCore.Serialization;
 using NCore.UI;
 using NCore.USB;
 using NToolbox.Models;
@@ -15,12 +16,12 @@ using NToolbox.Services;
 
 namespace NToolbox.Windows
 {
-	public partial class ArcticFoxConfigurationWindow : WindowBase
+	internal partial class ArcticFoxConfigurationWindow : EditorDialogWindow
 	{
-		private const ushort MaxPower = 2500;
-		private const byte MaxBatteries = 3;
-		private const int MinimumSupportedBuildNumber = 170103;
-		private const int SupportedSettingsVersion = 6;
+		private const ushort MaxPower = 3000;
+		private const byte MaxBatteries = 4;
+		private const int MinimumSupportedBuildNumber = 170106;
+		private const int SupportedSettingsVersion = 7;
 
 		private readonly BackgroundWorker m_worker = new BackgroundWorker { WorkerReportsProgress = true };
 		private readonly IEncryption m_encryption = new ArcticFoxEncryption();
@@ -41,7 +42,7 @@ namespace NToolbox.Windows
 		{
 			m_worker.DoWork += Worker_DoWork;
 			m_worker.ProgressChanged += (s, e) => ProgressLabel.Text = e.ProgressPercentage + @"%";
-			m_worker.RunWorkerCompleted += (s, e) => ProgressLabel.Text = @"Operation completed";
+			m_worker.RunWorkerCompleted += (s, e) => ProgressLabel.Text = LocalizableStrings.StatusOperationComplete;
 
 			HidConnector.Instance.DeviceConnected += isConnected => DeviceConnected(isConnected, false);
 			Shown += (s, e) =>
@@ -72,6 +73,8 @@ namespace NToolbox.Windows
 			HardwareVersionTextBox.ReadOnly = true;
 			HardwareVersionTextBox.BackColor = Color.White;
 
+			ProgressLabel.Text = LocalizableStrings.StatusReady;
+
 			SmartCheckBox.CheckedChanged += (s, e) => SelectedProfleComboBox.Enabled = !SmartCheckBox.Checked;
 			BrightnessTrackBar.ValueChanged += (s, e) => BrightnessPercentLabel.Text = (int)(BrightnessTrackBar.Value * 100m / 255) + @"%";
 
@@ -89,17 +92,64 @@ namespace NToolbox.Windows
 
 			InitializeComboBoxes();
 			InitializeMenu();
+			InitializeTooltips();
+
+			var multiplier = ApplicationService.GetDpiMultiplier();
+			ProfilesTabControl.ItemSize = new Size
+			(
+				(int)(ProfilesTabControl.ItemSize.Width * multiplier),
+				(int)(ProfilesTabControl.ItemSize.Height * multiplier)
+			);
 		}
 
 		private void InitializeMenu()
 		{
 			var menu = new ContextMenu(new[]
 			{
-				new MenuItem("New", NewMenuItem_Click),
-				new MenuItem("Open", OpenMenuItem_Click),
-				new MenuItem("Save As", SaveAsMenuItem_Click)
+				new MenuItem(LocalizableStrings.ConfigurationMenuNew, NewMenuItem_Click),
+				new MenuItem(LocalizableStrings.ConfigurationMenuOpen, OpenMenuItem_Click),
+				new MenuItem(LocalizableStrings.ConfigurationMenuSaveAs, SaveAsMenuItem_Click)
 			});
 			ConfigurationMenuButton.Click += (s, e) => menu.Show(ConfigurationMenuButton, new Point(0, ConfigurationMenuButton.Height));
+		}
+
+		private void InitializeTooltips()
+		{
+			MainToolTip.SetToolTip(MainScreenSkinLabel, LocalizableStrings.MainScreenSkinTooltip);
+			MainToolTip.SetToolTip(MainScreenSkinComboBox, LocalizableStrings.MainScreenSkinTooltip);
+
+			MainToolTip.SetToolTip(UseClassicMenuLabel, LocalizableStrings.UseClassicMenuTooltip);
+			MainToolTip.SetToolTip(UseClassicMenuCheckBox, LocalizableStrings.UseClassicMenuTooltip);
+
+			MainToolTip.SetToolTip(ShowLogoLabel, LocalizableStrings.ShowLogoTooltip);
+			MainToolTip.SetToolTip(ShowLogoCheckBox, LocalizableStrings.ShowLogoTooltip);
+
+			MainToolTip.SetToolTip(ShowClockLabel, LocalizableStrings.ShowClockTooltip);
+			MainToolTip.SetToolTip(ShowClockCheckBox, LocalizableStrings.ShowClockTooltip);
+
+			MainToolTip.SetToolTip(PuffCutOffLabel, LocalizableStrings.MaxPuffTimeTooltip);
+			MainToolTip.SetToolTip(PuffCutOffUpDown, LocalizableStrings.MaxPuffTimeTooltip);
+
+			MainToolTip.SetToolTip(ShuntCorrectionLabel, LocalizableStrings.ShuntCorrectionTooltip);
+			MainToolTip.SetToolTip(ShuntCorrectionUpDown, LocalizableStrings.ShuntCorrectionTooltip);
+
+			MainToolTip.SetToolTip(X32Label, LocalizableStrings.X32Tooltip);
+			MainToolTip.SetToolTip(X32CheckBox, LocalizableStrings.X32Tooltip);
+
+			MainToolTip.SetToolTip(LightSleepLabel, LocalizableStrings.LightSleepTooltip);
+			MainToolTip.SetToolTip(LightSleepCheckBox, LocalizableStrings.LightSleepTooltip);
+
+			MainToolTip.SetToolTip(ResetCountersLabel, LocalizableStrings.RcobcTooltip);
+			MainToolTip.SetToolTip(ResetCountersCheckBox, LocalizableStrings.RcobcTooltip);
+
+			MainToolTip.SetToolTip(CheckTCRLabel, LocalizableStrings.CheckTCRTooltip);
+			MainToolTip.SetToolTip(CheckTCRCheckBox, LocalizableStrings.CheckTCRTooltip);
+
+			MainToolTip.SetToolTip(UsbChargeLabel, LocalizableStrings.UsbChargeTooltip);
+			MainToolTip.SetToolTip(UsbChargeCheckBox, LocalizableStrings.UsbChargeTooltip);
+
+			MainToolTip.SetToolTip(UsbNoSleepLabel, LocalizableStrings.UsbNoSleepTooltip);
+			MainToolTip.SetToolTip(UsbNoSleepCheckBox, LocalizableStrings.UsbNoSleepTooltip);
 		}
 
 		private void InitializeComboBoxes()
@@ -137,10 +187,15 @@ namespace NToolbox.Windows
 			ClockTypeComboBox.Fill(PredefinedData.ArcticFox.ClockTypes);
 			ScreensaverTimeComboBox.Fill(PredefinedData.ArcticFox.ScreenSaverTimes);
 
-			foreach (var clickComboBox in new[] { Clicks2ComboBox, Clicks3ComboBox, Clicks4ComboBox })
+			foreach (var clickComboBox in new[]
+			{
+				ClicksVW2ComboBox, ClicksVW3ComboBox, ClicksVW4ComboBox,
+				ClicksTC2ComboBox, ClicksTC3ComboBox, ClicksTC4ComboBox
+			})
 			{
 				clickComboBox.Fill(PredefinedData.ArcticFox.ClickActions);
 			}
+			UpDownButtonsComboBox.Fill(PredefinedData.ArcticFox.UpDownButtons);
 
 			PuffsTimeFormatComboBox.Fill(PredefinedData.ArcticFox.PuffTimeFormats);
 			BatteryModelComboBox.Fill(PredefinedData.ArcticFox.BatteryModels);
@@ -178,26 +233,14 @@ namespace NToolbox.Windows
 		{
 			while (!m_isDeviceConnected)
 			{
-				var result = InfoBox.Show
-				(
-					// ReSharper disable once LocalizableElement
-					"No compatible USB devices are connected." +
-					"\n\n" +
-					"To continue, please connect one." +
-					"\n\n" +
-					"If one already IS connected, try unplugging and plugging it back in. The cable may be loose.",
-					MessageBoxButtons.OKCancel
-				);
-				if (result == DialogResult.Cancel)
-				{
-					return false;
-				}
+				var result = InfoBox.Show(LocalizableStrings.MessageNoCompatibleUSBDevice, MessageBoxButtons.OKCancel);
+				if (result == DialogResult.Cancel) return false;
 			}
 			return true;
 		}
 
 		[NotNull]
-		private ConfigurationReadResult ReadConfiguration([NotNull] Func<BackgroundWorker, byte[]> configurationProvider, bool useWorker = true)
+		private ConfigurationReadResult ReadBinaryConfiguration([NotNull] Func<BackgroundWorker, byte[]> configurationProvider, bool useWorker = true)
 		{
 			if (configurationProvider == null) throw new ArgumentNullException("configurationProvider");
 
@@ -206,8 +249,8 @@ namespace NToolbox.Windows
 				var data = configurationProvider(useWorker ? m_worker : null);
 				if (data == null) return new ConfigurationReadResult(null, ReadResult.UnableToRead);
 
-				var info = BinaryStructure.Read<ArcticFoxConfiguration.DeviceInfo>(data);
-				if (info.FirmwareBuild < MinimumSupportedBuildNumber || info.SettingsVersion < SupportedSettingsVersion)
+				var info = BinaryStructure.ReadBinary<ArcticFoxConfiguration.DeviceInfo>(data);
+				if (info.SettingsVersion < SupportedSettingsVersion || info.FirmwareBuild < MinimumSupportedBuildNumber)
 				{
 					return new ConfigurationReadResult(null, ReadResult.OutdatedFirmware);
 				}
@@ -216,7 +259,7 @@ namespace NToolbox.Windows
 					return new ConfigurationReadResult(null, ReadResult.OutdatedToolbox);
 				}
 
-				var configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
+				var configuration = BinaryStructure.ReadBinary<ArcticFoxConfiguration>(data);
 				return new ConfigurationReadResult(configuration, ReadResult.Success);
 			}
 			catch (TimeoutException)
@@ -227,7 +270,7 @@ namespace NToolbox.Windows
 
 		private void WriteConfiguration()
 		{
-			var data = BinaryStructure.Write(m_configuration);
+			var data = BinaryStructure.WriteBinary(m_configuration);
 			try
 			{
 				HidConnector.Instance.WriteConfiguration(data, m_worker);
@@ -247,8 +290,16 @@ namespace NToolbox.Windows
 				BuildTextBox.Text = deviceInfo.FirmwareBuild.ToString();
 				HardwareVersionTextBox.Text = (deviceInfo.HardwareVersion / 100f).ToString("0.00", CultureInfo.InvariantCulture);
 
+				if (deviceInfo.DisplaySize == ArcticFoxConfiguration.DisplaySize.W96H16)
+				{
+					MainScreenSkinLabel.Visible = MainScreenSkinComboBox.Visible = false;
+					ClockTypeLabel.Visible = ClockTypeComboBox.Visible = false;
+					UseClassicMenuLabel.Visible = UseClassicMenuCheckBox.Visible = false;
+				}
+
 				Battery2OffsetLabel.Visible = Battery2OffsetUpDown.Visible = Battery2OffsetVoltsLabel.Visible = deviceInfo.NumberOfBatteries > 1;
 				Battery3OffsetLabel.Visible = Battery3OffsetUpDown.Visible = Battery3OffsetVoltsLabel.Visible = deviceInfo.NumberOfBatteries > 2;
+				Battery4OffsetLabel.Visible = Battery4OffsetUpDown.Visible = Battery4OffsetVoltsLabel.Visible = deviceInfo.NumberOfBatteries > 3;
 			}
 
 			var general = m_configuration.General;
@@ -324,12 +375,23 @@ namespace NToolbox.Windows
 				InitializeLineContentEditor(ui.SmallSkinTCLines.Line1, SmallTCLine1ComboBox, SmallTCLine1FireCheckBox);
 				InitializeLineContentEditor(ui.SmallSkinTCLines.Line2, SmallTCLine2ComboBox, SmallTCLine2FireCheckBox);
 
-				Clicks2ComboBox.SelectItem(ui.Clicks[0]);
-				Clicks3ComboBox.SelectItem(ui.Clicks[1]);
-				Clicks4ComboBox.SelectItem(ui.Clicks[2]);
+				ClicksVW2ComboBox.SelectItem(ui.ClicksVW[0]);
+				ClicksVW3ComboBox.SelectItem(ui.ClicksVW[1]);
+				ClicksVW4ComboBox.SelectItem(ui.ClicksVW[2]);
 
+				ClicksTC2ComboBox.SelectItem(ui.ClicksTC[0]);
+				ClicksTC3ComboBox.SelectItem(ui.ClicksTC[1]);
+				ClicksTC4ComboBox.SelectItem(ui.ClicksTC[2]);
+
+				UpDownButtonsComboBox.SelectItem(ui.IsUpDownSwapped);
 				WakeUpByPlusMinusCheckBox.Checked = ui.WakeUpByPlusMinus;
 				Step1WCheckBox.Checked = ui.IsPowerStep1W;
+
+				LayoutTabControl.SelectedTab = deviceInfo.DisplaySize == ArcticFoxConfiguration.DisplaySize.W64H128
+					? ui.MainScreenSkin == ArcticFoxConfiguration.Skin.Classic
+						? ClassicScreenTabPage
+						: CircleScreenTabPage
+					: SmallScreenTabPage;
 			}
 
 			var stats = m_configuration.Counters;
@@ -354,6 +416,7 @@ namespace NToolbox.Windows
 				Battery1OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[0] / 100m);
 				Battery2OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[1] / 100m);
 				Battery3OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[2] / 100m);
+				Battery4OffsetUpDown.SetValue(advanced.BatteryVoltageOffsets[3] / 100m);
 
 				PowerCurvesListView.Items.Clear();
 				PowerCurvesListView.LargeImageList.Images.Clear();
@@ -447,9 +510,15 @@ namespace NToolbox.Windows
 				ui.SmallSkinTCLines.Line2 = SaveLineContent(SmallTCLine2ComboBox, SmallTCLine2FireCheckBox);
 
 				// General -> Controls Tab
-				ui.Clicks[0] = Clicks2ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
-				ui.Clicks[1] = Clicks3ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
-				ui.Clicks[2] = Clicks4ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+				ui.ClicksVW[0] = ClicksVW2ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+				ui.ClicksVW[1] = ClicksVW3ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+				ui.ClicksVW[2] = ClicksVW4ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+
+				ui.ClicksTC[0] = ClicksTC2ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+				ui.ClicksTC[1] = ClicksTC3ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+				ui.ClicksTC[2] = ClicksTC4ComboBox.GetSelectedItem<ArcticFoxConfiguration.ClickAction>();
+
+				ui.IsUpDownSwapped = UpDownButtonsComboBox.GetSelectedItem<bool>();
 				ui.WakeUpByPlusMinus = WakeUpByPlusMinusCheckBox.Checked;
 				ui.IsPowerStep1W = Step1WCheckBox.Checked;
 			}
@@ -484,10 +553,11 @@ namespace NToolbox.Windows
 				advanced.CheckTCR = CheckTCRCheckBox.Checked;
 				advanced.IsUsbCharge = UsbChargeCheckBox.Checked;
 				advanced.UsbNoSleep = UsbNoSleepCheckBox.Checked;
-				
+
 				advanced.BatteryVoltageOffsets[0] = (sbyte)(Battery1OffsetUpDown.Value * 100);
 				advanced.BatteryVoltageOffsets[1] = (sbyte)(Battery2OffsetUpDown.Value * 100);
 				advanced.BatteryVoltageOffsets[2] = (sbyte)(Battery3OffsetUpDown.Value * 100);
+				advanced.BatteryVoltageOffsets[3] = (sbyte)(Battery4OffsetUpDown.Value * 100);
 			}
 		}
 
@@ -531,7 +601,7 @@ namespace NToolbox.Windows
 		{
 			try
 			{
-				var readResult = ReadConfiguration(m_deviceConfigurationProvider);
+				var readResult = ReadBinaryConfiguration(m_deviceConfigurationProvider);
 				if (readResult.Result != ReadResult.Success)
 				{
 					InfoBox.Show("Something strange happened! Please restart application.");
@@ -585,17 +655,23 @@ namespace NToolbox.Windows
 
 		private byte[] PrepairConfiguration(byte[] source, ArcticFoxConfiguration existedConfiguration = null)
 		{
-			var result = BinaryStructure.Read<ArcticFoxConfiguration>(m_encryption.Decode(source));
+			var result = BinaryStructure.ReadBinary<ArcticFoxConfiguration>(m_encryption.Decode(source));
 			if (existedConfiguration == null)
 			{
-				result.Info.MaxPower = MaxPower;
-				result.Info.NumberOfBatteries = MaxBatteries;
+				SetSharedDeviceInfo(result.Info);
 			}
 			else
 			{
 				result.Info = existedConfiguration.Info;
 			}
-			return BinaryStructure.Write(result);
+			return BinaryStructure.WriteBinary(result);
+		}
+
+		private static void SetSharedDeviceInfo(ArcticFoxConfiguration.DeviceInfo deviceInfo)
+		{
+			deviceInfo.MaxPower = MaxPower;
+			deviceInfo.NumberOfBatteries = MaxBatteries;
+			deviceInfo.DisplaySize = ArcticFoxConfiguration.DisplaySize.W64H128;
 		}
 
 		private void OpenConfigurationFile(ArcticFoxConfiguration existedConfiguration)
@@ -607,34 +683,31 @@ namespace NToolbox.Windows
 				fileName = op.FileName;
 			}
 
-			var result = ReadConfiguration(w => m_encryption.Decode(File.ReadAllBytes(fileName)));
-			if (result.Result == ReadResult.Success)
+			try
 			{
-				if (existedConfiguration == null)
+				var existedInfoBlock = existedConfiguration != null ? existedConfiguration.Info.Copy() : null;
+				var result = existedConfiguration ?? BinaryStructure.ReadBinary<ArcticFoxConfiguration>(m_encryption.Decode(Resources.new_configuration));
+				var serializableConfiguration = Serializer.Read<SerializableConfiguration>(new MemoryStream(m_encryption.Decode(File.ReadAllBytes(fileName))));
+				if (serializableConfiguration == null)
 				{
-					result.Configuration.Info.MaxPower = MaxPower;
+					InfoBox.Show("Most likely you are trying to open an obsolete configuration file. This operation is not supported.");
+					return;
+				}
+				BinaryStructure.ReadFromDictionary(result, serializableConfiguration.GetDictionary());
+				if (existedInfoBlock != null)
+				{
+					result.Info = existedInfoBlock;
 				}
 				else
 				{
-					result.Configuration.Info = existedConfiguration.Info;
+					SetSharedDeviceInfo(result.Info);
 				}
-				OpenWorkspace(result.Configuration);
+				OpenWorkspace(result);
 			}
-			else if (result.Result == ReadResult.OutdatedFirmware)
+			catch (Exception ex)
 			{
-				InfoBox.Show("You are trying to open the configuration file from a legacy ArcticFox firmware versions. This operation is not supported.");
-			}
-			else if (result.Result == ReadResult.OutdatedToolbox)
-			{
-				InfoBox.Show("You are trying to open the configuration file from a future ArcticFox firmware versions. This operation is not supported.");
-			}
-			else if (result.Result == ReadResult.UnableToRead)
-			{
-				InfoBox.Show("Invalid configuration file!");
-			}
-			else
-			{
-				InfoBox.Show("Shit happens!");
+				Trace.Info(ex, "An error occurred during reading saved configuration file.");
+				InfoBox.Show("Most likely you are trying to open an obsolete configuration file. This operation is not supported.");
 			}
 		}
 
@@ -709,6 +782,7 @@ namespace NToolbox.Windows
 		{
 			if (m_configuration == null) return;
 
+			var isBinary = ModifierKeys.HasFlag(Keys.Control) && ModifierKeys.HasFlag(Keys.Alt);
 			using (var sf = new SaveFileDialog { Filter = FileFilters.ArcticFoxConfigFilter })
 			{
 				if (sf.ShowDialog() != DialogResult.OK) return;
@@ -724,12 +798,25 @@ namespace NToolbox.Windows
 						cfgCopy.Info.NumberOfBatteries = 0;
 						cfgCopy.Info.ProductId = string.Empty;
 					}
-					var bytes = BinaryStructure.Write(cfgCopy);
+
+					byte[] bytes;
+					if (isBinary)
+					{
+						bytes = BinaryStructure.WriteBinary(cfgCopy);
+					}
+					else
+					{
+						using (var ms = new MemoryStream())
+						{
+							Serializer.Write(new SerializableConfiguration(BinaryStructure.WriteToDictionary(cfgCopy)), ms);
+							bytes = ms.ToArray();
+						}
+					}
 					File.WriteAllBytes(sf.FileName, m_encryption.Encode(bytes));
 				}
 				catch (Exception ex)
 				{
-					Trace.ErrorException("An error occurred during save arctic fox configuration.", ex);
+					Trace.ErrorException("An error occurred during save ArcticFox configuration.", ex);
 				}
 			}
 		}
@@ -801,12 +888,13 @@ namespace NToolbox.Windows
 			UpdateUI(() =>
 			{
 				DownloadButton.Enabled = UploadButton.Enabled = ResetButton.Enabled = m_isDeviceConnected;
- 			});
+				StatusLabel.Text = LocalizableStrings.StatusDevice + @" " + (m_isDeviceConnected ? LocalizableStrings.StatusDeviceConnected : LocalizableStrings.StatusDeviceDisconnected);
+			});
 
 			if (m_isWorkspaceOpen || !onStartup) return;
 			if (!m_isDeviceConnected)
 			{
-				ShowWelcomeScreen(string.Format("Connect device with\n\nArcticFox\n[{0}]\n\nfirmware or newer", MinimumSupportedBuildNumber));
+				ShowWelcomeScreen(string.Format(LocalizableStrings.MessageConnectDevice, MinimumSupportedBuildNumber));
 				return;
 			}
 			ReadConfigurationAndShowResult(m_deviceConfigurationProvider);
@@ -814,10 +902,10 @@ namespace NToolbox.Windows
 
 		private void ReadConfigurationAndShowResult(Func<BackgroundWorker, byte[]> configurationProvider)
 		{
-			ShowWelcomeScreen("Downloading settings...");
+			ShowWelcomeScreen(LocalizableStrings.MessageDownloadingSettings);
 			try
 			{
-				var readResult = ReadConfiguration(configurationProvider, false);
+				var readResult = ReadBinaryConfiguration(configurationProvider, false);
 				m_configuration = readResult.Configuration;
 				if (readResult.Result == ReadResult.Success)
 				{
@@ -825,21 +913,21 @@ namespace NToolbox.Windows
 				}
 				else if (readResult.Result == ReadResult.OutdatedFirmware)
 				{
-					ShowWelcomeScreen(string.Format("Connect device with\n\nArcticFox\n[{0}]\n\nfirmware or newer", MinimumSupportedBuildNumber));
+					ShowWelcomeScreen(string.Format(LocalizableStrings.MessageConnectDevice, MinimumSupportedBuildNumber));
 				}
 				else if (readResult.Result == ReadResult.OutdatedToolbox)
 				{
-					ShowWelcomeScreen("NFE Toolbox is outdated.\n\nTo continue, please download\n\nlatest available release.");
+					ShowWelcomeScreen(LocalizableStrings.MessageOutdatedToolbox);
 				}
 				else if (readResult.Result == ReadResult.UnableToRead)
 				{
-					ShowWelcomeScreen("Unable to download device settings. Reconnect your device.");
+					ShowWelcomeScreen(LocalizableStrings.MessageUnableToReadData);
 				}
 			}
 			catch (Exception ex)
 			{
 				Trace.Warn(ex);
-				ShowWelcomeScreen("Unable to download device settings. Reconnect your device.");
+				ShowWelcomeScreen(LocalizableStrings.MessageUnableToReadData);
 			}
 		}
 

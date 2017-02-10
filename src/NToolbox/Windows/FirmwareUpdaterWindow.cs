@@ -6,16 +6,22 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using JetBrains.Annotations;
 using NCore;
 using NCore.UI;
 using NCore.USB;
 using NCore.USB.Models;
 using NFirmware;
+using NToolbox.Services;
 
 namespace NToolbox.Windows
 {
 	internal partial class FirmwareUpdaterWindow : WindowBase
 	{
+		[CanBeNull]
+		private readonly string m_firmwareFile;
+
+		private readonly bool m_firmwareFileExist;
 		private readonly FirmwareLoader m_loader = new FirmwareLoader();
 		private readonly BackgroundWorker m_worker = new BackgroundWorker { WorkerReportsProgress = true };
 
@@ -25,8 +31,11 @@ namespace NToolbox.Windows
 		private string m_hardwareVersion;
 		private string m_firmwareVersion;
 
-		public FirmwareUpdaterWindow()
+		public FirmwareUpdaterWindow([CanBeNull] string firmwareFile = null)
 		{
+			m_firmwareFile = firmwareFile;
+			m_firmwareFileExist = !string.IsNullOrEmpty(m_firmwareFile) && File.Exists(firmwareFile);
+
 			InitializeComponent();
 			InitializeControls();
 
@@ -47,6 +56,13 @@ namespace NToolbox.Windows
 				}
 				HidConnector.Instance.DeviceConnected -= DeviceConnected;
 			};
+
+			var multiplier = ApplicationService.GetDpiMultiplier();
+			tabControl1.ItemSize = new Size
+			(
+				(int)(tabControl1.ItemSize.Width * multiplier),
+				(int)(tabControl1.ItemSize.Height * multiplier)
+			);
 		}
 
 		private void DeviceConnected(bool isConnected)
@@ -75,7 +91,7 @@ namespace NToolbox.Windows
 					HardwareVersionTextBox.Text = m_hardwareVersion;
 					FirmwareVersionTextBox.Text = m_firmwareVersion;
 					BootModeTextBox.Text = m_dataflash.LoadFromLdrom ? "LDROM" : "APROM";
-					UpdateStatusLabel.Text = @"Device is ready.";
+					UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterDeviceIsReady;
 					SetUpdaterButtonsState(true);
 				});
 			}
@@ -91,7 +107,7 @@ namespace NToolbox.Windows
 					HardwareVersionTextBox.Clear();
 					FirmwareVersionTextBox.Clear();
 					BootModeTextBox.Clear();
-					UpdateStatusLabel.Text = @"Waiting for device...";
+					UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterWaitingForDevice;
 					SetUpdaterButtonsState(false);
 				});
 			}
@@ -108,6 +124,8 @@ namespace NToolbox.Windows
 			HardwareVersionTextBox.ReadOnly = true;
 			FirmwareVersionTextBox.ReadOnly = true;
 			BootModeTextBox.ReadOnly = true;
+
+			UpdateFromFileButton.Text = m_firmwareFileExist ? @"Update" : @"Update from file";
 
 			UpdateFromFileButton.Click += UpdateFromFileButton_Click;
 
@@ -144,7 +162,7 @@ namespace NToolbox.Windows
 			var isSuccess = false;
 			try
 			{
-				UpdateUI(() => UpdateStatusLabel.Text = @"Reading dataflash...");
+				UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterReadingDataflash);
 				Trace.Info("Reading dataflash...");
 				var dataflash = HidConnector.Instance.ReadDataflash(worker);
 				Trace.Info("Reading dataflash... Done.");
@@ -154,20 +172,20 @@ namespace NToolbox.Windows
 					Trace.Info("Switching boot mode...");
 					dataflash.LoadFromLdrom = true;
 
-					UpdateUI(() => UpdateStatusLabel.Text = @"Writing dataflash...");
+					UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterWritingDataflash);
 					Trace.Info("Writing dataflash...");
 					HidConnector.Instance.WriteDataflash(dataflash, worker);
 					Trace.Info("Writing dataflash... Done. Waiting 500 msec.");
 					Thread.Sleep(100);
 
-					UpdateUI(() => UpdateStatusLabel.Text = @"Restarting device...");
+					UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterRestartingDevice);
 					Trace.Info("Restarting device...");
 					HidConnector.Instance.RestartDevice();
 					Thread.Sleep(200);
 					Trace.Info("Restarting device... Done.");
 
 					Trace.Info("Waiting for device after reset...");
-					UpdateUI(() => UpdateStatusLabel.Text = @"Waiting for device after reset...");
+					UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterWaitingForDeviceAfterReset);
 
 					var deviceFoundResult = SpinWait.SpinUntil(() =>
 					{
@@ -202,7 +220,7 @@ namespace NToolbox.Windows
 					}
 				}
 
-				UpdateUI(() => UpdateStatusLabel.Text = @"Uploading firmware...");
+				UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterUploadingFirmware);
 
 				var writeFirmwareResult = SpinWait.SpinUntil(() =>
 				{
@@ -253,10 +271,10 @@ namespace NToolbox.Windows
 		{
 			try
 			{
-				UpdateUI(() => UpdateStatusLabel.Text = @"Reading dataflash...");
+				UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterReadingDataflash);
 				var dataflash = HidConnector.Instance.ReadDataflash(worker);
 				File.WriteAllBytes(fileName, dataflash.Data);
-				UpdateUI(() => UpdateStatusLabel.Text = @"Dataflash was successfully read and saved to the file.");
+				UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterDataflashReadAndSave);
 			}
 			catch (Exception ex)
 			{
@@ -269,11 +287,11 @@ namespace NToolbox.Windows
 		{
 			try
 			{
-				UpdateUI(() => UpdateStatusLabel.Text = @"Writing dataflash...");
+				UpdateUI(() => UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterWritingDataflash);
 				HidConnector.Instance.WriteDataflash(simpleDataflash, worker);
 				UpdateUI(() =>
 				{
-					UpdateStatusLabel.Text = @"Dataflash was successfully written.";
+					UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterDataflashWritten;
 					worker.ReportProgress(0);
 				});
 			}
@@ -309,12 +327,17 @@ namespace NToolbox.Windows
 
 		private void UpdateFromFileButton_Click(object sender, EventArgs e)
 		{
-			string fileName;
-			using (var op = new OpenFileDialog { Title = @"Select encrypted or decrypted firmware file ...", Filter = FileFilters.FirmwareFilter })
+			var fileName = m_firmwareFile;
+			if (!m_firmwareFileExist)
 			{
-				if (op.ShowDialog() != DialogResult.OK) return;
-				fileName = op.FileName;
+				using (var op = new OpenFileDialog { Title = @"Select encrypted or decrypted firmware file ...", Filter = FileFilters.FirmwareFilter })
+				{
+					if (op.ShowDialog() != DialogResult.OK) return;
+					fileName = op.FileName;
+				}
 			}
+			if (string.IsNullOrEmpty(fileName)) return;
+
 			UpdateFirmware(() => m_loader.LoadFile(fileName));
 		}
 
@@ -323,7 +346,7 @@ namespace NToolbox.Windows
 			try
 			{
 				HidConnector.Instance.ResetDataflash();
-				UpdateStatusLabel.Text = @"Dataflash has been reseted.";
+				UpdateStatusLabel.Text = LocalizableStrings.FirmwareUpdaterDataflashReseted;
 			}
 			catch (Exception ex)
 			{
@@ -424,6 +447,15 @@ namespace NToolbox.Windows
 				Trace.Warn(ex);
 				InfoBox.Show("An error occured during switching boot mode.\n" + ex.Message);
 			}
+		}
+
+		protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+		{
+			if (keyData == Keys.Escape)
+			{
+				Close();
+			}
+			return base.ProcessCmdKey(ref msg, keyData);
 		}
 
 		private void BackgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
