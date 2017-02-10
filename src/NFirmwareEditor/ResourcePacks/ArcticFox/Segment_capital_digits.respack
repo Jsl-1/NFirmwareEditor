@@ -1,19 +1,19 @@
-﻿<ResourcePack Definition="ArcticFox" Name="Segment numbers" Version="1.0" Author="ArionWT">
-  <Description>ArcticFox segment numbers pack.
-Пак сегментных цифр для ArcticFox.</Description>
+<ResourcePack Definition="ArcticFox" Name="Segment capital digits" Version="1.1" Author="ArionWT">
+  <Description>ArcticFox capital segment digits pack.
+Пак заглавных сегментных цифр для ArcticFox.</Description>
   <Images>
     <Image Index="1F" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 .X.XXXXXX.X.
 .XX......XX.
 .XX......XX.
 .XX......XX.
-.XX......XX.
-.X........X.
-............
-.X........X.
-.XX......XX.
+.XX.......X.
+.X..........
+..........X.
+.X.......XX.
 .XX......XX.
 .XX......XX.
 .XX......XX.
@@ -25,8 +25,8 @@
     <Image Index="20" Width="12" Height="16">
       <Data>
 ............
+............
 ..........X.
-.........XX.
 .........XX.
 .........XX.
 .........XX.
@@ -44,9 +44,9 @@
     </Image>
     <Image Index="21" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 ...XXXXXX.X.
-.........XX.
 .........XX.
 .........XX.
 .........XX.
@@ -64,9 +64,9 @@
     </Image>
     <Image Index="22" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 ...XXXXXX.X.
-.........XX.
 .........XX.
 .........XX.
 .........XX.
@@ -85,8 +85,8 @@
     <Image Index="23" Width="12" Height="16">
       <Data>
 ............
+............
 .X........X.
-.XX......XX.
 .XX......XX.
 .XX......XX.
 .XX......XX.
@@ -104,9 +104,9 @@
     </Image>
     <Image Index="24" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 .X.XXXXXX...
-.XX.........
 .XX.........
 .XX.........
 .XX.........
@@ -124,9 +124,9 @@
     </Image>
     <Image Index="25" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 .X.XXXXXX...
-.XX.........
 .XX.........
 .XX.........
 .XX.........
@@ -144,9 +144,9 @@
     </Image>
     <Image Index="26" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 ...XXXXXX.X.
-.........XX.
 .........XX.
 .........XX.
 .........XX.
@@ -164,9 +164,9 @@
     </Image>
     <Image Index="27" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 .X.XXXXXX.X.
-.XX......XX.
 .XX......XX.
 .XX......XX.
 .XX......XX.
@@ -184,9 +184,9 @@
     </Image>
     <Image Index="28" Width="12" Height="16">
       <Data>
+............
 ..XXXXXXXX..
 .X.XXXXXX.X.
-.XX......XX.
 .XX......XX.
 .XX......XX.
 .XX......XX.
@@ -205,10 +205,10 @@
     <Image Index="29" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 .X.XXXXXXXXXX.X.
 .XX.XXXXXXXX.XX.
-.XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
@@ -223,10 +223,10 @@
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
-.XXX........XXX.
 .XX.XXXXXXXX.XX.
 .X.XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>
@@ -234,9 +234,9 @@
       <Data>
 ................
 ................
+................
 ..............X.
 .............XX.
-............XXX.
 ............XXX.
 ............XXX.
 ............XXX.
@@ -251,9 +251,9 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 .............XX.
 ..............X.
+................
 ................
 ................
 </Data>
@@ -261,10 +261,10 @@
     <Image Index="2B" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 ...XXXXXXXXXX.X.
 ....XXXXXXXX.XX.
-............XXX.
 ............XXX.
 ............XXX.
 ............XXX.
@@ -279,16 +279,17 @@
 .XXX............
 .XXX............
 .XXX............
-.XXX............
 .XX.XXXXXXXX....
 .X.XXXXXXXXXX...
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>
     <Image Index="2C" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 ...XXXXXXXXXX.X.
 ....XXXXXXXX.XX.
@@ -296,13 +297,11 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 .............XX.
 ...XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
 ...XXXXXXXXXX.X.
 .............XX.
-............XXX.
 ............XXX.
 ............XXX.
 ............XXX.
@@ -312,10 +311,12 @@
 ...XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
 ................
+................
 </Data>
     </Image>
     <Image Index="2D" Width="16" Height="24">
       <Data>
+................
 ................
 ................
 .X............X.
@@ -324,7 +325,6 @@
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
-.XXX........XXX.
 .XX..........XX.
 .X.XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
@@ -335,9 +335,9 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 .............XX.
 ..............X.
+................
 ................
 ................
 </Data>
@@ -345,10 +345,10 @@
     <Image Index="2E" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 .X.XXXXXXXXXX...
 .XX.XXXXXXXX....
-.XXX............
 .XXX............
 .XXX............
 .XXX............
@@ -363,20 +363,20 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 ....XXXXXXXX.XX.
 ...XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>
     <Image Index="2F" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 .X.XXXXXXXXXX...
 .XX.XXXXXXXX....
-.XXX............
 .XXX............
 .XXX............
 .XXX............
@@ -391,15 +391,16 @@
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
-.XXX........XXX.
 .XX.XXXXXXXX.XX.
 .X.XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>
     <Image Index="30" Width="16" Height="24">
       <Data>
+................
 ................
 ..XXXXXXXXXXXX..
 ...XXXXXXXXXX.X.
@@ -408,7 +409,6 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 .............XX.
 ..............X.
 ................
@@ -419,9 +419,9 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 .............XX.
 ..............X.
+................
 ................
 ................
 </Data>
@@ -429,10 +429,10 @@
     <Image Index="31" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 .X.XXXXXXXXXX.X.
 .XX.XXXXXXXX.XX.
-.XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
@@ -447,20 +447,20 @@
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
-.XXX........XXX.
 .XX.XXXXXXXX.XX.
 .X.XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>
     <Image Index="32" Width="16" Height="24">
       <Data>
 ................
+................
 ..XXXXXXXXXXXX..
 .X.XXXXXXXXXX.X.
 .XX.XXXXXXXX.XX.
-.XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
 .XXX........XXX.
@@ -475,10 +475,10 @@
 ............XXX.
 ............XXX.
 ............XXX.
-............XXX.
 ....XXXXXXXX.XX.
 ...XXXXXXXXXX.X.
 ..XXXXXXXXXXXX..
+................
 ................
 </Data>
     </Image>

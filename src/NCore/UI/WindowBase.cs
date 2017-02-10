@@ -14,6 +14,7 @@ namespace NCore.UI
 			InitializeComponent();
 			if (ApplicationService.IsIconAvailable) Icon = ApplicationService.ApplicationIcon;
 
+			InfoBox = new InfoBox(this);
 			Load += WindowBase_Load;
 
 
@@ -51,6 +52,8 @@ namespace NCore.UI
 				}
 			}
 		}
+
+		protected InfoBox InfoBox { get; private set; }
 
 		protected void LocalizeSelf()
 		{
@@ -91,23 +94,32 @@ namespace NCore.UI
 
 		protected void ShowFromTray()
 		{
-            if (Opacity <= 0) Opacity = 1;
+	            if (Opacity <= 0) Opacity = 1;
 
-            Visible = true;
-            ShowInTaskbar = true;
-            Show();
-            WindowState = FormWindowState.Normal;
-            //NativeMethods.SetForegroundWindow(Handle);
-        }
+	            Visible = true;
+	            ShowInTaskbar = true;
+	            Show();
+	            WindowState = FormWindowState.Normal;
+	            //NativeMethods.SetForegroundWindow(Handle);
+	        }
 
 		protected void HideToTray()
 		{
-            Visible = false;
-            ShowInTaskbar = false;
-            Hide();
-        }
+	            Visible = false;
+	            ShowInTaskbar = false;
+	            Hide();
+	        }
 
-		protected void UpdateUI(Action action, bool supressExceptions = true)
+		protected override void WndProc(ref Message m)
+		{
+//			if (!IgnoreFirstInstanceMessages && m.Msg == CrossApplicationSynchronizer.ShowFirstInstanceMessage)
+//			{
+//				ShowFromTray();
+//			}
+			base.WndProc(ref m);
+		}
+
+		protected internal void UpdateUI(Action action, bool supressExceptions = true)
 		{
 			if (!supressExceptions)
 			{
@@ -126,13 +138,11 @@ namespace NCore.UI
 			}
 		}
 
-		protected override void WndProc(ref Message m)
+		internal T UpdateUI<T>(Func<T> action)
 		{
-			//if (!IgnoreFirstInstanceMessages && m.Msg == CrossApplicationSynchronizer.ShowFirstInstanceMessage)
-			//{
-			//	ShowFromTray();
-			//}
-			base.WndProc(ref m);
+			var result = default(T);
+			Invoke(new Action(() => result = action()));
+			return result;
 		}
 
 		private void InitializeComponent()
@@ -149,7 +159,6 @@ namespace NCore.UI
 			this.MainLocalizationExtender.SetKey(this, "");
 			this.Name = "WindowBase";
 			this.ResumeLayout(false);
-
 		}
 	}
 }
