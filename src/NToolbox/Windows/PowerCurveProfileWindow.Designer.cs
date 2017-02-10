@@ -959,8 +959,8 @@ namespace NToolbox.Windows
 			// 
 			// PowerCurveProfileWindow
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			//this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			//this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(784, 412);
 			this.Controls.Add(this.groupPanel2);
 			this.Controls.Add(this.ControlBorderedPanel);

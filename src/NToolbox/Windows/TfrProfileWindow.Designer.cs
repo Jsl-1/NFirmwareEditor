@@ -697,8 +697,8 @@ namespace NToolbox.Windows
 			// 
 			// TFRProfileWindow
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			//this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			//this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
 			this.ClientSize = new System.Drawing.Size(784, 276);
 			this.Controls.Add(this.groupPanel2);
 			this.Controls.Add(this.ControlBorderedPanel);

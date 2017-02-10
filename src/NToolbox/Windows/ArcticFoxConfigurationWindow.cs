@@ -50,7 +50,7 @@ namespace NToolbox.Windows
 				new Thread(() =>
 				{
 					DeviceConnected(HidConnector.Instance.IsDeviceConnected, true);
-					UpdateUI(() => NativeMethods.SetForegroundWindow(Handle));
+					//UpdateUI(() => NativeMethods.SetForegroundWindow(Handle));
 				}).Start();
 			};
 		}

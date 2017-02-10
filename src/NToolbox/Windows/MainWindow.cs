@@ -324,7 +324,7 @@ namespace NToolbox.Windows
 						}
 						else if (window.GetType() == typeof(ArcticFoxConfigurationWindow))
 						{
-							NativeMethods.SetForegroundWindow(m_openedWindow.Handle);
+							//NativeMethods.SetForegroundWindow(m_openedWindow.Handle);
 						}
 					});
 				}

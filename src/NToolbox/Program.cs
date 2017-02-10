@@ -41,7 +41,7 @@ namespace NToolbox
 
 				HidConnector.Instance.StartUSBConnectionMonitoring();
 				ApplicationService.ApplicationName = "NFE Toolbox";
-				ApplicationService.SetProcessDPIAware();
+				//ApplicationService.SetProcessDPIAware();
 				Application.Run(new MainWindow(startupMode, remainingArgs));
 				HidConnector.Instance.StopUSBConnectionMonitoring();
 			//}

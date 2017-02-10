@@ -136,37 +136,38 @@ namespace NCore
 				return false;
 			}
 		}
-
-		public static void SetProcessDPIAware()
-		{
-			if (Environment.OSVersion.Version.Major < 6) return;
-
-			try
-			{
-				NativeMethods.SetProcessDPIAware();
-			}
-			catch (Exception ex)
-			{
-				Trace.Info(ex, "Unable to set DPI aware.");
-			}
-		}
+//
+//		public static void SetProcessDPIAware()
+//		{
+//			if (Environment.OSVersion.Version.Major < 6) return;
+//
+//			try
+//			{
+//				NativeMethods.SetProcessDPIAware();
+//			}
+//			catch (Exception ex)
+//			{
+//				Trace.Info(ex, "Unable to set DPI aware.");
+//			}
+//		}
 
 		public static float GetDpiMultiplier()
 		{
-			try
-			{
-				using (var control = new Control())
-				{
-					using (var gfx = control.CreateGraphics())
-					{
-						return gfx.DpiX / 96f;
-					}
-				}
-			}
-			catch (Exception)
-			{
-				return 1;
-			}
+			return 1;
+//			try
+//			{
+//				using (var control = new Control())
+//				{
+//					using (var gfx = control.CreateGraphics())
+//					{
+//						return gfx.DpiX / 96f;
+//					}
+//				}
+//			}
+//			catch (Exception)
+//			{
+//				return 1;
+//			}
 		}
 
 		private static string GetAutorunValue(string args = null)
