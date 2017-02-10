@@ -27,13 +27,14 @@
 		string currentblockname = String.Empty;
 
 		
-		var variableTitleRegex = new Regex("public static readonly object\\[\\] (.*) =");
+		var variableTitleRegex = new Regex("public static object\\[\\] (.*)");
 		var titelValueRegex = new System.Text.RegularExpressions.Regex("new NamedItemContainer<(.*)>\\(\\\"(.*)\\\",(.*)\\)");
-		var itemRegex = new Regex("public static readonly object\\[\\] (.*) =");
+        var titelLocalizedValueRegex = new System.Text.RegularExpressions.Regex("new NamedItemContainer<(.*)>\\(LocalizableStrings\\.(.*),(.*)\\)");
+		var itemRegex = new Regex("public static object\\[\\] (.*)");
     
 		foreach(var line in lines)
 		{
-			var match = variableTitleRegex.Match(line);
+          	var match = variableTitleRegex.Match(line);
 			if(match.Success)
 			{
 				if(currentblockname != String.Empty){
@@ -53,6 +54,8 @@
 		else 
 		{
 			var matchTitles = titelValueRegex.Match(line);
+            if(!matchTitles.Success)
+                    matchTitles = titelLocalizedValueRegex.Match(line);
 			if(matchTitles.Success)
 			{
 				currentblocktitles					 

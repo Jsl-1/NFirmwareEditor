@@ -40,7 +40,7 @@ namespace NToolbox.ViewModels
 
         public ArcticFoxConfigurationViewModel()
         {
-            Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(Properties.Resources.new_configuration);
+            Configuration = BinaryStructure.ReadBinary<ArcticFoxConfiguration>(Properties.Resources.new_configuration);
             ReadConfiguration(false);
 
         }
@@ -55,7 +55,7 @@ namespace NToolbox.ViewModels
             if (refreshFromDevice)
             {
                 var data = HidConnector.Instance.ReadConfiguration();
-                Configuration = BinaryStructure.Read<ArcticFoxConfiguration>(data);
+                Configuration = BinaryStructure.ReadBinary<ArcticFoxConfiguration>(data);
             }
 
             var generalPreferences = Application.Context.GetSharedPreferences("general", FileCreationMode.Private);
@@ -175,7 +175,7 @@ namespace NToolbox.ViewModels
                 }
             }
 
-            var data = BinaryStructure.Write(Configuration);
+            var data = BinaryStructure.WriteBinary<ArcticFoxConfiguration>(Configuration);
             HidConnector.Instance.WriteConfiguration(data, null);
         }
 

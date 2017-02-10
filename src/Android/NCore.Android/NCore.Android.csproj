@@ -58,6 +58,9 @@
     <Compile Include="..\..\NCore\Safe.cs">
       <Link>Safe.cs</Link>
     </Compile>
+    <Compile Include="..\..\NCore\UI\LocalizationManager.cs">
+      <Link>UI\LocalizationManager.cs</Link>
+    </Compile>
     <Compile Include="..\..\NCore\UI\NamedItemContainer.cs">
       <Link>UI\NamedItemContainer.cs</Link>
     </Compile>
@@ -70,11 +73,13 @@
     <Compile Include="..\..\NCore\USB\SimpleDataflash.cs">
       <Link>USB\SimpleDataflash.cs</Link>
     </Compile>
+    <Compile Include="ApplicationService.cs" />
     <Compile Include="Compat\HidSharp\HidDeviceLoader.cs" />
     <Compile Include="Compat\HidSharp\HidHelper.cs" />
     <Compile Include="Compat\HidSharp\HidStream.cs" />
     <Compile Include="Compat\HidSharp\HidUsbReceiver.cs" />
     <Compile Include="Compat\JetBrain.cs" />
+    <Compile Include="Compat\System.Windows.Forms\Control.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,9 +2,9 @@
 <resources>
 
       <string-array name="pref_profiledetail_preheattypes_titles">
-        <item>Absolute (W)</item>
-        <item>Relative (&#65130;)</item>
-        <item>Curve</item>
+        <item>PreheatTypeAbsolute</item>
+        <item>PreheatTypeRelative</item>
+        <item>PreheatTypeCurve</item>
     </string-array>
     <string-array name="pref_profiledetail_preheattypes_values">
         <item>Watts</item>
@@ -72,23 +72,23 @@
     </string-array>
 
       <string-array name="pref_profiledetail_classicskinlinecontentitems_titles">
-        <item>Non dominant (Pwr / Temp)</item>
-        <item>Volts</item>
-        <item>Output Volts</item>
-        <item>Output Amps</item>
-        <item>Resistance</item>
-        <item>Live Resistance</item>
-        <item>Puffs</item>
-        <item>Puffs Time</item>
-        <item>Battery(s) Volts</item>
-        <item>Date/Time</item>
-        <item>Board Temperature</item>
-        <item>Last Puff Time</item>
-        <item>Last Power</item>
-        <item>Last Temperature</item>
-        <item>Battery</item>
-        <item>Battery + &#65130;</item>
-        <item>Battery + V</item>
+        <item>InfoLineNonDominant</item>
+        <item>InfoLineVolts</item>
+        <item>InfoLineOutputVolts</item>
+        <item>InfoLineOutputAmps</item>
+        <item>InfoLineResistance</item>
+        <item>InfoLineLiveResistance</item>
+        <item>InfoLinePuffs</item>
+        <item>InfoLinePuffsTime</item>
+        <item>InfoLineBatteriesVolts</item>
+        <item>InfoLineDateTime</item>
+        <item>InfoLineBoardTemp</item>
+        <item>InfoLineLastPuffTime</item>
+        <item>InfoLineLastPower</item>
+        <item>InfoLineLastTemperature</item>
+        <item>InfoLineBatteryIndicator</item>
+        <item>InfoLineBatteryIndicatorPercents</item>
+        <item>InfoLineBatteryIndicatorVolts</item>
     </string-array>
     <string-array name="pref_profiledetail_classicskinlinecontentitems_values">
         <item>NonDominant</item>
@@ -111,18 +111,18 @@
     </string-array>
 
       <string-array name="pref_profiledetail_circleskinlinecontentitems_titles">
-        <item>Output Volts</item>
-        <item>Output Amps</item>
-        <item>Resistance</item>
-        <item>Live Resistance</item>
-        <item>Puffs</item>
-        <item>Puffs Time</item>
-        <item>Battery(s) Volts</item>
-        <item>Date/Time</item>
-        <item>Board Temperature</item>
-        <item>Last Puff Time</item>
-        <item>Last Power</item>
-        <item>Last Temperature</item>
+        <item>InfoLineOutputVolts</item>
+        <item>InfoLineOutputAmps</item>
+        <item>InfoLineResistance</item>
+        <item>InfoLineLiveResistance</item>
+        <item>InfoLinePuffs</item>
+        <item>InfoLinePuffsTime</item>
+        <item>InfoLineBatteriesVolts</item>
+        <item>InfoLineDateTime</item>
+        <item>InfoLineBoardTemp</item>
+        <item>InfoLineLastPuffTime</item>
+        <item>InfoLineLastPower</item>
+        <item>InfoLineLastTemperature</item>
     </string-array>
     <string-array name="pref_profiledetail_circleskinlinecontentitems_values">
         <item>Vout</item>
@@ -140,9 +140,9 @@
     </string-array>
 
       <string-array name="pref_profiledetail_circleskin3rdlinecontentitems_titles">
-        <item>Battery</item>
-        <item>Battery + &#65130;</item>
-        <item>Battery + V</item>
+        <item>InfoLineBatteryIndicator</item>
+        <item>InfoLineBatteryIndicatorPercents</item>
+        <item>InfoLineBatteryIndicatorVolts</item>
     </string-array>
     <string-array name="pref_profiledetail_circleskin3rdlinecontentitems_values">
         <item>Battery</item>
@@ -151,19 +151,19 @@
     </string-array>
 
       <string-array name="pref_profiledetail_smallscreenlinecontentitems_titles">
-        <item>Output Volts</item>
-        <item>Output Amps</item>
-        <item>Resistance</item>
-        <item>Live Resistance</item>
-        <item>Puffs</item>
-        <item>Puffs Time</item>
-        <item>Battery Volts</item>
-        <item>Battery &#65130;</item>
-        <item>Date/Time</item>
-        <item>Board Temperature</item>
-        <item>Last Puff Time</item>
-        <item>Last Power</item>
-        <item>Last Temperature</item>
+        <item>InfoLineOutputVolts</item>
+        <item>InfoLineOutputAmps</item>
+        <item>InfoLineResistance</item>
+        <item>InfoLineLiveResistance</item>
+        <item>InfoLinePuffs</item>
+        <item>InfoLinePuffsTime</item>
+        <item>InfoLineBatteriesVolts</item>
+        <item>InfoLineBatteryPercents</item>
+        <item>InfoLineDateTime</item>
+        <item>InfoLineBoardTemp</item>
+        <item>InfoLineLastPuffTime</item>
+        <item>InfoLineLastPower</item>
+        <item>InfoLineLastTemperature</item>
     </string-array>
     <string-array name="pref_profiledetail_smallscreenlinecontentitems_values">
         <item>Vout</item>
@@ -182,8 +182,8 @@
     </string-array>
 
       <string-array name="pref_profiledetail_mainscreenskins_titles">
-        <item>Classic</item>
-        <item>Circle</item>
+        <item>SkinClassic</item>
+        <item>SkinCircle</item>
     </string-array>
     <string-array name="pref_profiledetail_mainscreenskins_values">
         <item>Classic</item>
@@ -191,8 +191,8 @@
     </string-array>
 
       <string-array name="pref_profiledetail_chargescreentypes_titles">
-        <item>Classic</item>
-        <item>Extended</item>
+        <item>ChargeScreenClassic</item>
+        <item>ChargeScreenExtended</item>
     </string-array>
     <string-array name="pref_profiledetail_chargescreentypes_values">
         <item>Classic</item>
@@ -200,8 +200,8 @@
     </string-array>
 
       <string-array name="pref_profiledetail_clocktypes_titles">
-        <item>Analog</item>
-        <item>Digital</item>
+        <item>ClockTypeAnalog</item>
+        <item>ClockTypeDigital</item>
     </string-array>
     <string-array name="pref_profiledetail_clocktypes_values">
         <item>Analog</item>
@@ -209,14 +209,14 @@
     </string-array>
 
       <string-array name="pref_profiledetail_screensavertimes_titles">
-        <item>Off</item>
-        <item>1 Min</item>
-        <item>2 Min</item>
-        <item>5 Min</item>
-        <item>10 Min</item>
-        <item>15 Min</item>
-        <item>20 Min</item>
-        <item>30 Min</item>
+        <item>ScreenProtectionTimeOff</item>
+        <item>ScreenProtectionTime1Min</item>
+        <item>ScreenProtectionTime2Min</item>
+        <item>ScreenProtectionTime5Min</item>
+        <item>ScreenProtectionTime10Min</item>
+        <item>ScreenProtectionTime15Min</item>
+        <item>ScreenProtectionTime20Min</item>
+        <item>ScreenProtectionTime30Min</item>
     </string-array>
     <string-array name="pref_profiledetail_screensavertimes_values">
         <item>Off</item>
@@ -230,18 +230,18 @@
     </string-array>
 
       <string-array name="pref_profiledetail_clickactions_titles">
-        <item>None</item>
-        <item>Edit</item>
-        <item>Main Menu</item>
-        <item>Preheat Menu</item>
-        <item>Select Profile</item>
-        <item>Edit Profile</item>
-        <item>TDom</item>
-        <item>Show Clock</item>
-        <item>Info Screen</item>
-        <item>Smart On / Off</item>
-        <item>LSL On / Off</item>
-        <item>On / Off</item>
+        <item>ClickActionsNone</item>
+        <item>ClickActionsEdit</item>
+        <item>ClickActionsMainMenu</item>
+        <item>ClickActionsPreheatMenu</item>
+        <item>ClickActionsSelectProfile</item>
+        <item>ClickActionsEditProfile</item>
+        <item>ClickActionsTDom</item>
+        <item>ClickActionsShowClock</item>
+        <item>ClickActionsInfoScreen</item>
+        <item>ClickActionsSmartOnOff</item>
+        <item>ClickActionsLslOnOff</item>
+        <item>ClickActionsOnOff</item>
     </string-array>
     <string-array name="pref_profiledetail_clickactions_values">
         <item>None</item>
@@ -258,9 +258,18 @@
         <item>OnOff</item>
     </string-array>
 
+      <string-array name="pref_profiledetail_updownbuttons_titles">
+        <item>UpDownButtonsNormal</item>
+        <item>UpDownButtonsSwapped</item>
+    </string-array>
+    <string-array name="pref_profiledetail_updownbuttons_values">
+        <item>false</item>
+        <item>true</item>
+    </string-array>
+
       <string-array name="pref_profiledetail_pufftimeformats_titles">
-        <item>Seconds</item>
-        <item>HH:MM:SS</item>
+        <item>PuffsTimeFormatSeconds</item>
+        <item>PuffsTimeFormatHhMmSs</item>
     </string-array>
     <string-array name="pref_profiledetail_pufftimeformats_values">
         <item>Seconds</item>

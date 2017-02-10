@@ -327,7 +327,7 @@ namespace NToolbox
         private ArcticFoxConfiguration _ReadConfiguration()
         {
             var data = HidConnector.Instance.ReadConfiguration();
-            return BinaryStructure.Read<ArcticFoxConfiguration>(data);
+            return BinaryStructure.ReadBinary<ArcticFoxConfiguration>(data);
         }
 
         private void HidConnector_DeviceConnected(bool connected)

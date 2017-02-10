@@ -11,6 +11,8 @@
 		
 		<string name="prefs_info_numberofbatteries">prefs_info_numberofbatteries</string>
 		
+		<string name="prefs_info_displaysize">prefs_info_displaysize</string>
+		
 		<string name="prefs_info_firmwareversion">prefs_info_firmwareversion</string>
 		
 		<string name="prefs_info_firmwarebuild">prefs_info_firmwarebuild</string>
@@ -59,7 +61,9 @@
 		
 		<string name="prefs_general_smartrange">prefs_general_smartrange</string>
 		
-		<string name="prefs_interface_clicks_value__">prefs_interface_clicks_value__</string>
+		<string name="prefs_interface_clicksvw_value__">prefs_interface_clicksvw_value__</string>
+		
+		<string name="prefs_interface_clickstc_value__">prefs_interface_clickstc_value__</string>
 		
 		<string name="prefs_interface_classicskinvwlines_line1">prefs_interface_classicskinvwlines_line1</string>
 		
@@ -126,6 +130,8 @@
 		<string name="prefs_interface_puffstimeformat">prefs_interface_puffstimeformat</string>
 		
 		<string name="prefs_interface_mainscreenskin">prefs_interface_mainscreenskin</string>
+		
+		<string name="prefs_interface_isupdownswapped">prefs_interface_isupdownswapped</string>
 		
 		<string name="prefs_counters_puffscount">prefs_counters_puffscount</string>
 		

@@ -13,6 +13,8 @@
 		
 		public const string prefs_info_numberofbatteries = nameof(Resource.String.prefs_info_numberofbatteries);
 		
+		public const string prefs_info_displaysize = nameof(Resource.String.prefs_info_displaysize);
+		
 		public const string prefs_info_firmwareversion = nameof(Resource.String.prefs_info_firmwareversion);
 		
 		public const string prefs_info_firmwarebuild = nameof(Resource.String.prefs_info_firmwarebuild);
@@ -61,7 +63,9 @@
 		
 		public const string prefs_general_smartrange = nameof(Resource.String.prefs_general_smartrange);
 		
-		public const string prefs_interface_clicks_value__ = nameof(Resource.String.prefs_interface_clicks_value__);
+		public const string prefs_interface_clicksvw_value__ = nameof(Resource.String.prefs_interface_clicksvw_value__);
+		
+		public const string prefs_interface_clickstc_value__ = nameof(Resource.String.prefs_interface_clickstc_value__);
 		
 		public const string prefs_interface_classicskinvwlines_line1 = nameof(Resource.String.prefs_interface_classicskinvwlines_line1);
 		
@@ -128,6 +132,8 @@
 		public const string prefs_interface_puffstimeformat = nameof(Resource.String.prefs_interface_puffstimeformat);
 		
 		public const string prefs_interface_mainscreenskin = nameof(Resource.String.prefs_interface_mainscreenskin);
+		
+		public const string prefs_interface_isupdownswapped = nameof(Resource.String.prefs_interface_isupdownswapped);
 		
 		public const string prefs_counters_puffscount = nameof(Resource.String.prefs_counters_puffscount);
 		

@@ -135,6 +135,9 @@
     <Compile Include="..\NToolbox\Models\StartupMode.cs">
       <Link>Models\StartupMode.cs</Link>
     </Compile>
+    <Compile Include="..\NToolbox\Services\LocalizableStrings.cs">
+      <Link>Services\LocalizableStrings.cs</Link>
+    </Compile>
     <Compile Include="Controls\Preferences\EditIntPreference.cs" />
     <Compile Include="Controls\Preferences\SeekBarPreference.cs" />
     <Compile Include="GeneralViewFragment.cs" />
