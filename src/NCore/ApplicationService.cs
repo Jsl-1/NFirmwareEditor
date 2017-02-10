@@ -55,6 +55,7 @@ namespace NCore
 		/// <returns>Returns true if autorun is enabled, otherwise false.</returns>
 		public static bool GetAutorunState(string args = null)
 		{
+			return false;
 			try
 			{
 				var currentVersionRun = Registry.CurrentUser.OpenSubKey(AutorunRegistryPath, true);
@@ -86,6 +87,7 @@ namespace NCore
 		/// <param name="args">Additional startup args.</param>
 		public static bool UpdateAutorunState(bool enable, string args = null)
 		{
+			return true;
 			try
 			{
 				var currentVersionRun = Registry.CurrentUser.OpenSubKey(AutorunRegistryPath, true);

@@ -167,12 +167,13 @@ namespace NToolbox.Windows
 
 		private ToolboxConfiguration LoadConfiguration()
 		{
-			return m_configurationStorage.Load(Path.Combine(ApplicationService.ApplicationDirectory, SettingsFileName));
+			return new ToolboxConfiguration ();
+			//return m_configurationStorage.Load(Path.Combine(ApplicationService.ApplicationDirectory, SettingsFileName));
 		}
 
 		private void SaveConfiguration()
 		{
-			m_configurationStorage.Save(Path.Combine(ApplicationService.ApplicationDirectory, SettingsFileName), m_configuration);
+			//m_configurationStorage.Save(Path.Combine(ApplicationService.ApplicationDirectory, SettingsFileName), m_configuration);
 		}
 
 		private void StartArcticFoxConfiguration(object sender, EventArgs e)

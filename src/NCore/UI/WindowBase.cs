@@ -110,14 +110,14 @@ namespace NCore.UI
 	            Hide();
 	        }
 
-		protected override void WndProc(ref Message m)
-		{
+//		protected override void WndProc(ref Message m)
+//		{
 //			if (!IgnoreFirstInstanceMessages && m.Msg == CrossApplicationSynchronizer.ShowFirstInstanceMessage)
 //			{
 //				ShowFromTray();
 //			}
-			base.WndProc(ref m);
-		}
+//			base.WndProc(ref m);
+//		}
 
 		protected internal void UpdateUI(Action action, bool supressExceptions = true)
 		{
